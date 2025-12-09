@@ -7,7 +7,7 @@ function AISidebar(): JSX.Element | undefined {
     const { tabs, darkMode, showAIAssistant, setShowAIAssistant } = useContext(context) as AppContextType;
     const assistantClass = !darkMode ? s.aiSidebar : `${s.aiSidebar} ${s.darkAiSidebar}`;
 
-    const [collapseAi, setCollapseAi] = useState<boolean>(false);
+    const [collapseAi] = useState<boolean>(false);
 
 
     useEffect(() => {

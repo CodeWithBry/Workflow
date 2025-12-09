@@ -7,8 +7,8 @@ import { useState, type JSX } from "react";
 import { context } from "./AppContext"
 import s from "./styles.module.css"
 import Projects from "../pages/projects/Projects";
-import AISidebar from "../../components/aiSidebar/aiSidebar";
 import AIAssintant from "../pages/aiAssistant/AIAssistant";
+import AISidebar from "../../components/aiSidebar/AISidebar";
 
 export function AppProvider(): JSX.Element {
 
