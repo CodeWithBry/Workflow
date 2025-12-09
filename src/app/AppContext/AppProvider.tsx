@@ -7,7 +7,6 @@ import RoutesComponent from "../routes/routes";
 import { useState, type JSX } from "react";
 import { context } from "./AppContext"
 import s from "./styles.module.css"
-import type { Projects, Tabs } from "../../types/AppContextType.types";
 
 export function AppProvider(): JSX.Element {
 

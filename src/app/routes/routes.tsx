@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import type { JSX } from "react";
-import type { Tabs } from "../../types/AppContextType.types"
 
 export type Props = {
     tabs: Tabs[]

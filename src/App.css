@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Kulim+Park:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600;1,700&family=Stack+Sans+Headline:wght@200..700&display=swap');
 
 :root {
-  --secondary-color: #2821F4;
   --pending: orange;
   --finished: green;
 
@@ -14,7 +13,6 @@
 
   --d-bg: #212225e4;
   --d-bg-light: #2b2a2f;
-
   --d-box-shadow: 0 0 15px -10px rgba(255, 255, 255, 0.473);
 
 

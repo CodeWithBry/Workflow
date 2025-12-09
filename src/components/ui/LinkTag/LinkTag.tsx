@@ -1,4 +1,3 @@
-import type { LinkType } from "../../types/link.types"
 import { Link } from "react-router-dom" 
 
 function LinkTag({

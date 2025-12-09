@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { context } from "../../app/AppContext/AppContext";
-import type { AppContextType } from "../../types/AppContextType.types"
 import s from "./styles.module.css"
 import Button from "../ui/Button/Button";
 import { defineTab } from "../../utils/defineTab";
@@ -23,7 +22,7 @@ export default function SideBar() {
                 <Button
                     iconElement={(<i className="fas fa-sign-out-alt"></i>)}
                     className={s.collapse}
-                    clickListener={() => { setShowSideBar(prev => !prev) }}
+                    clickListener={() => { setShowSideBar((prev: boolean) => !prev) }}
                 />
             </div>
 

@@ -1,5 +1,3 @@
-import type { ButtonType } from "../../types/button.types"
-
 function Button({
     clickListener,
     className,
