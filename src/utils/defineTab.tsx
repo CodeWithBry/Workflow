@@ -1,5 +1,4 @@
 import type { Dispatch, SetStateAction } from "react"
-import type { Tabs } from "../types/AppContextType.types"
 
 export type DefineTagType = {
     setTabs: Dispatch<SetStateAction<Tabs[]>>,
