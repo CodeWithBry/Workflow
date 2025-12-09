@@ -1,18 +1,15 @@
-import { useContext, type JSX } from "react"
+import { type JSX } from "react"
 import s from "./styles.module.css"
-import { context } from "../../AppContext/AppContext"
-import type { AppContextType } from "../../../types/AppContextType.types"
-
+import Greetings from "./Greetings/Greetings"
+import ProjectDetails from "./ProjectDetails/ProjectDetails"
+import TaskContainer from "./TasksContainer/TasksContainer"
 function Tasks(): JSX.Element {
-  const {darkMode} = useContext(context) as AppContextType
 
   return (
-    <div className={
-      !darkMode 
-      ? s.tasks
-      : `${s.tasks} ${s.darkTasks}`
-    }>
-      Tasks
+    <div className={s.tasks}>
+      <Greetings />
+      <ProjectDetails />
+      <TaskContainer />
     </div>
   )
 }

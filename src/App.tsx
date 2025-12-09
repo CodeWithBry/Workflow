@@ -1,10 +1,10 @@
-import AppContext from "./app/AppContext/AppContext";
 import "./App.css"
+import { AppProvider } from "./app/AppContext/AppProvider";
 
 function App() {
 
   return <>
-    <AppContext />
+    <AppProvider />
   </>
 }
 

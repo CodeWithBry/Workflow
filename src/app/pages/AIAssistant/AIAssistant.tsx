@@ -1,19 +1,17 @@
 import { useContext, type JSX } from "react"
 import s from "./styles.module.css"
 import { context } from "../../AppContext/AppContext"
-import type { AppContextType } from "../../../types/AppContextType.types"
+
+// IF the props "aside" is true, then it will show up as a sidebar in UI
+// IF the user is in /ai-assistant tab then the AI-Assistant in the sidebar will gone.
 
 function AIAssintant(): JSX.Element {
-    const { darkMode } = useContext(context) as AppContextType
+    const { darkMode } = useContext(context) as AppContextType;
+    const assistantClass = !darkMode ? s.assistant : `${s.assistant} ${s.darkAssistant}`
 
     return (
-        <div className={
-            !darkMode
-                ? s.assistant
-                : `${s.assistant} ${s.darkAssistant}`
-        }>
-            AIAssintant
-        </div>
+        <div className={assistantClass}>
+        </div >
     )
 }
 

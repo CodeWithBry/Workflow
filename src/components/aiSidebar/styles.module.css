@@ -1,0 +1,21 @@
+.aiSidebar {
+    display: flex;
+    flex-direction: column;
+    width: calc(300px - .5rem);
+    height: calc(100% - 1rem);
+    background-color: white;
+    margin: auto;
+    margin-right: .5rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px -2.5px rgba(0, 0, 0, 0.253);
+}
+
+.collapseAiSidebar {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .aiSidebar {
+        display: none;
+    }
+}

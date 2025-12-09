@@ -1,0 +1,16 @@
+.tasks {
+    width: 100%;
+    height: calc(100vh - 1rem);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    flex: auto 1fr;
+    gap: .5rem;
+}
+
+@media (max-width: 900px) {
+    .tasks {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}

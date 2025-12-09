@@ -1,19 +1,19 @@
 import { useContext } from "react"
-import { context } from "../../app/AppContext/AppContext"
-import type { AppContextType } from "../../types/AppContextType.types"
+import { context } from "../../app/AppContext/AppContext";
 import s from "./styles.module.css"
 import Button from "../ui/Button/Button";
 import { defineTab } from "../../utils/defineTab";
+import LinkTag from "../ui/LinkTag/LinkTag";
 
 export default function SideBar() {
-    const { tabs, setTabs, showSideBar, setShowSideBar, darkMode } = useContext(context) as AppContextType;
+    const { tabs, setTabs, projects, showSideBar, setShowSideBar, darkMode, setDarkMode } = useContext(context) as AppContextType;
 
     return (
         <div
             className={
-                darkMode
-                    ? `${showSideBar ? s.sideBar : s.collapseSideBar}`
-                    : `${showSideBar ? s.sideBar : s.collapseSideBar} ${s.darkSideBar}`}>
+                !darkMode
+                    ? `${s.sideBar} ${!showSideBar && s.collapseSideBar}`
+                    : `${s.sideBar} ${s.darkSideBar} ${!showSideBar && s.collapseSideBar}`}>
             <div className={s.title}>
                 <div className={s.left}>
                     <img src="./web-icon.png" className={s.webIcon} />
@@ -22,95 +22,90 @@ export default function SideBar() {
                 <Button
                     iconElement={(<i className="fas fa-sign-out-alt"></i>)}
                     className={s.collapse}
-                    clickListener={() => { setShowSideBar(false) }}
+                    clickListener={() => { setShowSideBar((prev: boolean) => !prev) }}
                 />
             </div>
 
-            {/* Main Menu */}
-            <div className={s.sectionTabs}>
-                <p className={s.section}>Main Menu</p>
-                <div className={s.menu}>
-                    {tabs.map(tab => 
-                        <Button
-                            className={!tab.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
-                            iconElement={(<i className={tab.tabIcon}></i>)}
-                            clickListener={() => {
-                                defineTab({setTabs, tabName: tab.tabName})
-                            }}
-                            content={tab.tabName} />
-                    )}
+            <div className={s.sections}>
+                {/* Main Menu */}
+                <div className={s.sectionTabs}>
+                    <p className={s.section}>Main Menu</p>
+                    <div className={s.menu}>
+                        {tabs.map((tab, index) => {
+                            if (index < 4 && index >= 0) return <LinkTag
+                                className={!tab.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
+                                iconElement={(<i className={tab.tabIcon}></i>)}
+                                to={tab.tabPath}
+                                clickListener={() => {
+                                    defineTab({ setTabs, tabName: tab.tabName })
+                                }}
+                                key={tab.tabName}
+                                titleContent={tab.tabName}
+                                content={(<span>{tab.tabName}</span>)} />
+                        })}
+                    </div>
                 </div>
-            </div>
 
-            {/* Normal Tasks */}
-            <div className={s.sectionTabs}>
-                <p className={s.section}>Normal Tasks</p>
-                <div className={s.menu}>
-                    <Button
-                        className={s.tab}
-                        iconElement={(<i className="far fa-list-alt"></i>)}
-                        clickListener={() => {
-
-                        }}
-                        content={"Everyday Tasks"} />
-                    <Button
-                        className={s.tab}
-                        iconElement={(<i className="far fa-list-alt"></i>)}
-                        clickListener={() => {
-
-                        }}
-                        content={"Daily Routine"} />
+                {/* Normal Tasks */}
+                <div className={s.sectionTabs}>
+                    <p className={s.section}>Normal Tasks</p>
+                    <div className={s.menu}>
+                        {tabs.map((tab, index) => {
+                            if (index < 6 && index >= 4) return <LinkTag
+                                className={!tab.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
+                                iconElement={(<i className={tab.tabIcon}></i>)}
+                                to={tab.tabPath}
+                                clickListener={() => {
+                                    defineTab({ setTabs, tabName: tab.tabName })
+                                }}
+                                key={tab.tabName}
+                                titleContent={tab.tabName}
+                                content={(<span>{tab.tabName}</span>)} />
+                        })}
+                    </div>
                 </div>
-            </div>
 
-            {/* Project Lists */}
-            <div className={s.sectionTabs}>
-                <p className={s.section}>Project Lists</p>
-                <div className={s.menu}>
-                    <Button
-                        className={s.tab}
-                        iconElement={(<i className="far fa-list-alt"></i>)}
-                        clickListener={() => {
+                {/* Project Lists */}
+                <div className={s.sectionTabs}>
+                    <p className={s.section}>Project Lists</p>
+                    <div className={s.menu}>
+                        {projects.map((proj) => {
+                            return <LinkTag
+                                className={s.tab}
+                                iconElement={(<i className="far fa-check-circle"></i>)}
+                                to={`projects/${proj.pid}`}
+                                titleContent={proj.projectName}
+                                content={(<span>{proj.projectName}</span>)} />
+                        })}
 
-                        }}
-                        content={"Task Manager"} />
-                    <Button
-                        className={s.tab}
-                        iconElement={(<i className="far fa-list-alt"></i>)}
-                        clickListener={() => {
-
-                        }}
-                        content={"News App"} />
-                    <Button
-                        className={s.tab}
-                        iconElement={(<i className="far fa-list-alt"></i>)}
-                        clickListener={() => {
-
-                        }}
-                        content={"BINHI"} />
+                    </div>
                 </div>
             </div>
 
             <div className={s.bottom}>
                 <div className={s.colorTheme}>
                     <Button
-                        className={s.themeButton}
+                        className={`${s.themeButton} ${!darkMode && s.focused}`}
                         iconElement={(<i className="far fa-sun"></i>)}
-                        content="Light Mode" />
+                        content={<span>Light Mode</span>}
+                        clickListener={() => setDarkMode(false)} />
                     <Button
-                        className={s.themeButton}
+                        className={`${s.themeButton} ${darkMode && s.focused}`}
                         iconElement={(<i className="fas fa-moon"></i>)}
-                        content="Dark Mode" />
+                        content={<span>Dark Mode</span>}
+                        clickListener={() => setDarkMode(true)} />
                 </div>
                 <div className={s.userBox}>
                     <div className={s.userIcon}>
-
+                        <span className={s.firstLetter}>P</span>
                     </div>
                     <div className={s.contents}>
-                        <p className={s.userName}></p>
-                        <Button 
+                        <p className={s.userName}>
+                            Bryan A. Pajarillaga
+                        </p>
+                        <Button
                             className={s.logOut}
-                            clickListener={() => {}}
+                            clickListener={() => { }}
                             content="Log Out" />
                     </div>
                 </div>

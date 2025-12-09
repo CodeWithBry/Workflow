@@ -1,10 +1,10 @@
-import type { LinkType } from "../types/link.types"
 import { Link } from "react-router-dom" 
 
 function LinkTag({
     clickListener,
     className,
     content,
+    titleContent,
     to,
     iconElement
 }: LinkType) {
@@ -12,8 +12,9 @@ function LinkTag({
     return (
         <Link
             to={to}
-            onClick={() => {clickListener()}} 
-            className={`${className}`}>
+            onClick={() => {if(clickListener) clickListener()}} 
+            className={`${className}`}
+            title={titleContent ? titleContent : ""} >
             {iconElement}
             {content}
         </Link>

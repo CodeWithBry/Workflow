@@ -1,14 +1,14 @@
-import type { ButtonType } from "../types/button.types"
-
 function Button({
     clickListener,
     className,
     content,
-    iconElement
+    iconElement,
+    titleContent
 }: ButtonType) {
 
     return (
         <button
+            title={titleContent ? titleContent : ""}
             onClick={() => {clickListener()}} 
             className={`${className}`}>
             {iconElement}

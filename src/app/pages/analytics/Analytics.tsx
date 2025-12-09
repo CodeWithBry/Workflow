@@ -1,7 +1,6 @@
 import { useContext, type JSX } from "react"
 import s from "./styles.module.css"
 import { context } from "../../AppContext/AppContext"
-import type { AppContextType } from "../../../types/AppContextType.types"
 
 function Analytics(): JSX.Element {
     const { darkMode } = useContext(context) as AppContextType
