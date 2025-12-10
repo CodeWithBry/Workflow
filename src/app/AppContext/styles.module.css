@@ -11,4 +11,7 @@
     .container {
         display: flex;
     }
+.container>div:nth-of-type(2) {
+    width: 100%;
+}
 }
