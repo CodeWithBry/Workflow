@@ -1,6 +1,6 @@
 import type { JSX } from "react"
 import s from "./styles.module.css"
-import Button from "../../../../../../components/ui/Button/Button"
+import Button from "../../../../../ui/Button/Button"
 
 export function SeeMore({ darkMode, showTools, actionLists }: SeeMoreProps): JSX.Element {
     return (<>

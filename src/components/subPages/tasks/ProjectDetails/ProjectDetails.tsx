@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import s from './styles.module.css'
-import { context } from '../../../AppContext/AppContext'
+import { context } from '../../../../app/AppContext/AppContext'
 
 export default function ProjectDetails() {
     const { darkMode } = useContext(context) as AppContextType;

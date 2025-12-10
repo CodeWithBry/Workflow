@@ -1,6 +1,6 @@
 import { useContext, type JSX } from "react"
 import s from "./styles.module.css"
-import { context } from "../../AppContext/AppContext"
+import { context } from "../../../app/AppContext/AppContext"
 
 // IF the props "aside" is true, then it will show up as a sidebar in UI
 // IF the user is in /ai-assistant tab then the AI-Assistant in the sidebar will gone.

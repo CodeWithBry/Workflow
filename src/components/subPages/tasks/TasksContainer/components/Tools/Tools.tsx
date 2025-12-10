@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import s from './styles.module.css'
-import { context } from '../../../../../AppContext/AppContext'
-import Button from '../../../../../../components/ui/Button/Button';
+import { context } from '../../../../../../app/AppContext/AppContext'
+import Button from '../../../../../ui/Button/Button';
 import { SeeMore } from './SeeMore';
 
 export default function Tools({ showTools, setShowTools }: ToolsProps) {

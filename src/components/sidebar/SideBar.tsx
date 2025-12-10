@@ -4,9 +4,17 @@ import s from "./styles.module.css"
 import Button from "../ui/Button/Button";
 import { defineTab } from "../../utils/defineTab";
 import LinkTag from "../ui/LinkTag/LinkTag";
+import { defineSelectedProject } from "../../utils/defineSelectedProject";
+import { getTabFromUrl } from "../../utils/getTabFromUrl";
 
 export default function SideBar() {
-    const { tabs, setTabs, projects, showSideBar, setShowSideBar, darkMode, setDarkMode } = useContext(context) as AppContextType;
+    const { subPages, setSubPages,
+        subPagesForNormalTasks, setSubPagesForNormalTasks,
+        projects, setProjects,
+        showSideBar, setShowSideBar,
+        darkMode, setDarkMode,
+        selectedProject, setSelectedProject,
+        subPath, setSubPath } = useContext(context) as AppContextType;
 
     return (
         <div
@@ -31,13 +39,14 @@ export default function SideBar() {
                 <div className={s.sectionTabs}>
                     <p className={s.section}>Main Menu</p>
                     <div className={s.menu}>
-                        {tabs.map((tab, index) => {
-                            if (index < 4 && index >= 0) return <LinkTag
+                        {subPages.map((tab) => {
+                            return <LinkTag
                                 className={!tab.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
                                 iconElement={(<i className={tab.tabIcon}></i>)}
-                                to={tab.tabPath}
+                                to={`/${getTabFromUrl()[1]}${selectedProject != null ? `/${tab.tabPath}` : `/${subPath}`}/${tab.tabPath} `}
                                 clickListener={() => {
-                                    defineTab({ setTabs, tabName: tab.tabName })
+                                    defineTab({ setTabs: setSubPages, tabName: tab.tabName })
+                                    console.log(selectedProject, subPath)
                                 }}
                                 key={tab.tabName}
                                 titleContent={tab.tabName}
@@ -50,13 +59,16 @@ export default function SideBar() {
                 <div className={s.sectionTabs}>
                     <p className={s.section}>Normal Tasks</p>
                     <div className={s.menu}>
-                        {tabs.map((tab, index) => {
-                            if (index < 6 && index >= 4) return <LinkTag
+                        {subPagesForNormalTasks.map((tab) => {
+                            return <LinkTag
                                 className={!tab.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
                                 iconElement={(<i className={tab.tabIcon}></i>)}
-                                to={tab.tabPath}
+                                to={`/normal-tasks/${tab.tabPath}/tasks`}
                                 clickListener={() => {
-                                    defineTab({ setTabs, tabName: tab.tabName })
+                                    defineTab({ setTabs: setSubPagesForNormalTasks, tabName: tab.tabName })
+                                    defineSelectedProject({ setProjects, projectName: null })
+                                    setSelectedProject(null)
+                                    setSubPath(tab.tabPath)
                                 }}
                                 key={tab.tabName}
                                 titleContent={tab.tabName}
@@ -66,14 +78,18 @@ export default function SideBar() {
                 </div>
 
                 {/* Project Lists */}
-                <div className={s.sectionTabs}>
+                <div className={`${s.sectionTabs}`}>
                     <p className={s.section}>Project Lists</p>
                     <div className={s.menu}>
                         {projects.map((proj) => {
                             return <LinkTag
-                                className={s.tab}
+                                className={!proj.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
                                 iconElement={(<i className="far fa-check-circle"></i>)}
-                                to={`projects/${proj.pid}`}
+                                clickListener={() => {
+                                    defineSelectedProject({ setProjects, projectName: proj.projectName })
+                                    setSubPagesForNormalTasks(prev => prev.map(tab => ({ ...tab, tabFocused: false })))
+                                }}
+                                to={`projects/${proj.pid}/tasks`}
                                 titleContent={proj.projectName}
                                 content={(<span>{proj.projectName}</span>)} />
                         })}

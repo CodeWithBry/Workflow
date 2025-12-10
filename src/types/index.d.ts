@@ -5,7 +5,7 @@ declare global {
         aside?: boolean
     }
 
-    type Tabs = {
+    type SubPages = {
         tabName: string,
         tabPath: string,
         tabIcon: string,
@@ -24,10 +24,15 @@ declare global {
         darkMode: boolean, setDarkMode: Dispatch<SetStateAction<boolean>>,
         showSideBar: boolean, setShowSideBar: Dispatch<SetStateAction<boolean>>,
         showAIAssistant: boolean, setShowAIAssistant: Dispatch<SetStateAction<boolean>>,
+        // STRINGS
+        subPath: string, setSubPath: Dispatch<SetStateAction<string>>,
 
         // OBJECTS AND ARRAYS
-        tabs: Tabs[], setTabs: Dispatch<SetStateAction<Tabs[]>>,
+        pages: SubPages[], setPages: Dispatch<SetStateAction<SubPages[]>>,
+        subPages: SubPages[], setSubPages: Dispatch<SetStateAction<SubPages[]>>,
+        subPagesForNormalTasks: SubPages[], setSubPagesForNormalTasks: Dispatch<SetStateAction<SubPages[]>>,
         projects: Projects[], setProjects: Dispatch<SetStateAction<Projects[]>>,
+        selectedProject: Projects | null, setSelectedProject: Dispatch<SetStateAction<Projects | null>>,
     };
 };
 

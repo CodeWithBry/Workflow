@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import s from './styles.module.css'
-import { context } from '../../../AppContext/AppContext';
+import { context } from '../../../../app/AppContext/AppContext';
 import Tools from './components/Tools/Tools';
 import TaskGroup from './components/TasksGroup/TaskGroup';
 
