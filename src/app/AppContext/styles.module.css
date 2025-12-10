@@ -6,3 +6,9 @@
     background-color: var(--l-bg-color);
     gap: .5rem;
 }
+
+@media (max-width: 400px) {
+    .container {
+        display: flex;
+    }
+}

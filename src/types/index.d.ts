@@ -1,7 +1,11 @@
-declare global {
-    import type { ComponentType, Dispatch, SetStateAction } from "react"
+import type { ComponentType, Dispatch, SetStateAction } from "react"
 
-    type Tabs = {
+declare global {
+    type AIAssistantProps = {
+        aside?: boolean
+    }
+
+    type SubPages = {
         tabName: string,
         tabPath: string,
         tabIcon: string,
@@ -19,10 +23,16 @@ declare global {
         // BOOLEANS
         darkMode: boolean, setDarkMode: Dispatch<SetStateAction<boolean>>,
         showSideBar: boolean, setShowSideBar: Dispatch<SetStateAction<boolean>>,
+        showAIAssistant: boolean, setShowAIAssistant: Dispatch<SetStateAction<boolean>>,
+        // STRINGS
+        subPath: string, setSubPath: Dispatch<SetStateAction<string>>,
 
         // OBJECTS AND ARRAYS
-        tabs: Tabs[], setTabs: Dispatch<SetStateAction<Tabs[]>>,
+        pages: SubPages[], setPages: Dispatch<SetStateAction<SubPages[]>>,
+        subPages: SubPages[], setSubPages: Dispatch<SetStateAction<SubPages[]>>,
+        subPagesForNormalTasks: SubPages[], setSubPagesForNormalTasks: Dispatch<SetStateAction<SubPages[]>>,
         projects: Projects[], setProjects: Dispatch<SetStateAction<Projects[]>>,
+        selectedProject: Projects | null, setSelectedProject: Dispatch<SetStateAction<Projects | null>>,
     };
 };
 

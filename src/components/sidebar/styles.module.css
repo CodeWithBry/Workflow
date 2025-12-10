@@ -58,6 +58,14 @@
     width: 100%;
     overflow-y: visible;
     overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--l-light);
+    }
 }
 
 .sideBar .sections .sectionTabs {
@@ -169,6 +177,7 @@
     border-radius: 50%;
     display: grid;
     place-items: center;
+    flex-shrink: 0;
 }
 
 .sideBar .bottom .userBox .userIcon .firstLetter {
@@ -186,6 +195,8 @@
 
 .sideBar .bottom .userBox .contents .userName {
     font-weight: 700;
+    font-size: var(--p-normal);
+    text-wrap: nowrap;
 }
 
 .sideBar .bottom .userBox .contents .logOut {
@@ -193,6 +204,7 @@
     color: var(--secondary-color);
     background-color: transparent;
     width: fit-content;
+    font-size: var(--p-smaller);
 }
 
 /* DARK THEME */
@@ -233,9 +245,9 @@
 }
 
 .darkSideBar .colorTheme .themeButton.focused:nth-child(2) {
-    background-color: var(--d-text-unhighlight);
-    color: white;
-    box-shadow: 0 5px 10px -2.5px rgba(139, 139, 139, 0.25);
+    color: var(--d-text-unhighlight);
+    background-color: white;
+    box-shadow: 0 5px 10px -2.5px rgba(255, 255, 255, 0.662);
 }
 
 .darkSideBar .bottom .userBox {
@@ -307,7 +319,7 @@
     padding: 0;
     width: calc(100% - .5rem);
     height: 40px;
-    font-size: var(--p-normal);
+    font-size: var(--p-small);
 }
 
 .collapseSideBar .bottom .colorTheme .themeButton>span {
@@ -336,4 +348,127 @@
 
 .sideBar.darkSideBar {
     background-color: var(--d-bg);
+}
+
+@media (max-width: 900px) {
+
+    .collapseSideBar {
+        width: 55px;
+    }
+
+    .collapseSideBar .sections .sectionTabs .menu {
+        width: calc(100% - .75rem);
+    }
+
+    .collapseSideBar .bottom .colorTheme .themeButton {
+        height: 30px;
+        justify-content: center;
+    }
+
+    .collapseSideBar .bottom .userBox {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* @media (max-width: 500px) {
+    .sideBar {
+        width: 200px;
+    }
+
+    .sideBar .bottom .colorTheme .themeButton {
+        font-size: .5rem;
+    }
+
+    .sideBar .bottom .userBox .contents .userName {
+        font-size: var(--p-small);
+    }
+
+    .sideBar .bottom .userBox .userIcon {
+        width: 25px;
+        height: 25px;
+    }
+
+    .sideBar .bottom .userBox .userIcon .firstLetter {
+        font-size: var(--p-normal);
+    }
+} */
+
+@media (max-width: 400px) {
+    .sideBar {
+        width: 200px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        border-radius: 0;
+        margin-left: 0;
+        transition: all .5s ease;
+    }
+
+    .collapseSideBar {
+        width: 200px;
+        left: -200px;
+    }
+
+    .collapseSideBar .title .collapse {
+        position: absolute;
+        left: 110%;
+        bottom: 10%;
+        border-radius: .2rem;
+        color: black;
+        background-color: white;
+        box-shadow: 0 0px 10px -.5px rgba(0, 0, 0, 0.244);
+    }
+
+    .collapseSideBar .title .left {
+        display: flex;
+    }
+
+    .collapseSideBar .sections .sectionTabs .section {
+        color: var(--l-light);
+        height: fit-content;
+        background: none;
+        margin-left: 1rem;
+        margin-top: .5rem;
+        display: block;
+    }
+
+    .collapseSideBar .sections .sectionTabs:nth-child(1) .section {
+        display: block;
+    }
+
+    .collapseSideBar .sections .sectionTabs .menu {
+        width: calc(100% - 2rem);
+        gap: 4px;
+    }
+
+    .collapseSideBar .sections .sectionTabs .menu .tab {
+        justify-content: left;
+    }
+
+    .collapseSideBar .sections .sectionTabs .menu .tab>span {
+        display: flex;
+    }
+
+    .collapseSideBar .bottom .colorTheme {
+        flex-direction: row;
+    }
+
+    .collapseSideBar .bottom .colorTheme .themeButton {
+        width: calc(50% - (1rem));
+    }
+
+    .collapseSideBar .bottom .colorTheme .themeButton>span {
+        display: flex;
+    }
+
+    .collapseSideBar .bottom .userBox .contents {
+        display: flex;
+    }
+
+    .sideBar .bottom .userBox .contents .userName {
+        font-size: var(--p-small);
+    }
+
 }
