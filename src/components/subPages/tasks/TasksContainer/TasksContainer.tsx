@@ -1,7 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import s from './styles.module.css'
 import { context } from '../../../../app/AppContext/AppContext';
 import Tools from './components/Tools/Tools';
+import GroupTaskModal from './components/GroupTaskModal/GroupTaskModal';
 import TaskGroup from './components/TasksGroup/TaskGroup';
 
 export default function TaskContainer() {
@@ -9,25 +10,35 @@ export default function TaskContainer() {
 
     // BOOLEANS
     const [showTools, setShowTools] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showTaskForm, setShowTaskForm] = useState<boolean>(false);
     // STRINGS
+    const [groupName, setGroupName] = useState<string>("");
 
     // NUMBERS
 
     // OBJECTS AND ARRAYS
-    const [taskGroups, setTaskGroups] = useState<TaskGroups[]>([
-        {groupName: "Create Sidebar Component", groupId: crypto.randomUUID()},
-        {groupName: "Create Dropdown Function", groupId: crypto.randomUUID()},
-        {groupName: "Modify Layout", groupId: crypto.randomUUID()}
-    ]);
+    const [taskGroups, setTaskGroups] = useState<TaskGroup[] | null>(null);
+    const [pseudoGroup, setPseudoGroup] = useState<PseudoGroup>(null)
+    const [pseudoTasks, setPseudoTasks] = useState<PseudoTasks>(null)
 
     const value = {
         // BOOLEANS
         showTools, setShowTools,
+        showModal, setShowModal,
+        showTaskForm, setShowTaskForm,
         // STRINGS
+        groupName, setGroupName,
         // NUMBERS
         // OBJECTS AND ARRAYS
-        taskGroups, setTaskGroups
+        taskGroups, setTaskGroups,
+        pseudoGroup, setPseudoGroup,
+        pseudoTasks, setPseudoTasks
     };
+
+    useEffect(() => {
+        console.log(pseudoGroup, taskGroups)
+    }, [pseudoGroup, taskGroups])
 
     return (
         <div className={
@@ -35,8 +46,22 @@ export default function TaskContainer() {
                 ? s.taskContainer
                 : `${s.taskContainer} ${s.darkTaskContainer}`
         }>
+            {/* Dropdowns and Modals */}
             <Tools {...value} />
-            <TaskGroup />
+            <GroupTaskModal {...value} />
+
+            {/* Main UI */}
+            <div className={s.groups}>
+                {taskGroups?.map((taskGroup) => {
+                    const taskGroupProps = {
+                        setTaskGroups,
+                        setPseudoTasks,
+                        taskGroup
+
+                    }
+                    return <TaskGroup {...taskGroupProps} />
+                })}
+            </div>
         </div>
     )
 }

@@ -1,0 +1,47 @@
+.task {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--pad-y-small) 0;
+    font-family: var(--font-title);
+    border-bottom: 2px solid transparent;
+    padding: var(--pad-y-m) 0;
+}
+
+.pending {
+    border-bottom-color: var(--pending);
+}
+
+.task .left {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+}
+
+.task .left>input {
+    width: 15px;
+    height: 15px;
+}
+
+.task .left>p {
+    font-size: var(--p-small);
+}
+
+.task .right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: var(--gap-small);
+}
+
+.task .right .actionButton {
+    background-color: transparent;
+    font-family: var(--font-title);
+    font-size: var(--p-small);
+}
+
+.pending .right .statusButton {
+    color: var(--pending);
+}

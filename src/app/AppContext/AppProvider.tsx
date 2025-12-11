@@ -2,7 +2,7 @@
 import SideBar from "../../components/sidebar/SideBar";
 import RoutesComponent from "../routes/routes";
 
-import { useEffect, useState, type JSX } from "react";
+import { useState, type JSX } from "react";
 import { context } from "./AppContext"
 import s from "./styles.module.css"
 import AISidebar from "../../components/aiSidebar/AISidebar";
@@ -45,8 +45,9 @@ export function AppProvider(): JSX.Element {
         { projectName: "Tasks", pid: crypto.randomUUID(), tabFocused: false },
     ]);
     const [selectedProject, setSelectedProject] = useState<Projects | null>(null);
+    const [taskGroup, setTaskGroup] = useState<TaskGroup[] | null>(null);
 
-    const value = {
+    const value: AppContextType = {
         // BOOLEANS
         darkMode, setDarkMode,
         showSideBar, setShowSideBar,
@@ -59,12 +60,9 @@ export function AppProvider(): JSX.Element {
         subPages, setSubPages,
         subPagesForNormalTasks, setSubPagesForNormalTasks,
         projects, setProjects,
-        selectedProject, setSelectedProject
+        selectedProject, setSelectedProject,
+        taskGroup, setTaskGroup
     };
-
-    useEffect(() => {
-        console.log(selectedProject)
-    }, [selectedProject])
 
     return (
         <context.Provider value={value}>

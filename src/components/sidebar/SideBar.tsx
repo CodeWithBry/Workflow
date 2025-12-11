@@ -43,10 +43,9 @@ export default function SideBar() {
                             return <LinkTag
                                 className={!tab.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
                                 iconElement={(<i className={tab.tabIcon}></i>)}
-                                to={`/${getTabFromUrl()[1]}${selectedProject != null ? `/${tab.tabPath}` : `/${subPath}`}/${tab.tabPath} `}
+                                to={`/${getTabFromUrl()[1]}${subPath == "" ? `/${selectedProject?.pid}` : `/${subPath}`}/${tab.tabPath} `}
                                 clickListener={() => {
                                     defineTab({ setTabs: setSubPages, tabName: tab.tabName })
-                                    console.log(selectedProject, subPath)
                                 }}
                                 key={tab.tabName}
                                 titleContent={tab.tabName}
@@ -86,8 +85,9 @@ export default function SideBar() {
                                 className={!proj.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
                                 iconElement={(<i className="far fa-check-circle"></i>)}
                                 clickListener={() => {
-                                    defineSelectedProject({ setProjects, projectName: proj.projectName })
-                                    setSubPagesForNormalTasks(prev => prev.map(tab => ({ ...tab, tabFocused: false })))
+                                    defineSelectedProject({ setProjects, projectName: proj.projectName });
+                                    setSubPagesForNormalTasks(prev => prev.map(tab => ({ ...tab, tabFocused: false })));
+                                    setSubPath("");
                                 }}
                                 to={`projects/${proj.pid}/tasks`}
                                 titleContent={proj.projectName}

@@ -8,17 +8,23 @@
     border-radius: 1rem;
 }
 
+.taskContainer .groups {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 4rem);
+    height: 100%;
+    flex: 1;
+    overflow-y: auto;
+    margin: auto;
+    margin-bottom: 1rem;
+    gap: var(--gap-normal);
+}
 @media (max-width: 500px) {
     .taskContainer {
-        width: 100%;
+        width: calc(100% - 1rem);
         max-width: 500px;
         min-width: 250px;
         flex-shrink: 0;
-    }
-}
-
-@media (max-width: 900px) {
-    .taskContainer {
-        height: fit-content;
+        margin: 0 auto;
     }
 }

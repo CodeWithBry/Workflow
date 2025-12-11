@@ -394,7 +394,7 @@
     }
 } */
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
     .sideBar {
         width: 200px;
         position: absolute;
@@ -404,6 +404,10 @@
         border-radius: 0;
         margin-left: 0;
         transition: all .5s ease;
+    }
+
+    .sideBar .bottom .colorTheme .themeButton {
+        font-size: .5rem;
     }
 
     .collapseSideBar {
