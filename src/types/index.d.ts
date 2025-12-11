@@ -19,6 +19,20 @@ declare global {
         tabFocused: boolean
     }
 
+    type Tasks = {
+        tid: string,
+        taskDescription: string,
+        dateCreated: string,
+        status: "pending" | "finished",
+        isSelected: boolean
+    }
+
+    type TaskGroup = {
+        groupName: string,
+        gid: string,
+        tasks: Tasks[]
+    }
+
     type AppContextType = {
         // BOOLEANS
         darkMode: boolean, setDarkMode: Dispatch<SetStateAction<boolean>>,
@@ -33,6 +47,7 @@ declare global {
         subPagesForNormalTasks: SubPages[], setSubPagesForNormalTasks: Dispatch<SetStateAction<SubPages[]>>,
         projects: Projects[], setProjects: Dispatch<SetStateAction<Projects[]>>,
         selectedProject: Projects | null, setSelectedProject: Dispatch<SetStateAction<Projects | null>>,
+        taskGroup: TaskGroup[] | null, setTaskGroup: Dispatch<SetStateAction<TaskGroup[] | null>>,
     };
 };
 

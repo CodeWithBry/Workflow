@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { useContext, type JSX } from "react";
 import { context } from "../AppContext/AppContext";
 export default function RoutesComponent(): JSX.Element {
-    const { subPages, subPagesForNormalTasks, pages } = useContext(context) as AppContextType;
+    const { subPages, pages } = useContext(context) as AppContextType;
 
     return (
         <Routes>
@@ -27,34 +27,26 @@ export default function RoutesComponent(): JSX.Element {
                 }
 
                 // NORMAL TASKS ROUTES
-                if (page.tabName === "Normal Tasks") {
+                else {
                     return (
                         <Route
                             key="normal-tasks"
-                            path="normal-tasks"
+                            path="normal-tasks/:taskType"
                             element={<page.tabElement />}
                         >
-                            {subPagesForNormalTasks.map((normalTab) => (
+                            {subPages.map((tab) => (
                                 <Route
-                                    key={normalTab.tabPath}
-                                    path={normalTab.tabPath}
-                                    element={<normalTab.tabElement />}
-                                >
-                                    {subPages.map((subTab) => (
-                                        <Route
-                                            key={subTab.tabPath}
-                                            path={subTab.tabPath}
-                                            element={<subTab.tabElement />}
-                                        />
-                                    ))}
-                                </Route>
+                                    key={tab.tabPath}
+                                    path={tab.tabPath}
+                                    element={<tab.tabElement />}
+                                />
                             ))}
                         </Route>
                     );
                 }
 
             })}
-        </Routes>
+        </Routes >
     );
 
 

@@ -1,17 +1,54 @@
-import { useContext } from 'react'
-import s from './styles.module.css'
-import { context } from '../../../../../../app/AppContext/AppContext'
+import Button from "../../../../../ui/Button/Button"
+import { deleteTask } from "../../utils/deleteTask"
+import s from "./styles.module.css"
 
-export default function Task() {
-  const { darkMode } = useContext(context) as AppContextType;
+function Task({ task, setTaskGroups, setPseudoTasks, isRealTask, groupId }: TaskProps) {
+    return (
+        <div className={s.task}>
+            <div className={s.left}>
+                <input
+                    type="checkbox"
+                    checked={task.isSelected}
+                    onChange={() => {
+                        if (!isRealTask && groupId) setPseudoTasks(prev => prev ? prev.map((t) => {
+                            return {
+                                ...t, isSelected: t.tid == task.tid ?
+                                    true : false
+                            }
+                        }) : null)
 
-  return (
-    <div className={
-      !darkMode
-      ? s.task
-      : `${s.task} ${s.darkTask}`
-    }>
+                        setTaskGroups(prev => prev.map((group) => {
+                            if (groupId != group.groupId || group.tasks == null) return { ...group }
+                            const updatedTasks = group.tasks.map((t) => ({
+                                ...t, isSelected: t.tid == task.tid ?
+                                    true : false
+                            }))
 
-    </div>
-  )
+                            return { ...group, tasks: updatedTasks }
+                        }))
+                    }} />
+                <p>{task.taskDescription}</p>
+            </div>
+            <div className={s.right}>
+                <Button
+                    clickListener={() => {}}
+                    content={<span>{task.status} <i className="far fa-trash-alt" /></span>} />
+                <Button
+                    clickListener={() => {}}
+                    iconElement={<i className="far fa-trash-alt" />} />
+                <Button
+                    clickListener={() => {
+                        deleteTask({
+                            task,
+                            setPseudoTasks,
+                            setTaskGroups,
+                            isRealTask: false
+                        })
+                    }}
+                    iconElement={<i className="far fa-trash-alt" />} />
+            </div>
+        </div>
+    )
 }
+
+export default Task
