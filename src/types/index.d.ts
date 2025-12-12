@@ -1,9 +1,20 @@
 import type { ComponentType, Dispatch, SetStateAction } from "react"
 
 declare global {
+    // PROPS
+
     type AIAssistantProps = {
         aside?: boolean
     }
+
+    type DropDownProps = {
+        showTools: boolean,
+        darkMode: boolean,
+        setShowTools: Dispatch<SetStateAction<boolean>>,
+        actionLists: ActionsLists[],
+    }
+
+    // VARIABLES
 
     type SubPages = {
         tabName: string,
@@ -24,13 +35,14 @@ declare global {
         taskDescription: string,
         dateCreated: string,
         status: "pending" | "finished",
-        isSelected: boolean
+        isSelected: "true" | "false",
+        groupId: string
     }
 
     type TaskGroup = {
         groupName: string,
-        gid: string,
-        tasks: Tasks[]
+        groupId: string,
+        tasks: Tasks[] | null
     }
 
     type AppContextType = {

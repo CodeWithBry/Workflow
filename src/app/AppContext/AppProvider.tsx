@@ -1,16 +1,16 @@
 
-import SideBar from "../../components/sidebar/SideBar";
-import RoutesComponent from "../routes/routes";
+import SideBar from "../../components/SideBar/SideBar";
+import RoutesComponent from "../RoutesComponent/RoutesComponent";
 
 import { useState, type JSX } from "react";
 import { context } from "./AppContext"
 import s from "./styles.module.css"
-import AISidebar from "../../components/aiSidebar/AISidebar";
-import Tasks from "../../components/subPages/tasks/Tasks";
-import Analytics from "../../components/subPages/analytics/Analytics";
-import AIAssintant from "../../components/subPages/AIAssistant/AIAssistant";
-import Projects from "../pages/projects/Projects";
-import NormalTasks from "../pages/normal-tasks/NormalTasks";
+import AISidebar from "../../components/AISideBar/AISideBar";
+import Tasks from "../../components/sub-pages/Tasks/Tasks";
+import Analytics from "../../components/sub-pages/Analytics/Analytics";
+import AIAssintant from "../../components/sub-pages/AIAssistant/AIAssistant";
+import Projects from "../pages/Projects/Projects";
+import NormalTasks from "../pages/NormalTasks/NormalTasks";
 
 export function AppProvider(): JSX.Element {
 

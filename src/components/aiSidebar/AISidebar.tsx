@@ -23,7 +23,7 @@ function AISidebar(): JSX.Element | undefined {
                 }
             }
         }
-    }, [subPages])
+    }, [subPages, setShowAIAssistant])
 
     if (showAIAssistant) return (
         <div className={collapseAi ? `${assistantClass} ${s.collapseAiSidebar}` : assistantClass}>
