@@ -78,7 +78,7 @@ function AppProvider() {
 
     useEffect(() => {
         const getData: GetDataFromLocalStorage = locStor.getDataFromLocalStorage();
-        if (getData) return () => setTaskClass([...getData]);
+        if (getData) setTaskClass([...getData]);
     }, [])
 
     return (
