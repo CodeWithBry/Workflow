@@ -6,7 +6,7 @@ import ActivitiesTools from "../pages/Activities/ActivitiesTools";
 
 
 function MainRoutes() {
-    const { pages, toolsPages } = useContext(context) as Context;
+    const { pages, toolsPages, taskClass } = useContext(context) as Context;
     return (
 
         <div>
@@ -16,14 +16,14 @@ function MainRoutes() {
                 })}
 
                 {/* TOOLS (LAYOUT ROUTE) */}
-                <Route path="activities/:id" element={<ActivitiesTools />}>
+                {taskClass.length != 0 && <Route path="activities/:id" element={<ActivitiesTools />}>
                     {toolsPages.map((tab) => (
                         <Route
                             key={tab.tabPath}
                             path={tab.tabPath}
                             element={<tab.tabElement />}
                         />))}
-                </Route>
+                </Route>}
             </Routes>
         </div>
     )
