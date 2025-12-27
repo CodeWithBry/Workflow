@@ -1,0 +1,68 @@
+/* USER BOX */
+
+.projectDetails {
+    display: flex;
+    background-color: white;
+    box-shadow: 0 2px 10px -2.5px rgba(0, 0, 0, .20);
+    width: calc(100% - 1rem);
+    border-radius: .5rem;
+    padding: .5rem;
+    gap: var(--gap-small);
+    font-family: var(--font-title);
+}
+
+.projectDetails .statusIcon {
+    width: fit-content;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    margin-left: .5rem;
+}
+
+.projectDetails .statusIcon .icon {
+    width: 13px;
+    height: 13px;
+    background-color: var(--pending);
+    border-radius: 50%;
+}
+
+.projectDetails .statusIcon .icon.accomplished {
+    background-color: var(--finished);
+}
+
+.projectDetails .contents {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.projectDetails .contents .top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 800;
+    font-size: var(--p-medium);
+}
+
+.projectDetails .contents .bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--p-smaller);
+}
+
+.projectDetails .contents .bottom .statusDescription {
+    color: var(--pending);
+}
+
+.projectDetails .contents .bottom .statusDescription.accomplished {
+    color: var(--finished);
+}
+
+@media (max-width: 500px) {
+    .projectDetails {
+        width: calc(100% - 2rem);
+        max-width: 500px;
+        min-width: 250px;
+        flex-shrink: 0;
+        margin: 0 auto;
+    }
+}

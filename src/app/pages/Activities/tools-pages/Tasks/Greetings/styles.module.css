@@ -1,0 +1,59 @@
+/* USER BOX */
+
+.greetings {
+    display: flex;
+    background-color: white;
+    box-shadow: 0 2px 10px -2.5px rgba(0, 0, 0, .20);
+    width: calc(100% - 1rem);
+    border-radius: .5rem;
+    padding: .5rem;
+    gap: var(--gap-small);
+    margin-top: .25rem;
+    font-family: var(--font-title);
+}
+
+.greetings .userIcon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+
+.greetings .userIcon .firstLetter {
+    font-family: var(--font-title);
+    font-weight: 900;
+    font-size: var(--p-large);
+    color: white;
+}
+
+.greetings .contents {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.greetings .contents .greet {
+    font-weight: 700;
+    font-size: var(--p-medium);
+}
+
+.greetings .contents .description {
+    font-weight: 600;
+    color: var(--l-mid);
+    background-color: transparent;
+    width: fit-content;
+    font-size: var(--p-smaller);
+}
+
+@media (max-width: 500px) {
+    .greetings {
+        width: calc(100% - 2rem);
+        margin: 0 auto;
+        margin-top: .5rem;
+        max-width: 500px;
+        min-width: 250px;
+        flex-shrink: 0;
+    }
+}

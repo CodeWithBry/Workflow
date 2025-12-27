@@ -1,0 +1,11 @@
+.tasks {
+    width: 100%;
+    height: calc(100vh - .5rem);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    flex: auto 1fr;
+    gap: .5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
