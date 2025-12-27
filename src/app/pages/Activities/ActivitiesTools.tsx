@@ -5,7 +5,7 @@ import ToolsSidebar from "../../../components/navigations/ToolsSidebar/ToolsSide
 import s from "./styles.module.css"
 
 function ActivitiesTools() {
-    const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, setShowSaveButton } = useContext(context) as Context;
+    const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges } = useContext(context) as Context;
     const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
@@ -36,7 +36,7 @@ function ActivitiesTools() {
                     currentStateNumber: prev.changesInProject.length - 1 == prev.currentStateNumber ? prev.currentStateNumber + 1 : prev.currentStateNumber,
                     changesInProject: [...prev.changesInProject, {...selectedTaskClass, isSaved: false}]
                 }))
-            } else setShowSaveButton(false)
+            }
         }
     }, [selectedTaskClass])
 

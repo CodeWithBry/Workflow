@@ -6,7 +6,7 @@ import { DropDown } from '../../../../../../../../components/DropDown/DropDown';
 import handleHistory from '../../utils/handleHistory';
 
 export default function Tools({ setShowGTM }: ToolsProps) {
-  const { darkMode, setTaskClass, selectedTaskClass, historyChanges, setHistoryChanges, setAllowChanges, taskClass, locStor, setShowSaveButton } = useContext(context) as Context;
+  const { darkMode, setTaskClass, selectedTaskClass, historyChanges, setHistoryChanges, setAllowChanges, taskClass, locStor } = useContext(context) as Context;
   const [showTools, setShowTools] = useState<boolean>(false);
   const selectedHistory = useMemo(() => {
     return historyChanges.changesInProject[historyChanges.currentStateNumber]
@@ -35,7 +35,6 @@ export default function Tools({ setShowGTM }: ToolsProps) {
             clickListener={() => {
               if (selectedTaskClass) {
                 locStor.saveDataToLocalStorage({ updatedTaskClass: selectedTaskClass, taskType: selectedTaskClass.taskType, taskClass })
-                setShowSaveButton(false)
                 setHistoryChanges(prev => {
                   const findSelectedHistory = prev.changesInProject.map((t, i) => {
                     if (i == historyChanges.currentStateNumber) {
