@@ -8,6 +8,7 @@
     align-items: center;
     position: relative;
     transition: all .2s ease;
+    cursor: pointer;
 }
 
 .taskGroup .top:hover {
@@ -18,6 +19,11 @@
     font-family: var(--font-title);
     font-size: var(--h1-medium);
     margin-right: auto;
+    display: flex;
+        align-items: center;
+        gap: .5rem;
+        padding: var(--pad-y-m) var(--pad-x-s);
+        user-select: none;
 }
 
 .taskGroup .top .groupName .hide {
@@ -38,7 +44,8 @@
 }
 
 .taskGroup .top .actionButton:hover {
-    background-color: var(--l-light);;
+    background-color: var(--l-light);
+        ;
 }
 
 .taskGroup .top .actionButton:active {

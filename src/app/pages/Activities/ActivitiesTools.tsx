@@ -9,23 +9,25 @@ function ActivitiesTools() {
     const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
-        if(id) {
-            const defineProject = taskClass.find(t => t.id.toLowerCase() == id?.toLowerCase());
-            if (defineProject == null) {
-                navigation("/activities");
-            }
-            
-            setTaskClass(prev => prev.map((t) => {
-                return { ...t, isOpened: t.id.toLowerCase() == id.toLowerCase() };
-            }))
-            setHistoryChanges({
-                currentStateNumber: -1,
-                changesInProject: []
-            });
+        if (id) {
+            let handler = setTimeout(() => {
+                const defineProject = taskClass.find(t => t.id.toLowerCase() == id?.toLowerCase());
+                if (defineProject == null) {
+                    navigation("/activities");
+                }
 
-            return () => {
+                setTaskClass(prev => prev.map((t) => {
+                    return { ...t, isOpened: t.id.toLowerCase() == id.toLowerCase() };
+                }))
+                setHistoryChanges({
+                    currentStateNumber: -1,
+                    changesInProject: []
+                });
+
                 setAllowChanges(true);
-            }
+            }, 250);
+
+            return () => clearTimeout(handler)
         }
     }, [id])
 
@@ -39,6 +41,7 @@ function ActivitiesTools() {
             }
         }
     }, [selectedTaskClass])
+
 
     return (
         <>

@@ -64,7 +64,11 @@ export default function TaskGroup(props: TaskGroupProps) {
         : `${s.taskGroup} ${s.darkTaskGroup}`
     }>
       <label htmlFor='showTask' className={s.top}>
-        <h2 className={s.groupName}> <input type="checkbox" id="showTask" className={s.hide} onChange={(e) => setHideTasks(e.target.checked)} /> {group.groupName}</h2>
+        <h2 className={s.groupName}>
+          <i className={hideTasks ? "fas fa-angle-down" : "fas fa-angle-up"}></i>
+          <input type="checkbox" id="showTask" className={s.hide} onChange={(e) => setHideTasks(e.target.checked)} />
+          {group.groupName}
+        </h2>
         <Button
           className={s.actionButton}
           clickListener={() => {
