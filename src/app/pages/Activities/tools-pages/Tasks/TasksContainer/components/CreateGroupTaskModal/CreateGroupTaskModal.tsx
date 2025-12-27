@@ -22,7 +22,7 @@ export default function GroupTaskModal(props: GTMProps): JSX.Element {
     return (
         <div className={groupTaskClass}>
             <div className={s.modalBox}>
-                <Top {...values} />
+                <Top {...{...props, ...values}} />
                 <Form {...{ ...props, ...values }} />
                 <Bottom {...{...props, ...values}} />
             </div>

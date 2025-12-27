@@ -47,7 +47,7 @@ declare global {
         showGTM: boolean, setShowGTM: Dispatch<SetStateAction<boolean>>,
         pseudoTasks: PseudoTasks, setPseudoTasks: Dispatch<SetStateAction<PseudoTasks>>
         pseudoGroup: PseudoGroup, setPseudoGroup: Dispatch<SetStateAction<PseudoGroup>>
-    }
+    } & TaskContainerValues
 
     type GTMTopProps = TaskContainerValues & GTMProps & GTMValues
 

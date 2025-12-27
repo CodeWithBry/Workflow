@@ -73,11 +73,14 @@ export default function Form(props: GTMFormProps): JSX.Element {
                     <div className={s.tasks}>
                         <h2>Tasks</h2>
                         {pseudoTasks?.map(task => {
-                            const taskProps = {
-                                task,
-                                isRealTask: false,
+                            if (pseudoGroup) {
+                                const taskProps = {
+                                    task,
+                                    isRealTask: false,
+                                    group: pseudoGroup
+                                }
+                                return <Task {...{ ...taskProps, ...props }} />
                             }
-                            return <Task {...{ ...taskProps, ...props }} />
                         })}
                     </div>
                 </div>}

@@ -23,8 +23,6 @@ function AppProvider() {
     const [darkMode, setDarkMode] = useState<boolean>(false);
     const [showToolBar, setShowToolBar] = useState<boolean>(false);
     const [allowChanges, setAllowChanges] = useState<boolean>(false);
-    const [showSaveButton, setShowSaveButton] = useState<boolean>(false);
-    const [numOfChangeInHistory, setNumOfChangeInHistory] = useState<number>(-1);
 
     // STRINGS
     const [subPath, setSubPath] = useState<string>("");
@@ -62,10 +60,8 @@ function AppProvider() {
         darkMode, setDarkMode,
         showToolBar, setShowToolBar,
         allowChanges, setAllowChanges,
-        showSaveButton, setShowSaveButton,
         // STRINGS
         // NUMBERICAL VALUES
-        numOfChangeInHistory, setNumOfChangeInHistory,
 
         subPath, setSubPath,
         // OBJECTS AND ARRAYS

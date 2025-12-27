@@ -8,7 +8,7 @@ export type AddTask = {
 
     setTaskClass?: Dispatch<SetStateAction<TaskClass[]>>
     taskClassId?: string,
-    setAllowChanges: Dispatch<SetStateAction<boolean>>
+    setAllowChanges?: Dispatch<SetStateAction<boolean>>
 }
 
 export function addTask({
@@ -30,7 +30,7 @@ export function addTask({
         isSelected: "false",
         groupId: groupId
     }
-    if (setTaskClass) {
+    if (setTaskClass && setAllowChanges) {
         setAllowChanges(true)
         return setTaskClass(prev => prev.map(taskClass => {
             if (taskClass.id == taskClassId) {

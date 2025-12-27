@@ -125,11 +125,9 @@ declare global {
         darkMode: boolean, setDarkMode: Dispatch<SetStateAction<boolean>>,
         showToolBar: boolean, setShowToolBar: Dispatch<SetStateAction<boolean>>,
         allowChanges: boolean, setAllowChanges: Dispatch<SetStateAction<boolean>>,
-        showSaveButton: boolean, setShowSaveButton: Dispatch<SetStateAction<boolean>>,
         // STRINGS
         subPath: string, setSubPath: Dispatch<SetStateAction<string>>,
         // NUMERICAL VALUES
-        numOfChangeInHistory: number, setNumOfChangeInHistory: Dispatch<SetStateAction<number>>,
         // OBJECTS AND ARRAYS
         pages: Pages[], setPages: Dispatch<SetStateAction<Pages[]>>,
         toolsPages: ToolsPages[], setToolsPages: Dispatch<SetStateAction<ToolsPages[]>>,
