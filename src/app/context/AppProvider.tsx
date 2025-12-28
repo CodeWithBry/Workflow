@@ -82,7 +82,8 @@ function AppProvider() {
         if (getData && taskClass) {
             const notBelongToTaskClass = getData?.filter(t => !taskClass.some(ta => t.id == ta.id))
             if (notBelongToTaskClass) {
-                return () => setTaskClass(prev => [...prev, ...notBelongToTaskClass])
+                const mergeWithTaskClass = [...taskClass, ...notBelongToTaskClass]
+                setTaskClass([...mergeWithTaskClass])
             } else setTaskClass(prev => prev.map((taskClass, index) => {
                 if (getData[index]?.id == taskClass.id) {
                     return { ...getData[index] }
