@@ -79,7 +79,7 @@ function AppProvider() {
 
     useEffect(() => {
         const getData: GetDataFromLocalStorage = locStor.getDataFromLocalStorage();
-        if (getData) {
+        if (getData && taskClass) {
             const notBelongToTaskClass = getData?.filter(t => !taskClass.some(ta => t.id == ta.id))
             if (notBelongToTaskClass) {
                 return () => setTaskClass(prev => [...prev, ...notBelongToTaskClass])
