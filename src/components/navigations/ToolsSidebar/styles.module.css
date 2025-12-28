@@ -369,6 +369,15 @@
         display: flex;
         justify-content: center;
     }
+.collapseSideBar .bottom .userBox .contents .userName {
+    font-size: var(--p-smaller);
+}
+
+.collapseSideBar .bottom .userBox .userIcon {
+    width: 30px;
+    height: 30px;
+    scale: .8;
+}
 }
 
 /* @media (max-width: 500px) {

@@ -26,6 +26,34 @@ declare global {
         setShowTools: Dispatch<SetStateAction<boolean>>,
         actionLists: ActionsLists[],
     }
+
+    type QuickActionsProps = { showModal: boolean, setShowModal: Dispatch<SetStateAction<boolean>> }
+
+    type ActionCardProps = {
+        title: string,
+        subtitle: string,
+        icon: string,
+        path?: string,
+        setShowModal?: Dispatch<SetStateAction<boolean>>,
+        showModal: boolean
+    }
+
+    type ProjectCardProps = {
+        projectName: string,
+        id: string,
+        icon: string
+    }
+
+    // MODAL 
+    type CPMProps = {
+        showModal: boolean, setShowModal: Dispatch<SetStateAction<boolean>>
+    }
+
+    type CPMValues = {
+        projectName: string, setProjectName: Dispatch<SetStateAction<string>>
+    }
+    type CPMFormProps = CPMProps & CPMValues
+    type CPMBottomProps = CPMProps & CPMValues
 }
 
 // CUSTOM HOOKS 
@@ -38,7 +66,7 @@ declare global {
     }
 
     type SaveDataToLocalStorage = {
-        updatedTaskClass: SelectedTaskClass,
+        updatedTaskClass?: SelectedTaskClass,
         taskClass: TaskClass[]
         taskType: "projects" | "normal-tasks"
     }
@@ -72,10 +100,10 @@ declare global {
         name: string,
         taskType: "projects" | "normal-tasks"
         id: string,
-        dateCreated?: Date,
         isOpened: boolean,
         icon: string,
         taskGroups: TaskGroup[],
+        status?: "finished" | "pending"
     };
 
     type SelectedTaskClass = TaskClass | null;
@@ -84,7 +112,7 @@ declare global {
     type TaskGroup = {
         groupName: string,
         groupId: string,
-        tasks: Task[] 
+        tasks: Task[]
     };
 
     type SelectedGroup = TaskGroup | null;
@@ -107,7 +135,8 @@ declare global {
         isOpened: boolean,
         icon: string,
         taskGroups: TaskGroup[],
-        isSaved?: boolean
+        isSaved?: boolean,
+        status?: "finished" | "pending"
     }
 
     type HistoryChanges = {
@@ -120,7 +149,7 @@ declare global {
 declare global {
     type Context = {
         // NAVIGATION
-        navigation: NavigateFunction, locStor: UseLocaleStorage 
+        navigation: NavigateFunction, locStor: UseLocaleStorage
         // BOOLEANS
         darkMode: boolean, setDarkMode: Dispatch<SetStateAction<boolean>>,
         showToolBar: boolean, setShowToolBar: Dispatch<SetStateAction<boolean>>,
@@ -137,4 +166,4 @@ declare global {
     }
 }
 
-export {  };
+export { };

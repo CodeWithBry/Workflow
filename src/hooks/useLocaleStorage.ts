@@ -1,5 +1,3 @@
-
-
 export function useLocaleStorage(): UseLocaleStorage {
     function saveDataToLocalStorage({ updatedTaskClass, taskType, taskClass }: SaveDataToLocalStorage) {
         const getStorage = localStorage.getItem(taskType);

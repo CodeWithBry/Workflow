@@ -5,7 +5,7 @@ import MainRoutes from "../routes/MainRoutes";
 // import Tasks from "../pages/Tools/tools-pages/Tasks/Tasks";
 import Analytics from "../pages/Activities/tools-pages/Analytics/Analytics";
 import AIAssintant from "../pages/Activities/tools-pages/AIAssistant/AIAssistant";
-import ActivitiesLanding from "../pages/Activities/ActivitiesLanding";
+import ActivitiesLanding from "../pages/Activities/ActivitiesLanding/ActivitiesLanding";
 import Home from "../pages/Home/Home";
 import Docs from "../pages/Docs/Docs";
 import { useNavigate, type NavigateFunction } from "react-router-dom";
@@ -45,8 +45,9 @@ function AppProvider() {
     });
     const [taskClass, setTaskClass] = useState<TaskClass[]>([
         // NORMAL TASKS
-        { name: "Everyday Tasks", id: "everyday-task", icon: "fas far fa-list-alt", taskType: "normal-tasks", isOpened: false, taskGroups: [] },
-        { name: "Daily Routine", id: "daily-routine", icon: "fas fa-calendar-alt", taskType: "normal-tasks", isOpened: false, taskGroups: [] }
+        { name: "Everyday Tasks", id: "everyday-task", icon: "fas far fa-list-alt", taskType: "normal-tasks", isOpened: false, taskGroups: [], status: "pending" },
+        { name: "Daily Routine", id: "daily-routine", icon: "fas fa-calendar-alt", taskType: "normal-tasks", isOpened: false, taskGroups: [], status: "pending" },
+        { name: "Occasional", id: "occasional", icon: "	fas fa-calendar-day", taskType: "normal-tasks", isOpened: false, taskGroups: [], status: "pending" },
         // ALL OF THE ADDED TASK CLASS WILL BE CLASSIFIED AS A PROJECTS
     ]);
     const selectedTaskClass: SelectedTaskClass = useMemo(() => {
@@ -78,7 +79,17 @@ function AppProvider() {
 
     useEffect(() => {
         const getData: GetDataFromLocalStorage = locStor.getDataFromLocalStorage();
-        if (getData) setTaskClass([...getData]);
+        if (getData) {
+            const notBelongToTaskClass = getData?.filter(t => !taskClass.some(ta => t.id == ta.id))
+            if (notBelongToTaskClass) {
+                return () => setTaskClass(prev => [...prev, ...notBelongToTaskClass])
+            } else setTaskClass(prev => prev.map((taskClass, index) => {
+                if (getData[index]?.id == taskClass.id) {
+                    return { ...getData[index] }
+                }
+                return taskClass
+            }))
+        }
     }, [])
 
     return (

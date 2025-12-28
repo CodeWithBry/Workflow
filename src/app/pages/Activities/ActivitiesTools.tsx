@@ -36,7 +36,7 @@ function ActivitiesTools() {
             if(allowChanges) {
                 setHistoryChanges(prev => ({
                     currentStateNumber: prev.changesInProject.length - 1 == prev.currentStateNumber ? prev.currentStateNumber + 1 : prev.currentStateNumber,
-                    changesInProject: [...prev.changesInProject, {...selectedTaskClass, isSaved: false}]
+                    changesInProject: [...prev.changesInProject, { ...selectedTaskClass, isSaved: false }]
                 }))
             }
         }
