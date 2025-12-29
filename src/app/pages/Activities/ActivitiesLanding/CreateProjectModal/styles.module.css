@@ -8,7 +8,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .hideModal {
@@ -27,39 +27,38 @@
 
 /* TOP */
 
-.modalBox > .top {
+.modalBox>.top {
     display: flex;
     flex-direction: column;
     width: 100%;
     border-bottom: 2px solid var(--l-light);
 }
 
-.modalBox > .top>h2 {
+.modalBox>.top>h2 {
     margin-left: 1.5rem;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
-    color: black;
     font-family: var(--font-title);
 }
 
-.modalBox > .top .pageIndication {
+.modalBox>.top .pageIndication {
     display: flex;
     align-items: center;
     margin-bottom: 1.5rem;
 }
 
-.modalBox > .top .pageIndication .indication {
+.modalBox>.top .pageIndication .indication {
     display: flex;
     align-items: center;
     gap: var(--gap-xs);
     opacity: .5;
 }
 
-.modalBox > .top .pageIndication .indication:nth-child(1) {
+.modalBox>.top .pageIndication .indication:nth-child(1) {
     margin-left: 1.5rem;
 }
 
-.modalBox > .top .pageIndication .indication .number {
+.modalBox>.top .pageIndication .indication .number {
     display: grid;
     place-items: center;
     width: 17.5px;
@@ -72,14 +71,13 @@
     border-radius: 50%;
 }
 
-.modalBox > .top .pageIndication .indication .description {
-    color: black;
+.modalBox>.top .pageIndication .indication .description {
     font-size: var(--p-smaller);
     font-family: var(--font-title);
-    font-weight: 600 ;
+    font-weight: 600;
 }
 
-.modalBox > .top .pageIndication .line {
+.modalBox>.top .pageIndication .line {
     width: 50px;
     height: 2px;
     margin: 0 .5rem;
@@ -88,11 +86,11 @@
 
 /* ACTIVE */
 
-.modalBox > .top .pageIndication .activeIndication {
+.modalBox>.top .pageIndication .activeIndication {
     opacity: 1;
 }
 
-.modalBox > .top .pageIndication .activeIndication .number {
+.modalBox>.top .pageIndication .activeIndication .number {
     background-color: var(--secondary-color);
 }
 
@@ -112,11 +110,11 @@
     gap: var(--gap-xs);
 }
 
-.modalBox .form .top > h2 {
+.modalBox .form .top>h2 {
     font-size: var(--p-small);
 }
 
-.modalBox .form .top > p {
+.modalBox .form .top>p {
     color: var(--l-mid);
     font-size: var(--p-small);
 }
@@ -127,12 +125,12 @@
     gap: var(--gap-xs);
 }
 
-.modalBox .form .bottom > h2,
-.modalBox .form .tasks > h2 {
+.modalBox .form .bottom>h2,
+.modalBox .form .tasks>h2 {
     font-size: var(--p-small);
 }
 
-.modalBox .form .bottom > input {
+.modalBox .form .bottom>input {
     width: calc(100% - 2rem);
     border: 1px solid var(--l-light);
     border-radius: .5rem;
@@ -141,7 +139,7 @@
     font-size: calc(var(--p-small) - 2px);
 }
 
-.modalBox .form .bottom .wrapper > input {
+.modalBox .form .bottom .wrapper>input {
     width: 100%;
     border: 1px solid var(--l-light);
     border-radius: .5rem;
@@ -180,11 +178,11 @@
 
 .modalBox .formForTask .bottom .wrapper .dontAllow {
     opacity: .5;
-} 
+}
 
 /* BOTTOM */
 
-.modalBox > .bottom {
+.modalBox>.bottom {
     width: 100%;
     height: fit-content;
     border-top: 2px solid var(--l-light);
@@ -193,7 +191,7 @@
     padding: 1rem 0;
 }
 
-.modalBox > .bottom .actionButton {
+.modalBox>.bottom .actionButton {
     font-family: var(--font-title);
     font-size: var(--p-small);
     font-weight: 700;
@@ -203,21 +201,37 @@
     border-radius: .5rem;
 }
 
-.modalBox > .bottom .actionButton:nth-child(2) {
+.modalBox>.bottom .actionButton:nth-child(2) {
     opacity: .5;
     background-color: var(--secondary-color);
     color: white;
     margin-right: 1rem;
 }
 
-.modalBox > .bottom .active:nth-child(2) {
+.modalBox>.bottom .active:nth-child(2) {
     opacity: 1;
 }
 
-.modalBox > .bottom .active:nth-child(2):hover {
+.modalBox>.bottom .active:nth-child(2):hover {
     opacity: .7;
 }
 
+/* DARK MODE */
+
+.modalBox.dark {
+    background-color: var(--d-bg-light);
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.513);
+    color: white;
+}
+
+.modalBox.dark .form .bottom>input {
+    color: white;
+    background-color: transparent;
+}
+
+.modalBox.dark>.bottom .actionButton:nth-child(1) {
+    color: white;
+}
 @media(max-height: 600px) {
     .modalBox {
         max-height: 0;

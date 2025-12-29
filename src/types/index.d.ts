@@ -154,6 +154,7 @@ declare global {
         darkMode: boolean, setDarkMode: Dispatch<SetStateAction<boolean>>,
         showToolBar: boolean, setShowToolBar: Dispatch<SetStateAction<boolean>>,
         allowChanges: boolean, setAllowChanges: Dispatch<SetStateAction<boolean>>,
+        isDataLoaded: boolean, setIsDataLoaded: Dispatch<SetStateAction<boolean>>,
         // STRINGS
         subPath: string, setSubPath: Dispatch<SetStateAction<string>>,
         // NUMERICAL VALUES

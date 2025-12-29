@@ -18,7 +18,7 @@ export function addProject({setTaskClass, projectName, locStor}: AddProject) {
     };
 
     setTaskClass(prev => {
-        locStor.saveDataToLocalStorage({ taskClass: [...prev, newProject], taskType: "projects" });
+        locStor.saveDataToLocalStorage({ taskClass: [...prev, newProject], taskType: "projects", updatedTaskClass: newProject });
         return [...prev, newProject]
     })
 }

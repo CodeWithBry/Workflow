@@ -1,12 +1,14 @@
-import { type JSX } from "react"
+import { useContext, type JSX } from "react"
 import s from "./styles.module.css"
+import { context } from "../../../../context/AppContext";
 
 export default function Form(props: CPMBottomProps): JSX.Element {
     const { projectName, setProjectName }: CPMBottomProps = props;
+    const { darkMode } = useContext(context) as Context;
 
     return (
         <>
-            <div className={`${s.form} ${s.formForGroup}`}>
+            <div className={`${s.form} ${s.formForGroup}${darkMode && s.dark}`}>
                 <div className={s.top}>
                     <h2>Project Name</h2>
                     <p> &gt; {projectName}</p>

@@ -12,7 +12,7 @@ function Navbar() {
         <img src="./web-icon.png" className={s.webIcon} />
         <h2>Workflow</h2>
       </div>
-      <div className={dropDown ? s.right : `${s.right} ${s.dropDown}`}>
+      <div className={!dropDown ? s.right : `${s.right} ${s.dropDown}`}>
         <div className={s.colorTheme}>
           <Button
             className={`${s.themeButton} ${!darkMode && s.focused}`}

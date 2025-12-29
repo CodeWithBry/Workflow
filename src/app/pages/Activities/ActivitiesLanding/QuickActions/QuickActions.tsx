@@ -1,7 +1,10 @@
+import { useContext } from 'react'
 import ActionCard from './ActionCard'
 import s from './styles.module.css'
+import { context } from '../../../../context/AppContext'
 
 function QuickActions(props: QuickActionsProps) {
+  const { darkMode } = useContext(context) as Context;
   const actions = [
     { icon: "	fas fa-plus", title: "Create New Project", subtitle: "Get it done with AI Assistant" },
     { icon: "	fas far fa-list-alt", title: "Everyday Tasks", subtitle: "Monitor your task each day", path: "/activities/everyday-task/tasks" },
@@ -10,7 +13,7 @@ function QuickActions(props: QuickActionsProps) {
   ]
 
   return (
-    <div className={s.quickActions}>
+    <div className={!darkMode ? s.quickActions : `${s.quickActions} ${s.dark}`}>
       <p>Quick Actions</p>
       <div className={s.container}>
         {actions.map((act) => {

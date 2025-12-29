@@ -19,7 +19,7 @@
     width: 100%;
     border: none;
     outline: none;
-    text-indent: 1rem;
+    margin-left: 1rem;
     font-family: var(--font-title);
 }
 
@@ -72,4 +72,9 @@
 .projects .container .projectCard .right>span {
     color: var(--l-mid);
     font-size: var(--p-smaller);
+}
+/* Dark Mode */
+.projects.dark .searchWrapper>input {
+    background-color: transparent;
+    color: white;
 }

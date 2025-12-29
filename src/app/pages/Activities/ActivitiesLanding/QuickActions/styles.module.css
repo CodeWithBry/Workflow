@@ -60,3 +60,13 @@
     color: var(--l-mid);
     font-size: var(--p-smaller);
 }
+/* Dark Mode */
+
+.quickActions.dark .container .actionCard {
+    background-color: transparent;
+    border: 1px solid #B3B3B3;
+}
+
+.quickActions.dark .container .actionCard .right>h2 {
+    color: white;
+}

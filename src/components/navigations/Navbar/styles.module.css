@@ -92,6 +92,20 @@
     display: none;
 }
 
+/* DARK MODE */
+
+.navBar.dark {
+    background-color: var(--d-bg-light);
+}
+
+.navBar.dark .left>h2 {
+    color: white;
+}
+
+.navBar.navBar.dark .right .colorTheme .themeButton:nth-child(1) {
+    color: white;
+}
+
 @media (max-width: 700px) {
     .navBar .hamburger {
         display: flex;
@@ -117,5 +131,15 @@
         box-shadow: 0 0 10px -5px rgba(0, 0, 0, 0.378);
         border-radius: 1rem;
         padding: var(--pad-y-m) var(--pad-x-s);
+    }
+
+    .navBar.dark .hamburger {
+        color: white;
+        background-color: transparent;
+    }
+
+    .navBar.dark .right.dropDown {
+        background-color: var(--l-mid);
+        box-shadow: 0 0 10px -5px rgba(0, 0, 0, 0.378);
     }
 }

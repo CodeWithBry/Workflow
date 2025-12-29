@@ -19,7 +19,7 @@ export default function CreateProjectModal(props: CPMProps): JSX.Element {
 
     return (
         <div className={projectClass}>
-            <div className={s.modalBox}>
+            <div className={`${s.modalBox} ${darkMode && s.dark}`}>
                 <Top />
                 <Form {...{ ...props, ...values }} />
                 <Bottom {...{...props, ...values}} />

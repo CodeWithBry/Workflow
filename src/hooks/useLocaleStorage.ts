@@ -5,26 +5,25 @@ export function useLocaleStorage(): UseLocaleStorage {
         if (getStorage && updatedTaskClass) {
             const convertData: TaskClass[] = JSON.parse(getStorage);
             const notBelongToTaskClass = taskClass?.filter(t => {
-                if (t.taskType == "normal-tasks") return !convertData.some(ta => t.id == ta.id)
+                if (t.taskType == taskType) return !convertData.some(ta => t.id == ta.id)
             })
 
-            if (notBelongToTaskClass) {
-                const updatedTaskClass = [...convertData, ...notBelongToTaskClass];
-                return localStorage.setItem(taskType, JSON.stringify(updatedTaskClass));
+            if (notBelongToTaskClass.length != 0) {
+                const updatedArray = [...convertData, ...notBelongToTaskClass];
+                console.log(updatedArray)
+                return localStorage.setItem(taskType, JSON.stringify(updatedArray));
             } else {
+                console.log(updatedTaskClass)
                 const setUpdatedProject: TaskClass[] = convertData.map(t => {
                     if (t.id == updatedTaskClass.id) {
                         return { ...updatedTaskClass }
                     }
                     return t
                 }).filter(t => t.taskType == taskType);
-                console.log(setUpdatedProject)
                 localStorage.setItem(taskType, JSON.stringify(setUpdatedProject));
             }
-
-
         } else {
-            const getSpecificTaskClass = taskClass.filter(t => t.taskType == taskType)
+            const getSpecificTaskClass = taskClass.filter(t => t.taskType == taskType);
             localStorage.setItem(taskType, JSON.stringify(getSpecificTaskClass));
         }
     }

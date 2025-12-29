@@ -23,6 +23,7 @@ function AppProvider() {
     const [darkMode, setDarkMode] = useState<boolean>(false);
     const [showToolBar, setShowToolBar] = useState<boolean>(false);
     const [allowChanges, setAllowChanges] = useState<boolean>(false);
+    const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
 
     // STRINGS
     const [subPath, setSubPath] = useState<string>("");
@@ -61,6 +62,7 @@ function AppProvider() {
         darkMode, setDarkMode,
         showToolBar, setShowToolBar,
         allowChanges, setAllowChanges,
+        isDataLoaded, setIsDataLoaded,
         // STRINGS
         // NUMBERICAL VALUES
 
@@ -96,6 +98,8 @@ function AppProvider() {
                 }
                 return taskClass
             }))
+
+            setIsDataLoaded(false);
         }
     }, [])
 
