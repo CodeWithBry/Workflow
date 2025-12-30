@@ -27,7 +27,7 @@ function ActivitiesTools() {
         }
 
         if (isAlreadyOpen) {
-            return setAllowChanges(false); // It skips the unnecessary update of task class if the project is already open. 
+            return; // It skips the unnecessary update of task class if the project is already open. 
         }
 
         setTaskClass(prev =>
