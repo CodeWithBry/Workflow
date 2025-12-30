@@ -19,7 +19,7 @@
 
   --font-title: "Kulim Park", sans-serif;
 
-  --p-smaller: clamp(.4rem, 2.5vw, .7rem);
+  --p-smaller: clamp(.4rem, 2.5vw, .6rem);
   --p-small: clamp(.75rem, 2.5vw, .9rem);
   --p-medium: clamp(.8rem, 2.5vw, 1.25rem);
   --p-large: clamp(1.25rem, 2.5vw, 1.75rem);

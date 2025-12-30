@@ -3,6 +3,7 @@ import { Outlet, useParams } from "react-router-dom"
 import { context } from "../../context/AppContext";
 import ToolsSidebar from "../../../components/navigations/ToolsSidebar/ToolsSidebar";
 import s from "./styles.module.css"
+import AIAssintant from "./tools-pages/AIAssistant/AIAssistant";
 
 function ActivitiesTools() {
     const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded } = useContext(context) as Context;
@@ -62,6 +63,7 @@ function ActivitiesTools() {
             <div className={s.activitiesContainer}>
                 <ToolsSidebar />
                 <Outlet />
+                <AIAssintant />
             </div>
         </>
     )

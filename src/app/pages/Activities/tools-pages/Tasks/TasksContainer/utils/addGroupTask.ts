@@ -11,7 +11,7 @@ export type AddGroupTask = {
     setAllowChanges: Dispatch<SetStateAction<boolean>>
 }
 
-export function addGroupTask({ pseudoGroup, pseudoTasks, setPseudoGroup, groupName, taskClassId, taskClass, setTaskClass }: AddGroupTask) {
+export function addGroupTask({ pseudoGroup, pseudoTasks, setPseudoGroup, groupName, taskClassId, taskClass, setTaskClass, setAllowChanges }: AddGroupTask) {
     const groupTask: PseudoGroup = {
         groupId: crypto.randomUUID(),
         groupName,
@@ -19,6 +19,7 @@ export function addGroupTask({ pseudoGroup, pseudoTasks, setPseudoGroup, groupNa
     }
     const findTaskClass: TaskClass | undefined = taskClass?.find(t => t.id == taskClassId);
     if (pseudoGroup) {
+        setAllowChanges(true)
         const psuedoGroupWithTask: PseudoGroup = {
             ...pseudoGroup,
             tasks: pseudoTasks ? [...pseudoTasks] : []
