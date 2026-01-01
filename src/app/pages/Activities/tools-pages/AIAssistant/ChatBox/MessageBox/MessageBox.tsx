@@ -5,11 +5,11 @@ import Suggestion from './Suggestion';
 import Convo from './Convo';
 
 function MessageBox(props: ChatBotValues) {
-    const { userInput } = props as ChatBotValues;
+    const { userInput, selectedConvo } = props as ChatBotValues;
     const { darkMode } = useContext(context) as Context;
     const messageBoxStyles = !darkMode ? s.messageBox : `${s.messageBox} ${s.dark}`
 
-    if (userInput.length == 0) {
+    if (userInput.length == 0 && selectedConvo == null) {
         return (
             <div className={messageBoxStyles}>
                 <Suggestion />

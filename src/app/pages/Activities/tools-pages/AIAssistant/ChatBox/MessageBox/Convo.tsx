@@ -19,7 +19,9 @@ function Convo(props: ConvoProps) {
         <div className={convoClassName}>
             <div className={s.heading}>
                 <h2>
-                    <span>Auto-Increment Generation Function</span>
+                    <span className={s.titleWrapper}>s
+                        <span>Auto-Increment Generation Function</span>
+                    </span>
                     <Button
                         iconElement={<i className="fa fa-bars"></i>}
                         className={s.hamburger}
@@ -28,89 +30,88 @@ function Convo(props: ConvoProps) {
             </div>
 
             <div className={s.convoContainer}>
-                {selectedConvo?.messagesUi?.map((res, i) => {
-                    const message = sanitizeBackticks(res.message, 12); // tweak threshold if needed
+                <div className={s.container}>
+                    {selectedConvo?.messagesUi?.map((res, i) => {
+                        const message = sanitizeBackticks(res.message, 12); // tweak threshold if needed
+                        return (
+                            <motion.li
+                                key={i}
+                                className={res.role === "user" ? s.user : s.model}
+                                initial={{ opacity: 0, y: 8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.22 }}
+                            >
+                                <div className={`${s.wrapper} ${res.role === "user" ? s.userBox : s.modelBox}`} >
+                                    <ReactMarkdown
+                                        remarkPlugins={[remarkGfm]}
+                                        components={{
+                                            code({ node, children }) {
+                                                const className = node?.properties?.className;
 
-                    return (
-                        <motion.li
-                            key={i}
-                            className={res.role === "user" ? s.user : s.bryan}
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.22 }}
-                        >
-                            <div className={`${s.messageBox} ${res.role === "user" ? s.userBox : s.bryanBox}`} >
-                                <ReactMarkdown
-                                    remarkPlugins={[remarkGfm]}
-                                    components={{
-                                        code({ node, children }) {
-                                            const className = node?.properties?.className;
+                                                const classes: string[] = Array.isArray(className)
+                                                    ? className.filter((c): c is string => typeof c === "string")
+                                                    : typeof className === "string"
+                                                        ? className.split(/\s+/)
+                                                        : [];
 
-                                            const classes: string[] = Array.isArray(className)
-                                                ? className.filter((c): c is string => typeof c === "string")
-                                                : typeof className === "string"
-                                                    ? className.split(/\s+/)
-                                                    : [];
-
-                                            const languageClass = classes.find((c) =>
-                                                c.startsWith("language-")
-                                            );
-
-                                            const lang = languageClass?.replace("language-", "");
-
-                                            // Block code (fenced)
-                                            if (lang) {
-                                                return (
-                                                    <SyntaxHighlighter
-                                                        style={oneDark}
-                                                        language={lang}
-                                                        PreTag="div"
-                                                        wrapLongLines
-                                                        customStyle={{
-                                                            borderRadius: "0.7rem",
-                                                            margin: "0.5rem 0",
-                                                            fontSize: "0.9rem",
-                                                            padding: "0.65rem 0.9rem",
-                                                        }}
-                                                    >
-                                                        {String(children).replace(/\n$/, "")}
-                                                    </SyntaxHighlighter>
+                                                const languageClass = classes.find((c) =>
+                                                    c.startsWith("language-")
                                                 );
-                                            }
 
-                                            // Inline code
-                                            return (
-                                                <code className={s.inlineCode} aria-label="inline-code">
-                                                    {children}
-                                                </code>
-                                            );
-                                        },
+                                                const lang = languageClass?.replace("language-", "");
 
-                                        p({ children }) {
-                                            return <p className={s.paragraph}>{children}</p>;
-                                        },
+                                                // Block code (fenced)
+                                                if (lang) {
+                                                    return (
+                                                        <SyntaxHighlighter
+                                                            style={oneDark}
+                                                            language={lang}
+                                                            PreTag="div"
+                                                            wrapLongLines
+                                                            customStyle={{
+                                                                borderRadius: "0.7rem",
+                                                                fontSize: "0.9rem",
+                                                            }}
+                                                        >
+                                                            {String(children).replace(/\n$/, "")}
+                                                        </SyntaxHighlighter>
+                                                    );
+                                                }
 
-                                        a({ href, children }) {
-                                            return (
-                                                <a
-                                                    href={href}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className={s.link}
-                                                >
-                                                    {children}
-                                                </a>
-                                            );
-                                        },
-                                    }}
-                                >
-                                    {message}
-                                </ReactMarkdown>
+                                                // Inline code
+                                                return (
+                                                    <code className={s.inlineCode} aria-label="inline-code">
+                                                        {children}
+                                                    </code>
+                                                );
+                                            },
 
-                            </div>
-                        </motion.li>
-                    );
-                })}
+                                            p({ children }) {
+                                                return <p className={s.paragraph}>{children}</p>;
+                                            },
+
+                                            a({ href, children }) {
+                                                return (
+                                                    <a
+                                                        href={href}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={s.link}
+                                                    >
+                                                        {children}
+                                                    </a>
+                                                );
+                                            },
+                                        }}
+                                    >
+                                        {message}
+                                    </ReactMarkdown>
+
+                                </div>
+                            </motion.li>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     )
