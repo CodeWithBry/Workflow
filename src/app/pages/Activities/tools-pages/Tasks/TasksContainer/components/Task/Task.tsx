@@ -8,7 +8,7 @@ import { updateTask } from "../../utils/updateTask"
 
 function Task(props: TaskProps) {
     const { task, isRealTask, setPseudoTasks, group, setPropsForCEM, setCreateAndEditModal }: TaskProps = props;
-    const { darkMode, setTaskClass, selectedTaskClass, setAllowChanges} = useContext(context) as Context;
+    const { darkMode, setTaskClass, selectedTaskClass, setAllowChanges, setShowAssistant } = useContext(context) as Context;
 
     const [showStatus, setShowStatus] = useState<boolean>(false);
     const [showActions, setShowActions] = useState<boolean>(false);
@@ -93,7 +93,7 @@ function Task(props: TaskProps) {
                 </div>
                 {isRealTask && <Button
                     className={s.actionButton}
-                    clickListener={() => { }}
+                    clickListener={() => { setShowAssistant(true) }}
                     iconElement={<i className="fas fa-hand-sparkles" />} />}
                 {
                     isRealTask

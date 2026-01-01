@@ -8,22 +8,22 @@ import ChatBox from "./ChatBox/ChatBox";
 // IF the user is in /ai-assistant tab then the AI-Assistant in the sidebar will gone.
 
 function AIAssintant(): JSX.Element {
-    const { darkMode } = useContext(context) as Context;
-    const assistantClass = !darkMode ? s.assistant : `${s.assistant} ${s.dark}`
+    const { showAssistant, setShowAssistant, darkMode, getUrl } = useContext(context) as Context;
+    const assistantClass = !darkMode ? `${s.aiAssistant} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide}` : `${s.aiAssistant} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide} ${s.dark}`
 
     return (
         <div className={assistantClass}>
-            <div className={s.top}>
+            {getUrl[3] == "tasks" && <div className={s.top}>
                 <h1 className={s.title}>
                     <span>AI Assistant</span>
                     <img src="./Ai-Assistant/sparkle-yellow.png" alt="yellow-spark" />
                     <Button
                         className={s.close}
                         iconElement={<i className="fas fa-close"></i>}
-                        clickListener={() => { }} />
+                        clickListener={() => { setShowAssistant(false) }} />
                 </h1>
                 <p>Knowledge, answers and ideas. One click away.</p>
-            </div>
+            </div>}
             <ChatBox />
         </div >
     )

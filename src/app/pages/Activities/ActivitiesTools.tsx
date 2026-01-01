@@ -6,7 +6,7 @@ import s from "./styles.module.css"
 import AIAssintant from "./tools-pages/AIAssistant/AIAssistant";
 
 function ActivitiesTools() {
-    const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded } = useContext(context) as Context;
+    const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded, getUrl } = useContext(context) as Context;
     const { id } = useParams<{ id: string }>();
 
     // USEEFFECT RUNS AND CHECKS THE ID PARAMS IF IT MATCHES ONE OF THE PROJECTS IN THE TASKCLASS.
@@ -63,7 +63,7 @@ function ActivitiesTools() {
             <div className={s.activitiesContainer}>
                 <ToolsSidebar />
                 <Outlet />
-                <AIAssintant />
+                {getUrl[3] == 'tasks' && <AIAssintant />}
             </div>
         </>
     )

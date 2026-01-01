@@ -149,12 +149,13 @@ declare global {
 declare global {
     type Context = {
         // NAVIGATION
-        navigation: NavigateFunction, locStor: UseLocaleStorage
+        navigation: NavigateFunction, locStor: UseLocaleStorage, getUrl: string[]
         // BOOLEANS
         darkMode: boolean, setDarkMode: Dispatch<SetStateAction<boolean>>,
         showToolBar: boolean, setShowToolBar: Dispatch<SetStateAction<boolean>>,
         allowChanges: boolean, setAllowChanges: Dispatch<SetStateAction<boolean>>,
         isDataLoaded: boolean, setIsDataLoaded: Dispatch<SetStateAction<boolean>>,
+        showAssistant: boolean, setShowAssistant: Dispatch<SetStateAction<boolean>>,
         // STRINGS
         subPath: string, setSubPath: Dispatch<SetStateAction<string>>,
         // NUMERICAL VALUES

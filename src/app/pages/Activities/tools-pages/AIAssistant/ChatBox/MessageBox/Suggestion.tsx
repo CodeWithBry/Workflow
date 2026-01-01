@@ -8,12 +8,23 @@ function Suggestion() {
     const suggestionStyles = !darkMode ? s.suggestion : `${s.suggestion} ${s.dark}`
     return (
         <div className={suggestionStyles}>
-            <div className={s.greetings}>
-                <span>Hello, Bryan</span>
-                <h2>How can I help you?</h2>
+            <div className={s.heading}>
+                <h2>
+                    <span className={s.titleWrapper}>s
+                        <span>Auto-Increment Generation Function</span>
+                    </span>
+                    <Button
+                        iconElement={<i className="fa fa-bars"></i>}
+                        className={s.hamburger}
+                        clickListener={() => { }} />
+                </h2>
             </div>
 
             <div className={s.suggestionsContainer}>
+                <div className={s.greetings}>
+                    <span>Hello, Bryan</span>
+                    <h2>How can I help you?</h2>
+                </div>
                 <img src="./Ai-Assistant/sparkle-blue.png" alt="blue-sparkle" />
                 <Button
                     className={s.suggestionButton}

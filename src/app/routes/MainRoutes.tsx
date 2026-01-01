@@ -17,12 +17,20 @@ function MainRoutes() {
 
                 {/* TOOLS (LAYOUT ROUTE) */}
                 {taskClass.length != 0 && <Route path="activities/:id" element={<ActivitiesTools />}>
-                    {toolsPages.map((tab) => (
-                        <Route
-                            key={tab.tabPath}
-                            path={tab.tabPath}
-                            element={<tab.tabElement />}
-                        />))}
+                    {toolsPages.map((tab) => {
+                        return <>
+                            <Route
+                                key={tab.tabPath}
+                                path={tab.tabPath}
+                                element={<tab.tabElement />}
+                            />
+                            {tab.tabPath == "ai-assistant" && <Route
+                                key={tab.tabPath}
+                                path={`${tab.tabPath}/:convoId`}
+                                element={<tab.tabElement />}
+                            />}
+                        </>
+                    })}
                 </Route>}
             </Routes>
         </div>

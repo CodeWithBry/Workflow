@@ -24,6 +24,7 @@ function AppProvider() {
     const [showToolBar, setShowToolBar] = useState<boolean>(false);
     const [allowChanges, setAllowChanges] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
+    const [showAssistant, setShowAssistant] = useState<boolean>(false);
 
     // STRINGS
     const [subPath, setSubPath] = useState<string>("");
@@ -57,12 +58,13 @@ function AppProvider() {
 
     const contextValues: Context = {
         // CUSTOM HOOKS
-        navigation, locStor,
+        navigation, locStor, getUrl,
         // BOOLEANS
         darkMode, setDarkMode,
         showToolBar, setShowToolBar,
         allowChanges, setAllowChanges,
         isDataLoaded, setIsDataLoaded,
+        showAssistant, setShowAssistant,
         // STRINGS
         // NUMBERICAL VALUES
 
@@ -77,6 +79,7 @@ function AppProvider() {
 
     useEffect(() => {
         setToolsPages(prev => prev.map(page => ({ ...page, tabFocused: page.tabPath == getUrl[3] })));
+        setShowAssistant(false);
     }, [getUrl[3]])
 
     useEffect(() => {
