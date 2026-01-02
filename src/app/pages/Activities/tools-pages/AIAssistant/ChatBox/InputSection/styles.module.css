@@ -1,0 +1,62 @@
+.inputSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--pad-y-m);
+    animation: fade-in .5s ease-in forwards;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.inputSection>label {
+    width: calc(95% - (var(--pad-x-s) * 2));
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px -1px rgba(0, 0, 0, .5);
+    padding: calc(var(--pad-y-m)) var(--pad-x-m);
+    background-color: white;
+    border-radius: .5rem;
+}
+
+.inputSection>label .inputContainer {
+    width: 100%;
+    margin-right: .5rem;
+    border: none;
+    outline: none;
+    font-family: var(--font-title);
+    font-size: var(--p-small);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.inputSection>label .inputContainer.placeholder::before {
+    content: attr(data-placeholder);
+    color: black;
+    pointer-events: none;
+    position: absolute;
+}
+
+.inputSection>label .sendButton>i {
+    background-color: var(--secondary-color);
+    color: white;
+    font-size: var(--p-smaller);
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+}
+
+.inputSection>label .sendButton {
+    background-color: transparent;
+    outline: none;
+    border: none;
+}

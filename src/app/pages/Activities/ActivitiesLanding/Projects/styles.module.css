@@ -1,0 +1,80 @@
+.projects {
+    width: 100%;
+    min-width: 300px;
+    font-family: var(--font-title);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+}
+
+.projects .searchWrapper {
+    width: calc(100% - (var(--pad-x-m) * 2));
+    border: 2px solid var(--l-light);
+    border-radius: .5rem;
+    padding: var(--pad-y-m) var(--pad-x-m);
+    display: flex;
+}
+
+.projects .searchWrapper>input {
+    width: 100%;
+    border: none;
+    outline: none;
+    margin-left: 1rem;
+    font-family: var(--font-title);
+}
+
+.projects .searchWrapper>i {
+    color: var(--l-light);
+}
+
+.projects .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+    padding: var(--pad-y-m) var(--pad-x-s);
+    background-color: rgba(217, 217, 217, 0.5);
+    border-radius: .5rem;
+}
+
+.projects .container .projectCard {
+    display: flex;
+    align-items: center;
+    width: calc(100% - (var(--pad-x-s) * 2));
+    gap: var(--gap-small);
+    padding: calc(var(--pad-y-s) * 2) calc(var(--pad-x-s) * 1);
+    background-color: var(--l-light);
+    background-color: rgba(217, 217, 217, 0.5);
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.projects .container .projectCard:hover {
+    background-color: rgba(217, 217, 217, 0.9);
+}
+
+.projects .container .projectCard>i {
+    width: 30px;
+    height: 30px;
+    color: var(--l-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: var(--p-large);
+}
+
+.projects .container .projectCard .right>h2 {
+    color: var(--secondary-color);
+    font-size: var(--h1-smallest);
+}
+
+.projects .container .projectCard .right>span {
+    color: var(--l-mid);
+    font-size: var(--p-smaller);
+}
+/* Dark Mode */
+.projects.dark .searchWrapper>input {
+    background-color: transparent;
+    color: white;
+}

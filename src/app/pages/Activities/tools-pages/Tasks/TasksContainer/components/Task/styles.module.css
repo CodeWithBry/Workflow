@@ -1,0 +1,87 @@
+.task {
+    display: flex;
+    align-items: center;
+    width: calc(100% - 2rem);
+    font-family: var(--font-title);
+    border-bottom: 2px solid transparent;
+    padding: var(--pad-y-m) 1rem;
+        transition: all .3s ease;
+        cursor: pointer;
+    }
+    
+    .task:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+}
+
+.pending {
+    border-bottom-color: var(--pending);
+}
+
+.finished {
+    border-bottom-color: var(--finished);
+}
+
+.task .left {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+}
+
+.task .left>input {
+    width: 15px;
+    height: 15px;
+}
+
+.task .left>p {
+    font-size: var(--p-small);
+}
+
+.task .right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: var(--gap-small) 0;
+        position: relative;
+}
+
+.task .right .actionButton {
+    background-color: transparent;
+    font-family: var(--font-title);
+    font-size: var(--p-small);
+}
+
+.task .right .actionButton:nth-child(2),
+.task .right .actionButton:nth-child(3) {
+    padding: var(--pad-y-s) var(--pad-x-s);
+    border-radius: 2rem;
+}
+
+.task .right .actionButton:nth-child(2):hover,
+.task .right .actionButton:nth-child(3):hover {
+    background-color: var(--l-light);
+}
+.task .right .statusWrapper {
+    display: flex;
+    width: fit-content;
+    position: relative;
+}
+
+.task .right .statusWrapper .statusButton>span {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+}
+
+.pending .right .statusWrapper .statusButton {
+    color: var(--pending);
+    display: flex;
+    gap: var(--gap-small);
+}
+
+.finished .right .statusButton {
+    color: var(--finished);
+    display: flex;
+    position: relative;
+}

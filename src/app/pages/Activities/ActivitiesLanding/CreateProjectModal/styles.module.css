@@ -1,0 +1,242 @@
+.groupTaskModal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(211, 211, 211, 0.501);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.hideModal {
+    display: none;
+}
+
+.modalBox {
+    width: 500px;
+    min-width: 300px;
+    height: fit-content;
+    max-height: 600px;
+    background-color: white;
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.513);
+    border-radius: 1rem;
+}
+
+/* TOP */
+
+.modalBox>.top {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 2px solid var(--l-light);
+}
+
+.modalBox>.top>h2 {
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-title);
+}
+
+.modalBox>.top .pageIndication {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modalBox>.top .pageIndication .indication {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    opacity: .5;
+}
+
+.modalBox>.top .pageIndication .indication:nth-child(1) {
+    margin-left: 1.5rem;
+}
+
+.modalBox>.top .pageIndication .indication .number {
+    display: grid;
+    place-items: center;
+    width: 17.5px;
+    height: 17.5px;
+    margin-right: .5rem;
+    background-color: var(--l-mid);
+    font-family: var(--font-title);
+    font-size: var(--p-smaller);
+    color: white;
+    border-radius: 50%;
+}
+
+.modalBox>.top .pageIndication .indication .description {
+    font-size: var(--p-smaller);
+    font-family: var(--font-title);
+    font-weight: 600;
+}
+
+.modalBox>.top .pageIndication .line {
+    width: 50px;
+    height: 2px;
+    margin: 0 .5rem;
+    background-color: var(--l-mid);
+}
+
+/* ACTIVE */
+
+.modalBox>.top .pageIndication .activeIndication {
+    opacity: 1;
+}
+
+.modalBox>.top .pageIndication .activeIndication .number {
+    background-color: var(--secondary-color);
+}
+
+/* FORM */
+.modalBox .form {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-title);
+    width: calc(100% - 3rem);
+    margin: 1.5rem auto;
+    gap: 1.5rem;
+}
+
+.modalBox .form .top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.modalBox .form .top>h2 {
+    font-size: var(--p-small);
+}
+
+.modalBox .form .top>p {
+    color: var(--l-mid);
+    font-size: var(--p-small);
+}
+
+.modalBox .form .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.modalBox .form .bottom>h2,
+.modalBox .form .tasks>h2 {
+    font-size: var(--p-small);
+}
+
+.modalBox .form .bottom>input {
+    width: calc(100% - 2rem);
+    border: 1px solid var(--l-light);
+    border-radius: .5rem;
+    padding: var(--pad-y-m) var(--pad-x-m);
+    padding-left: .45rem;
+    font-size: calc(var(--p-small) - 2px);
+}
+
+.modalBox .form .bottom .wrapper>input {
+    width: 100%;
+    border: 1px solid var(--l-light);
+    border-radius: .5rem;
+    padding: var(--pad-y-m) var(--pad-x-m);
+    padding-left: .45rem;
+    font-size: calc(var(--p-small) - 2px);
+}
+
+.modalBox .formForTask .tasks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-normal);
+    min-height: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.modalBox .formForTask .bottom .wrapper {
+    display: flex;
+    width: 100%;
+    gap: var(--gap-small);
+}
+
+.modalBox .formForTask .bottom .wrapper .addTask {
+    width: fit-content;
+    justify-content: center;
+    padding: 0 var(--pad-x-m);
+    font-weight: 600;
+    font-family: var(--font-title);
+    text-wrap: nowrap;
+    border-radius: .5rem;
+    border: 2px solid var(--secondary-color);
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.modalBox .formForTask .bottom .wrapper .dontAllow {
+    opacity: .5;
+}
+
+/* BOTTOM */
+
+.modalBox>.bottom {
+    width: 100%;
+    height: fit-content;
+    border-top: 2px solid var(--l-light);
+    display: flex;
+    justify-content: end;
+    padding: 1rem 0;
+}
+
+.modalBox>.bottom .actionButton {
+    font-family: var(--font-title);
+    font-size: var(--p-small);
+    font-weight: 700;
+    background-color: transparent;
+    color: black;
+    padding: var(--pad-y-m) var(--pad-x-l);
+    border-radius: .5rem;
+}
+
+.modalBox>.bottom .actionButton:nth-child(2) {
+    opacity: .5;
+    background-color: var(--secondary-color);
+    color: white;
+    margin-right: 1rem;
+}
+
+.modalBox>.bottom .active:nth-child(2) {
+    opacity: 1;
+}
+
+.modalBox>.bottom .active:nth-child(2):hover {
+    opacity: .7;
+}
+
+/* DARK MODE */
+
+.modalBox.dark {
+    background-color: var(--d-bg-light);
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.513);
+    color: white;
+}
+
+.modalBox.dark .form .bottom>input {
+    color: white;
+    background-color: transparent;
+}
+
+.modalBox.dark>.bottom .actionButton:nth-child(1) {
+    color: white;
+}
+@media(max-height: 600px) {
+    .modalBox {
+        max-height: 0;
+        min-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}

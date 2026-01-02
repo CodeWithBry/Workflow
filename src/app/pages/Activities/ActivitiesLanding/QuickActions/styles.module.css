@@ -1,0 +1,72 @@
+.quickActions {
+    gap: var(--gap-normal);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 300px;
+    font-family: var(--font-title);
+}
+
+.quickActions>p {
+    font-size: var(--p-small);
+    color: var(--l-mid);
+    font-weight: bold;
+}
+
+.quickActions .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+}
+
+.quickActions .container .actionCard {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+    padding: calc(var(--pad-y-s) * 2) calc(var(--pad-x-s) * 1);
+    background-color: white;
+    border: 1px solid #B3B3B3;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.quickActions .container .actionCard:hover {
+    background-color: rgba(217, 217, 217, 0.9);
+}
+
+.quickActions .container .actionCard>i {
+    width: 30px;
+    height: 30px;
+    background-color: var(--l-mid);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: var(--p-smaller);
+}
+
+.quickActions .container .actionCard:nth-child(1)>i {
+    background-color: var(--secondary-color);
+}
+
+.quickActions .container .actionCard .right>h2 {
+    color: var(--secondary-color);
+    font-size: var(--h1-smallest);
+}
+
+.quickActions .container .actionCard .right>span {
+    color: var(--l-mid);
+    font-size: var(--p-smaller);
+}
+/* Dark Mode */
+
+.quickActions.dark .container .actionCard {
+    background-color: transparent;
+    border: 1px solid #B3B3B3;
+}
+
+.quickActions.dark .container .actionCard .right>h2 {
+    color: white;
+}

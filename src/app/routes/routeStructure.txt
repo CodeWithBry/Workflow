@@ -1,0 +1,6 @@
+home - workflow/
+activities:
+  - workflow/activities
+  - workflow/activities/:projectId
+  - workflow/activities/:projectId/subpages (Tasks, Analytics, AI-Assistant)
+docs - wokflow/docs

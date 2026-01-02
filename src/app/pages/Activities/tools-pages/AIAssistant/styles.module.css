@@ -1,0 +1,53 @@
+.aiAssistant {
+    width: 100%;
+    height: calc(100% - 1rem);
+    background-color: white;
+    margin: auto;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px -2.5px rgba(0, 0, 0, 0.253);
+    font-family: var(--font-title);
+    display: flex;
+    flex-direction: column;
+    flex: auto 1fr;
+}
+
+.aiAssistant.aside {
+    max-width: calc(400px - .5rem);
+    min-width: calc(400px - .5rem);
+    margin-right: .5rem;
+}
+
+.aiAssistant.hide {
+    display: none;
+}
+
+.aiAssistant .top {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 3rem);
+    margin: 1.5rem auto;
+}
+
+.aiAssistant .top>h1 {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+    font-size: var(--h1-smaller);
+}
+
+.aiAssistant .top>h1>img {
+    margin-right: auto;
+    width: 35px;
+    height: auto;
+}
+
+.aiAssistant .top>h1 .close {
+    background-color: transparent;
+    color: black;
+    font-size: var(--h1-smaller);
+}
+
+.aiAssistant .top>p {
+    font-size: var(--p-smaller);
+    color: var(--l-mid);
+}
