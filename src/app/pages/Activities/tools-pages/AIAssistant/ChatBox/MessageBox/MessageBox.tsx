@@ -1,12 +1,15 @@
 import { useContext, useState } from 'react';
 import { context } from '../../../../../../context/AppContext';
 import s from './styles.module.css'
-import Suggestion from './Suggestion';
-import Convo from './Convo';
+import Suggestion from './components/Suggestion';
+import Convo from './components/Convo';
+import { DropDown } from '../../../../../../../components/DropDown/DropDown';
+import Button from '../../../../../../../components/ui/Button';
+import LoadingPage from './components/LoadingPage';
 
 function MessageBox(props: ChatBotValues) {
-    const { userInput, selectedConvo, isNewChat, setIsNewChat, setChat } = props as ChatBotValues;
-    const { darkMode } = useContext(context) as Context;
+    const { selectedConvo, isNewChat, setIsNewChat, setChat, isConvoLoading } = props as ChatBotValues;
+    const { darkMode, selectedTaskClass } = useContext(context) as Context;
     const messageBoxStyles = !darkMode ? s.messageBox : `${s.messageBox} ${s.dark}`;
     const [showActionLists, setShowActionLists] = useState<boolean>(false);
 
@@ -18,20 +21,22 @@ function MessageBox(props: ChatBotValues) {
             functionCall() {
                 setIsNewChat(false);
                 setChat(prev => {
-                    const updatedConvos = prev.convos.map(convo => ({...convo, isOpened: false}));
-                    return {...prev, convos: updatedConvos};
+                    const updatedConvos = prev.convos.map(convo => ({ ...convo, isOpened: false }));
+                    return { ...prev, convos: updatedConvos };
                 })
             }
         },
         {
             icon: "far fa-edit",
             action: "History",
-            functionCall() {}
+            functionCall() {
+
+            }
         },
         {
             icon: "far fa-edit",
             action: "New chat",
-            functionCall() {}
+            functionCall() { }
         }
     ]
 
@@ -44,17 +49,29 @@ function MessageBox(props: ChatBotValues) {
         // NUMBERS
     }
 
-    if ((userInput.length == 0 && selectedConvo == null) || !isNewChat) {
-        return (
-            <div className={messageBoxStyles}>
-                <Suggestion {...{...values, ...props}}/>
-            </div>
-        )
-    }
-
     return (
         <div className={messageBoxStyles}>
-            <Convo {...{...props, ...values}} />
+            <div className={s.heading}>
+                <h2>
+                    <span className={s.titleWrapper}>
+                        <span>{selectedTaskClass?.name}</span>
+                    </span>
+                    <Button
+                        iconElement={<i className="fa fa-bars"></i>}
+                        className={s.hamburger}
+                        clickListener={() => { setShowActionLists(true) }} />
+                </h2>
+
+                <DropDown {...{ darkMode, showTools: showActionLists, setShowTools: setShowActionLists, actionLists }} />
+            </div>
+
+            {
+                isConvoLoading
+                    ? <LoadingPage />
+                    : selectedConvo == null || !isNewChat
+                        ? <Suggestion />
+                        : <Convo {...{ ...values, ...props }} />
+            }
         </div>
     )
 }

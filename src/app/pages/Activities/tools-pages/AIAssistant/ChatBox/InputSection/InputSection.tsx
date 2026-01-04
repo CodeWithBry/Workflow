@@ -4,7 +4,7 @@ import s from "./styles.module.css"
 import Button from "../../../../../../../components/ui/Button";
 import { addUserMessage } from "../utils/addUserMessage";
 
-function InputSection({ userInput, setUserInput, chat, setChat, setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValues) {
+function InputSection({ chat, setChat, setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValues) {
 
     const { darkMode, modifyData } = useContext(context) as Context;
     const inputSectionClassName = !darkMode ? s.inputSection : `${s.inputSection} ${s.dark}`
@@ -44,8 +44,7 @@ function InputSection({ userInput, setUserInput, chat, setChat, setIsNewChat, ps
 
                             addUserMessage({
                                 element: e,
-                                userInput: text,
-                                setUserInput,
+                                inputRefText: text,
                                 chat,
                                 setChat,
                                 setIsNewChat,
@@ -64,7 +63,10 @@ function InputSection({ userInput, setUserInput, chat, setChat, setIsNewChat, ps
 
                 <Button
                     className={s.sendButton}
-                    clickListener={() => addUserMessage({ send: true, userInput, setUserInput, chat, setChat, setIsNewChat, pseudoConvo: selectedConvo ? undefined : pseudoConvo, modifyData })}
+                    clickListener={() => {
+                        addUserMessage({ send: true, inputRefText: inputRef.current?.innerText ?? "", chat, setChat, setIsNewChat, pseudoConvo: selectedConvo ? undefined : pseudoConvo, modifyData });
+                        if(inputRef.current) inputRef.current.innerText = "";
+                    }}
                     iconElement={(<i className="fa fa-send"></i>)} />
             </label>
         </div>

@@ -8,9 +8,9 @@ function ChatBox() {
   const { darkMode } = useContext(context) as Context;
   const chatBoxClassName = !darkMode ? s.chatBox : `${s.chatBox} ${s.dark}`
   // BOOLEANS
-  const [isNewChat, setIsNewChat] = useState<boolean>(false);
+  const [isNewChat, setIsNewChat] = useState<boolean>(true);
+  const [isConvoLoading, setIsConvoLoading] = useState<boolean>(false);
   // STRINGS
-  const [userInput, setUserInput] = useState<string>("");
   // ARRAYS AND OBJECTS
   const [chat, setChat] = useState<Chat>({
     userId: crypto.randomUUID(),
@@ -30,8 +30,7 @@ function ChatBox() {
   const values = {
     // BOOLEANS
     isNewChat, setIsNewChat,
-    // STRINGS
-    userInput, setUserInput,
+    isConvoLoading, setIsConvoLoading,
     // ARRAYS AND OBJECTS
     chat, setChat,
     pseudoConvo, setPseudoConvo,
@@ -52,6 +51,7 @@ function ChatBox() {
         ...prev,
         convos: [...updatedConvos]
       }))
+      setIsConvoLoading(false);
     }
   }, [])
 

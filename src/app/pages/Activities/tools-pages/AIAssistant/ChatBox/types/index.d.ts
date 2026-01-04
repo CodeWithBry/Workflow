@@ -2,7 +2,6 @@ import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 // PROPS FOR COMPONENTS
 declare global {
-    type MessageBoxProps = ChatBotValues & MessageBoxValues
     type ConvoProps = ChatBotValues & MessageBoxValues
 }
 
@@ -46,7 +45,7 @@ declare global {
 
     type AddUserMessage = {
         element?: KeyboardEvent<HTMLInputElement>,
-        userInput: string, setUserInput: Dispatch<SetStateAction<string>>,
+        inputRefText: string 
         pseudoConvo?: Convo,
         send?: boolean,
         setIsNewChat?: Dispatch<SetStateAction<boolean>>,
@@ -73,8 +72,8 @@ declare global {
 
         // BOOLEANS
         isNewChat: boolean, setIsNewChat: Dispatch<SetStateAction<boolean>>
+        isConvoLoading: boolean, setIsConvoLoading: Dispatch<SetStateAction<boolean>>,
         // STRINGS
-        userInput: string, setUserInput: Dispatch<SetStateAction<string>>,
         // OBJECTS AND ARRAYS
         chat: Chat, setChat: Dispatch<SetStateAction<Chat>>,
         pseudoConvo: Convo, setPseudoConvo: Dispatch<SetStateAction<Convo>>,

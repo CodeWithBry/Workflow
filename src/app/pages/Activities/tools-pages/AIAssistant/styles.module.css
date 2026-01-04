@@ -25,26 +25,27 @@
     display: flex;
     flex-direction: column;
     width: calc(100% - 3rem);
-    margin: 1.5rem auto;
+    margin: .75rem auto;
+    margin-bottom: 0;
 }
 
 .aiAssistant .top>h1 {
     display: flex;
     align-items: center;
     gap: var(--gap-small);
-    font-size: var(--h1-smaller);
+    font-size: var(--h1-small);
 }
 
 .aiAssistant .top>h1>img {
     margin-right: auto;
-    width: 35px;
+    width: 25px;
     height: auto;
 }
 
 .aiAssistant .top>h1 .close {
     background-color: transparent;
     color: black;
-    font-size: var(--h1-smaller);
+    font-size: var(--h1-small);
 }
 
 .aiAssistant .top>p {

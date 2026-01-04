@@ -6,7 +6,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
 const app = express();
 const genAi = new GoogleGenerativeAI(process.env.VITE_GEN_API_KEY!);
-const getModel = genAi.getGenerativeModel({ model: "gemini-3-flash-preview" });
+const getModel = genAi.getGenerativeModel({ model: "gemini-2.5-flash" });
 const origins = [
     "http://localhost:5173",
     "https://codewithbry.github.io",
@@ -14,6 +14,10 @@ const origins = [
 ];
 
 const promptForTask = `
+            IMPORTANT:
+            MAKE SURE TO SUMMARIZE AND SIMPLIFY EVERYTHING!
+            YOUR MAXIMUM TEXT IS ONLY 500 WORDS!
+
             You are a helpful productivity assistant.
             Your job:
             Explain clearly how the user can accomplish this task.
@@ -25,6 +29,10 @@ const promptForTask = `
             - Keep the explanation concise but helpful
         `;
 const promptForProject = `
+            IMPORTANT:
+            MAKE SURE TO SUMMARIZE AND SIMPLIFY EVERYTHING!
+            YOUR MAXIMUM TEXT IS ONLY 500 WORDS!
+
             You are a helpful productivity assistant.
             Your job:
             - Suggests a project workflow where you are going to create a project plan with 
@@ -39,6 +47,33 @@ const promptForProject = `
             - Be practical and actionable
             - Assume the user is a beginner
             - Keep the explanation concise but helpful
+
+            NOTE: IF THE USER ASKS TO MODIFY THE PROJECT DATA, TURN IT INTO A JSON FORMAT ONLY WITHOUT EXPLANATIONS AND STRICTLY USE THIS FORMAT!
+
+            type TaskClass = {
+                name: string,
+                taskType: "projects" | "normal-tasks"
+                id: string, //UUID FORMAT!
+                isOpened: boolean,
+                icon: string,
+                taskGroups: TaskGroup[],
+                status?: "finished" | "pending"
+            };
+            // TASK GROUP
+            type TaskGroup = {
+                groupName: string,
+                groupId: string, //UUID FORMAT!
+                tasks: Task[]
+            };
+            // TASKS
+            type Task = {
+                id: string, //UUID FORMAT!
+                description: string,
+                dateCreated: string,
+                status: "pending" | "finished",
+                isSelected: "true" | "false",
+                groupId: string
+            }; 
         `;
 
 app.use(cors({
@@ -64,16 +99,6 @@ app.use(cors({
 app.options(/.*/, cors({ origin: true }));
 app.use(express.json());
 
-// AI Ask
-app.post("/server/task-assistant", async (req, res) => {
-    try {
-        const { modifyData } = req.body;
-
-
-    } catch (error) {
-
-    }
-})
 
 // Normal Convo AI
 app.post("/server/ai-chat", async (req, res) => {
@@ -82,72 +107,13 @@ app.post("/server/ai-chat", async (req, res) => {
         console.log(modifyData.task)
         const aiAssistPrompt = modifyData?.task ? promptForTask + `
             Task: ${JSON.stringify(modifyData.task)}
-        ` : promptForProject + `
-            Note: Update the project object that will be sent here:
             Project: ${JSON.stringify(modifyData.project)}
-
-            TYPE: TASK GROUP AND PROJECT MODEL
-            type TaskClass = {
-                name: string,
-                taskType: "projects" | "normal-tasks"
-                id: crypto.randomUUID(),
-                isOpened: boolean,
-                icon: string,
-                taskGroups: TaskGroup[],
-                status?: "finished" | "pending"
-            };
-            type TaskGroup = {
-                groupName: string,
-                groupId: crypto.randomUUID(),
-                tasks: Task[]
-            };
-            type Task = {
-                id: crypto.randomUUID(),
-                description: string,
-                dateCreated: string,
-                status: "pending" | "finished",
-                isSelected: "true" | "false",
-                groupId: string
-            };
-        `;
+        ` : promptForProject + `Project: ${JSON.stringify(modifyData.project)}`;
         const persona = { role: "model", parts: [{ text: aiAssistPrompt }] };
         const messAi = [persona, ...messagesAi];
         const result = await getModel.generateContent({ contents: messAi });
         const reply = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
             "Something went wrong.";
-
-        // const analyzeDataPrompt = reply + `\n\n IMPORTANT GOAL: Analyze the data then create an object
-        // based on the given data and the object must be in a "JSON Format". \n\n
-        // Object Formats:
-        // TYPE: TASK GROUP AND PROJECT MODEL
-        //     type TaskClass = {
-        //         name: string,
-        //         taskType: "projects" | "normal-tasks"
-        //         id: crypto.randomUUID(),
-        //         isOpened: boolean,
-        //         icon: string,
-        //         taskGroups: TaskGroup[],
-        //         status?: "finished" | "pending"
-        //     };
-        //     type TaskGroup = {
-        //         groupName: string,
-        //         groupId: crypto.randomUUID(),
-        //         tasks: Task[]
-        //     };
-        //     type Task = {
-        //         id: crypto.randomUUID(),
-        //         description: string,
-        //         dateCreated: string,
-        //         status: "pending" | "finished",
-        //         isSelected: "true" | "false",
-        //         groupId: string
-        //     };`
-        // const analyzerPrompt = { role: "model", parts: [{ text: analyzeDataPrompt }] };
-        // const dataResult = await getModel.generateContent({ contents: [analyzerPrompt] });
-        // const dataReply = dataResult?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
-        //     "Something went wrong.";
-
-        console.log(reply)
         res.json({ reply, messagesAi });
     } catch (error) {
         console.log(error)
@@ -158,21 +124,3 @@ app.listen(3000, "0.0.0.0", () => {
     console.log(`🚀 BryTech server is running on port ${3000}`);
     console.log("🌐 Allowed URLs:", origins);
 });
-
-// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-// const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
-// const messages = [
-//     { role: "user", parts: [{ text: "Hello AI!" }] },
-//     { role: "model", parts: [{ text: "Ai's response..." }] },
-//     { role: "user", parts: [{ text: "Can you give me the answer of 8+8" }] }
-// ]
-
-// const result = await model.generateContent({ contents: messages });
-
-// const reply =
-//     result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
-//     "Hmm, di ko alam paano sagutin yan.";
-
-// messages.push({ role: "model", parts: [{ text: reply }] })
-// console.log(messages);

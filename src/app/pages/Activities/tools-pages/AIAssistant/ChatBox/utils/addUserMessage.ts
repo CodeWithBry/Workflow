@@ -4,23 +4,22 @@ import { updateConvo } from "./updateConvo";
 
 export async function addUserMessage(args: AddUserMessage) {
     const {
-        element, userInput, chat, 
-        pseudoConvo, send, modifyData,
-        setUserInput, setChat,
-        setIsNewChat
+        element, inputRefText, chat, 
+        pseudoConvo, send, modifyData, 
+        setChat, setIsNewChat
     } = args as AddUserMessage;
     const newMessageAi: MessagesAi = {
         role: "user",
         parts: [
-            { text: userInput }
+            { text: inputRefText }
         ]
     }
     const newMessage: MessagesUi = {
         role: "user",
-        message: userInput
+        message: inputRefText
     }
 
-    if ((userInput.length != 0 && element.key == "Enter") || (userInput.length != 0 && send)) {
+    if ((inputRefText.length != 0 && element?.key == "Enter") || (inputRefText.length != 0 && send)) {
         if(setIsNewChat) setIsNewChat(true);
         const updatedChat: Chat = {
             ...chat,
@@ -35,7 +34,6 @@ export async function addUserMessage(args: AddUserMessage) {
             saveChat({ ...prev, convos: updatedConvos });
             return { ...prev, convos: updatedConvos };
         });
-        setUserInput("");
         await sendMessageToBot({ ...args, messagesAi: findOpenedConvo.messagesAi, modifyData })
     }
 
