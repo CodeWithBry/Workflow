@@ -4,9 +4,10 @@ import { updateConvo } from "./updateConvo";
 
 export async function addUserMessage(args: AddUserMessage) {
     const {
-        element, inputRefText, chat, 
-        pseudoConvo, send, modifyData, 
-        setChat, setIsNewChat
+        element, inputRefText, chats,
+        selectedChat,
+        pseudoConvo, send, modifyData,
+        setChats, setIsNewChat
     } = args as AddUserMessage;
     const newMessageAi: MessagesAi = {
         role: "user",
@@ -20,21 +21,43 @@ export async function addUserMessage(args: AddUserMessage) {
     }
 
     if ((inputRefText.length != 0 && element?.key == "Enter") || (inputRefText.length != 0 && send)) {
-        if(setIsNewChat) setIsNewChat(true);
-        const updatedChat: Chat = {
-            ...chat,
-            convos: pseudoConvo ? [...chat.convos, pseudoConvo] : [...chat.convos]
-        }
+        if (setIsNewChat) setIsNewChat(true);
+        console.log(selectedChat)
+        const findInChat: Chat | undefined = chats.find(chat => chat.id == selectedChat?.id)
+        if (!findInChat) return;
+
+        const updatedChat = { ...findInChat, convos: pseudoConvo ? [...findInChat.convos, pseudoConvo] : [...findInChat.convos] }
+        // const updatedChats: Chats = chats.map((chat) => {
+        //     return chat.id == selectedChat?.id ? {
+        //         ...selectedChat
+        //     } : chat
+        // })
 
         const updatedConvos: Convo[] = updateConvo({ chat: updatedChat, newMessage, newMessageAi });
         const findOpenedConvo: Convo | undefined = updatedConvos.find(c => c.isOpened);
-        if (!findOpenedConvo) return
 
-        setChat(prev => {
-            saveChat({ ...prev, convos: updatedConvos });
-            return { ...prev, convos: updatedConvos };
-        });
-        await sendMessageToBot({ ...args, messagesAi: findOpenedConvo.messagesAi, modifyData })
+        if (!findOpenedConvo) return
+        const updatedChats = chats.map((chat) => {
+            if (chat.id == selectedChat?.id) {
+                return { ...chat, convos: updatedConvos };
+            }
+
+            return chat
+        })
+        const newSelectedChat = updatedChats.find(chat => chat.isOpen)
+        setChats(prev => {
+            const updatedChats = prev.map((chat) => {
+                if (chat.id == selectedChat?.id) {
+                    return { ...chat, convos: updatedConvos };
+                }
+
+                return chat
+            })
+            
+            saveChat(updatedChats);
+            return updatedChats
+        })
+        await sendMessageToBot({ ...args, selectedChat: newSelectedChat, messagesAi: findOpenedConvo.messagesAi, modifyData })
     }
 
 }

@@ -52,6 +52,10 @@ function AppProvider() {
         { name: "Occasional", id: "occasional", icon: "	fas fa-calendar-day", taskType: "normal-tasks", isOpened: false, taskGroups: [], status: "pending" },
         // ALL OF THE ADDED TASK CLASS WILL BE CLASSIFIED AS A PROJECTS
     ]);
+    const [chats, setChats] = useState<Chats>([]);
+    const selectedChat: SelectedChat = useMemo(() => {
+        return chats.find(chat => chat.isOpen);
+    }, [chats])
     const selectedTaskClass: SelectedTaskClass = useMemo(() => {
         return taskClass.find(t => t.isOpened) ?? null;
     }, [taskClass])
@@ -75,8 +79,9 @@ function AppProvider() {
         toolsPages, setToolsPages,
         historyChanges, setHistoryChanges,
         taskClass, setTaskClass,
+        chats, setChats,
         modifyData, setModifyData,
-        selectedTaskClass
+        selectedTaskClass, selectedChat
     };
 
     useEffect(() => {
@@ -93,39 +98,88 @@ function AppProvider() {
     }, [getUrl[3]])
 
     useEffect(() => {
-        if(selectedTaskClass) {
+        const getData: GetDataFromLocalStorage = locStor.getDataFromLocalStorage("taskClass");
+        if (getData?.taskClass && taskClass) {
+            const notBelongToTaskClass = getData.taskClass.filter(t => !taskClass.some(ta => t.id == ta.id))
+            if (notBelongToTaskClass) {
+                const updateNormalTasks: TaskClass[] = taskClass.map((taskClass, index) => {
+                    return getData.taskClass[index]?.id == taskClass.id ?
+                        { ...getData.taskClass[index] } : taskClass
+                })
+                const mergeWithTaskClass = [...updateNormalTasks, ...notBelongToTaskClass]
+                setTaskClass([...mergeWithTaskClass])
+            } else {
+                setTaskClass(prev => prev.map((taskClass, index) => {
+                    return getData.taskClass[index]?.id == taskClass.id ?
+                        { ...getData.taskClass[index] } : taskClass
+                }))
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        if (selectedTaskClass) {
             setModifyData(prev => ({
                 ...prev,
                 project: selectedTaskClass
+            }))
+
+            setChats(prev => prev.map(chat => {
+                return { ...chat, isOpen: chat.id == selectedTaskClass.id }
             }))
         }
     }, [selectedTaskClass])
 
     useEffect(() => {
-        const getData: GetDataFromLocalStorage = locStor.getDataFromLocalStorage();
+        const getData: GetDataFromLocalStorage = locStor.getDataFromLocalStorage("chat");
         if (getData && taskClass) {
-            const notBelongToTaskClass = getData?.filter(t => !taskClass.some(ta => t.id == ta.id))
-            if (notBelongToTaskClass) {
-                const updateNormalTasks: TaskClass[] = taskClass.map((taskClass, index) => {
-                    if (getData[index]?.id == taskClass.id) {
-                        return { ...getData[index] }
-                    }
-                    return taskClass
-                })
-                const mergeWithTaskClass = [...updateNormalTasks, ...notBelongToTaskClass]
-                setTaskClass([...mergeWithTaskClass])
-            } else setTaskClass(prev => prev.map((taskClass, index) => {
-                if (getData[index]?.id == taskClass.id) {
-                    return { ...getData[index] }
+            let newChats: Chats = [];
+
+            for (let i in taskClass) {
+                const newChat: Chat = {
+                    isOpen: false,
+                    id: taskClass[i].id,
+                    convos: []
                 }
-                return taskClass
-            }))
+                newChats.push(newChat)
+            }
+
+            if (getData.chats.length != 0) {
+                const notBelongToChats = getData.chats.filter(t => !newChats.some(ta => t.id == ta.id));
+                console.log(notBelongToChats)
+                if (notBelongToChats.length != 0) {
+                    const updateChats: Chats = chats.map((chat, index) => {
+                        return getData.chats[index]?.id == chat.id
+                            ? { ...getData.chats[index] } : chat
+                    })
+                    setChats([...updateChats])
+                } else {
+                    const updateChats = newChats.map((chat, index) => {
+                        console.log(getData.chats[index]?.id == chat.id)
+                        return getData.chats[index]?.id == chat.id
+                            ? { ...getData.chats[index] } : chat
+                    })
+                    setChats([...updateChats])
+                }
+            } else {
+                setChats([...newChats])
+            }
 
             setIsDataLoaded(false);
         } else {
             setIsDataLoaded(false);
         }
-    }, [])
+    }, [taskClass])
+
+    useEffect(() => {
+        setChats(prev => prev.map(chat => {
+            if (selectedTaskClass?.id == chat.id) {
+                return { ...chat, isOpen: true }
+            }
+
+            return { ...chat, isOpen: false }
+        }))
+    }, [selectedTaskClass])
 
     return (
         <context.Provider value={contextValues}>

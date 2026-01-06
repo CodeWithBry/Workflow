@@ -87,7 +87,7 @@ export default function TaskGroup(props: TaskGroupProps) {
           iconElement={<i className={"	fas fa-ellipsis-v"}></i>} />
         <DropDown {...{ darkMode, showTools, actionLists, setShowTools }} />
       </label>
-      <div className={hideTasks ? s.hideTasks : s.tasks} >
+      <div className={hideTasks ? s.hideTasks : s.tasks} id={`${group.groupId}`}>
         {group.tasks.map(t => {
           const taskProps = { isRealTask: true, task: t }
           return <Task {...{ ...taskProps, ...props, groupId: group.groupId }} />

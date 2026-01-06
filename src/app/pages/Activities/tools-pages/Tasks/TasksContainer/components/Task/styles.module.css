@@ -5,12 +5,12 @@
     font-family: var(--font-title);
     border-bottom: 2px solid transparent;
     padding: var(--pad-y-m) 1rem;
-        transition: all .3s ease;
-        cursor: pointer;
-    }
-    
-    .task:hover {
-        background-color: rgba(0, 0, 0, 0.08);
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+.task:hover {
+    background-color: rgba(0, 0, 0, 0.08);
 }
 
 .pending {
@@ -19,6 +19,10 @@
 
 .finished {
     border-bottom-color: var(--finished);
+}
+
+.focused {
+    background-color: var(--l-light);
 }
 
 .task .left {
@@ -43,7 +47,7 @@
     align-items: center;
     justify-content: end;
     gap: var(--gap-small) 0;
-        position: relative;
+    position: relative;
 }
 
 .task .right .actionButton {
@@ -62,6 +66,7 @@
 .task .right .actionButton:nth-child(3):hover {
     background-color: var(--l-light);
 }
+
 .task .right .statusWrapper {
     display: flex;
     width: fit-content;

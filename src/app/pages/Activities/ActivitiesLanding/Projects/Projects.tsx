@@ -1,27 +1,30 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useMemo, useState, type Dispatch, type SetStateAction } from 'react'
 import ProjectCard from './ProjectCard'
 import s from './styles.module.css'
 import { context } from '../../../../context/AppContext'
 
-function Projects() {
+function Projects(props: {
+  dataToModify: DataToModify, setDataToModify: Dispatch<SetStateAction<DataToModify>>,
+  editModal: boolean, setEditModal: Dispatch<SetStateAction<boolean>>,
+}) {
   const { taskClass, darkMode } = useContext(context) as Context;
-  const [projectCards, setProjectCards] = useState<ProjectCardProps[]>([]);
-  const [searchResult, setSearchResult] = useState<ProjectCardProps[]>([]);
-  const [searchInput, setSearchInput] = useState<string>("");
-
-  useEffect(() => {
+  const projectCards: TaskClass[] | undefined = useMemo(() => {
     if (taskClass.length > 3) {
-      const projects: ProjectCardProps[] = []
+      const projects: TaskClass[] = []
       taskClass.map(t => {
         if (t.taskType == "projects") {
-          const projectCardAttributes = { icon: "fas fa-folder", projectName: t.name, id: t.id }
+          const projectCardAttributes = { ...t, icon: "fas fa-folder" }
           projects.push(projectCardAttributes);
         }
       })
 
-      setProjectCards([...projects])
+      return projects
     }
   }, [taskClass])
+  const [searchResult, setSearchResult] = useState<ProjectCard>([]);
+  const [searchInput, setSearchInput] = useState<string>("");
+
+
 
   return (
     <div className={!darkMode ? s.projects : `${s.projects} ${s.dark}`}>
@@ -33,17 +36,18 @@ function Projects() {
           value={searchInput}
           onChange={e => {
             setSearchInput(e.target.value)
-            setSearchResult(projectCards.filter(t => t.projectName.includes(e.target.value) || t.id.includes(e.target.value)))
+            if(projectCards)
+            setSearchResult(projectCards.filter(t => t.name.includes(e.target.value) || t.id.includes(e.target.value)))
           }}
         />
       </label>
       <div className={s.container}>
-        {searchResult.length == 0
+        {searchResult.length == 0 && projectCards
           ? projectCards.map((act) => {
-            return <ProjectCard {...act} />
+            return <ProjectCard {...{ project: act, ...props }} />
           })
           : searchResult.map((act) => {
-            return <ProjectCard {...act} />
+            return <ProjectCard {...{ project: act, ...props }} />
           })}
       </div>
     </div>

@@ -72,6 +72,7 @@ declare global {
         showTools: boolean, setShowTools: Dispatch<SetStateAction<boolean>>,
         showGTM: boolean, setShowGTM: Dispatch<SetStateAction<boolean>>,
         showTaskForm: boolean, setShowTaskForm: Dispatch<SetStateAction<boolean>>,
+        showSearchBox: boolean, setShowSearchBox: Dispatch<SetStateAction<boolean>>,
         createAndEditModal: boolean, setCreateAndEditModal: Dispatch<SetStateAction<boolean>>,
         // NUMBERS
         // OBJECTS AND ARRAYS

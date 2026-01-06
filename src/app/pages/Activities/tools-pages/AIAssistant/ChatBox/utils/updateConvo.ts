@@ -1,6 +1,7 @@
 export function updateConvo({chat, newMessage, newMessageAi}: UpdateConvo): Convo[] {
     const updatedConvos: Convo[] = chat.convos.map((convo) => {
         if (convo.isOpened) {
+            console.log(convo.messagesUi)
             const updateConvo: Convo = {
                 ...convo,
                 messagesUi: [...convo.messagesUi, newMessage],

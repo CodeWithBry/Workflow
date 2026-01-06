@@ -9,10 +9,10 @@ import ChatBox from "./ChatBox/ChatBox";
 
 function AIAssintant(): JSX.Element {
     const { showAssistant, setShowAssistant, darkMode, getUrl, setModifyData, selectedTaskClass } = useContext(context) as Context;
-    const assistantClass = !darkMode ? `${s.aiAssistant} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide}` : `${s.aiAssistant} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide} ${s.dark}`
+    const assistantClass = !darkMode ? `${s.aiAssistant} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide}` : `${s.aiAssistant} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide} ${s.dark}`;
 
     useEffect(() => {
-        if(getUrl[3] == "ai-assistant") {
+        if (getUrl[3] == "ai-assistant") {
             setModifyData(prev => ({ ...prev, project: selectedTaskClass, task: null }));
         }
     }, [getUrl[3]])

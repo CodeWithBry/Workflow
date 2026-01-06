@@ -59,10 +59,13 @@ function Task(props: TaskProps) {
     ]
 
     return (
-        <label className={`${s.task} ${task.status == "pending" ? s.pending : s.finished}`} htmlFor={`#${task.id}`}>
+        <label 
+            className={`${s.task} ${task.status == "pending" ? s.pending : s.finished}`}
+            id={`${task.id}`} 
+            htmlFor={`${task.id}_input`}>
             <div className={s.left}>
                 <input
-                    id={`#${task.id}`}
+                    id={`${task.id}_input`}
                     type="checkbox"
                     checked={task.isSelected == "true" ? true : false}
                     onChange={(e) => {

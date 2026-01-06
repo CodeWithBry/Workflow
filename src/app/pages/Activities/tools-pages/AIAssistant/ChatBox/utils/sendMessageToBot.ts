@@ -2,7 +2,7 @@ import { saveChat } from "./saveChat";
 import { updateConvo } from "./updateConvo";
 
 export async function sendMessageToBot({
-    setChat, messagesAi, modifyData
+    setChats, messagesAi, modifyData, selectedChat
 }: SendMessageToBot) {
     const apiEndPoint = "/server/ai-chat";
     const response = await fetch(`http://localhost:3000${apiEndPoint}`, {
@@ -22,12 +22,23 @@ export async function sendMessageToBot({
         message: getResponse.reply
     }
 
-    setChat(prev => {
-        const updatedConvos: Convo[] = updateConvo({chat: prev, newMessage, newMessageAi});
-        saveChat({ ...prev, convos: updatedConvos });
-        return {...prev, convos: [...updatedConvos]}
-    });
+    if (!selectedChat) return;
 
+
+    setChats(prev => {
+        const updateChats = prev.map((chat) => {
+            if (chat.id == selectedChat?.id) {
+                const updatedConvos: Convo[] = updateConvo({ chat: selectedChat, newMessage, newMessageAi });
+
+                return { ...selectedChat, convos: [...updatedConvos] }
+            }
+
+            return chat
+        })
+
+        saveChat(updateChats);
+        return updateChats
+    })
 }
 
 

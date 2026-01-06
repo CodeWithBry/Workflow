@@ -5,14 +5,18 @@ import QuickActions from "./QuickActions/QuickActions";
 import Projects from "./Projects/Projects";
 import Navbar from "../../../../components/navigations/Navbar/Navbar";
 import CreateProjectModal from "./CreateProjectModal/CreateProjectModal";
+import EditProjectModal from "./EditProjectModal/EditProjectModal";
 
 function ActivitiesLanding() {
   const { darkMode } = useContext(context) as Context;
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [editModal, setEditModal] = useState<boolean>(false);
+  const [dataToModify, setDataToModify] = useState<DataToModify>(null);
 
   return (
     <div className={!darkMode ? s.activitiesLanding : `${s.activitiesLanding} ${s.dark}`}>
       <CreateProjectModal {...{showModal, setShowModal}}/>
+      <EditProjectModal {...{editModal, setEditModal, dataToModify, setDataToModify}}/>
       <Navbar />
       <div className={s.container}>
         <div className={s.greetings}>
@@ -21,7 +25,7 @@ function ActivitiesLanding() {
         </div>
         <div className={s.bottom}>
           <QuickActions {...{showModal, setShowModal}} />
-          <Projects />
+          <Projects {...{editModal, setEditModal, dataToModify, setDataToModify}} />
         </div>
       </div>
     </div>

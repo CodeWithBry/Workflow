@@ -5,10 +5,10 @@ import Suggestion from './components/Suggestion';
 import Convo from './components/Convo';
 import { DropDown } from '../../../../../../../components/DropDown/DropDown';
 import Button from '../../../../../../../components/ui/Button';
-import LoadingPage from './components/LoadingPage';
+import LoadingPage from './components/Loading';
 
 function MessageBox(props: ChatBotValues) {
-    const { selectedConvo, isNewChat, setIsNewChat, setChat, isConvoLoading } = props as ChatBotValues;
+    const { selectedConvo, isNewChat, setIsNewChat, isConvoLoading } = props as ChatBotValues;
     const { darkMode, selectedTaskClass } = useContext(context) as Context;
     const messageBoxStyles = !darkMode ? s.messageBox : `${s.messageBox} ${s.dark}`;
     const [showActionLists, setShowActionLists] = useState<boolean>(false);
@@ -20,10 +20,10 @@ function MessageBox(props: ChatBotValues) {
             action: "New chat",
             functionCall() {
                 setIsNewChat(false);
-                setChat(prev => {
-                    const updatedConvos = prev.convos.map(convo => ({ ...convo, isOpened: false }));
-                    return { ...prev, convos: updatedConvos };
-                })
+                // setChat(prev => {
+                //     const updatedConvos = prev.convos.map(convo => ({ ...convo, isOpened: false }));
+                //     return { ...prev, convos: updatedConvos };
+                // })
             }
         },
         {
@@ -35,7 +35,7 @@ function MessageBox(props: ChatBotValues) {
         },
         {
             icon: "far fa-edit",
-            action: "New chat",
+            action: "Search",
             functionCall() { }
         }
     ]

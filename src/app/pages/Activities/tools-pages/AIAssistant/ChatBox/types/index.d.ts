@@ -5,42 +5,12 @@ declare global {
     type ConvoProps = ChatBotValues & MessageBoxValues
 }
 
-// VARIABLES
-declare global {
-    type Chat = {
-        userId: string,
-        convos: Convo[]
-    }
-
-    type Convo = {
-        isOpened: boolean,
-        convoId: string,
-        messagesAi: MessagesAi[],
-        messagesUi: MessagesUi[]
-    }
-
-    type SelectedConvo = Convo | null
-
-    type MessagesAi = {
-        role: "user" | "model",
-        parts: TextForMessage[]
-    }
-
-    type TextForMessage = {
-        text: string
-    }
-
-    type MessagesUi = {
-        role: "user" | "model",
-        message: string
-    }
-}
 
 // FUNCTIONS
 declare global {
     type HandleInput = {
         element: KeyboardEvent<HTMLInputElement>,
-        chat: Chat, setChat: Dispatch<SetStateAction<Chat>>
+        chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
     }
 
     type AddUserMessage = {
@@ -49,14 +19,16 @@ declare global {
         pseudoConvo?: Convo,
         send?: boolean,
         setIsNewChat?: Dispatch<SetStateAction<boolean>>,
-        chat: Chat, setChat: Dispatch<SetStateAction<Chat>>,
-        modifyData: ModifyData
+        chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
+        modifyData: ModifyData,
+        selectedChat: SelectedChat
     }
 
     type SendMessageToBot = {
         messagesAi: MessagesAi[],
         modifyData: ModifyData,
-        chat: Chat, setChat: Dispatch<SetStateAction<Chat>>
+        chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
+        selectedChat: SelectedChat
     }
 
     type UpdateConvo = {
@@ -75,7 +47,6 @@ declare global {
         isConvoLoading: boolean, setIsConvoLoading: Dispatch<SetStateAction<boolean>>,
         // STRINGS
         // OBJECTS AND ARRAYS
-        chat: Chat, setChat: Dispatch<SetStateAction<Chat>>,
         pseudoConvo: Convo, setPseudoConvo: Dispatch<SetStateAction<Convo>>,
         selectedConvo: SelectedConvo
     }

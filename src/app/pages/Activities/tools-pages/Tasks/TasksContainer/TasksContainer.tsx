@@ -5,6 +5,7 @@ import GroupTaskModal from './components/CreateGroupTaskModal/CreateGroupTaskMod
 import { context } from '../../../../../context/AppContext';
 import TaskGroup from './components/TasksGroup/TaskGroup';
 import CreateAndEditModal from './components/CreateAndEditModal/CreateAndEditModal';
+import SearchBox from './components/SearchBox/SearchBox';
 
 export default function TaskContainer() {
     const { darkMode, selectedTaskClass } = useContext(context) as Context;
@@ -13,6 +14,7 @@ export default function TaskContainer() {
     const [showTools, setShowTools] = useState<boolean>(false);
     const [showGTM, setShowGTM] = useState<boolean>(false);
     const [showTaskForm, setShowTaskForm] = useState<boolean>(false);
+    const [showSearchBox, setShowSearchBox] = useState<boolean>(false);
     const [createAndEditModal, setCreateAndEditModal] = useState<boolean>(false);
 
     // STRINGS
@@ -28,6 +30,7 @@ export default function TaskContainer() {
         showTools, setShowTools,
         showGTM, setShowGTM,
         showTaskForm, setShowTaskForm,
+        showSearchBox, setShowSearchBox,
         createAndEditModal, setCreateAndEditModal,
         // NUMBERS
         // OBJECTS AND ARRAYS
@@ -48,9 +51,10 @@ export default function TaskContainer() {
             <CreateAndEditModal {
                 ...{ ...values }
             } />
+            <SearchBox {...values}/>
 
             {/* Main UI */}
-            <div className={s.groups}>
+            <div className={s.groups} id='groupsContainer'>
                 {
                     selectedTaskClass?.taskGroups.map(group => {
                         

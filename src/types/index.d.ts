@@ -39,12 +39,12 @@ declare global {
     }
 
     type ProjectCardProps = {
-        projectName: string,
-        id: string,
-        icon: string
+        project: TaskClass
+        dataToModify: DataToModify, setDataToModify: Dispatch<SetStateAction<DataToModify>>,
+        editModal: boolean, setEditModal: Dispatch<SetStateAction<boolean>>,
     }
 
-    // MODAL 
+    // Create MODAL 
     type CPMProps = {
         showModal: boolean, setShowModal: Dispatch<SetStateAction<boolean>>
     }
@@ -54,6 +54,18 @@ declare global {
     }
     type CPMFormProps = CPMProps & CPMValues
     type CPMBottomProps = CPMProps & CPMValues
+
+    // Edit MODAL 
+    type EPMProps = {
+        editModal: boolean, setEditModal: Dispatch<SetStateAction<boolean>>
+        dataToModify: DataToModify, setDataToModify: Dispatch<SetStateAction<DataToModify>>
+    }
+
+    type EPMValues = {
+        changedValue: string, setChangedValue: Dispatch<SetStateAction<string>>
+    }
+    type EPMFormProps = EPMProps & EPMValues
+    type EPMBottomProps = EPMProps & EPMValues
 }
 
 // CUSTOM HOOKS 
@@ -62,16 +74,26 @@ declare global {
     type UseCountTasks = string[];
     type UseLocaleStorage = {
         saveDataToLocalStorage: (args: SaveDataToLocalStorage) => void
-        getDataFromLocalStorage: () => GetDataFromLocalStorage
+        getDataFromLocalStorage: (valueToGet: "taskClass" | "chat") => GetDataFromLocalStorage,
+        saveChats: SaveChats
     }
 
     type SaveDataToLocalStorage = {
         updatedTaskClass?: SelectedTaskClass,
-        taskClass: TaskClass[]
-        taskType: "projects" | "normal-tasks"
+        taskClass?: TaskClass[]
+        taskType: "projects" | "normal-tasks" | "",
+        valueFor: "taskClass" | "chats",
+        chats?: Chats
     }
 
-    type GetDataFromLocalStorage = TaskClass[] | null
+    type GetDataFromLocalStorage = ValueToReturn | undefined
+
+    type ValueToReturn = {
+        taskClass: TaskClass[],
+        chats: Chats,
+        valueFor: "taskClass" | "chats"
+    }
+    type SaveChats = (chats) => void
 }
 
 // VARIABLES 
@@ -134,6 +156,7 @@ declare global {
         groupId: string
     };
 
+
     type ChangesInProject = {
         name: string,
         taskType: "projects" | "normal-tasks"
@@ -156,6 +179,45 @@ declare global {
         task: Task | null,
         project: TaskClass | null
     }
+
+    type ProjectCard = TaskClass[]
+
+    type DataToModify = TaskClass | null
+
+    // CHATS
+
+    type Chats = Chat[];
+
+    type Chat = {
+        isOpen: boolean,
+        id: string,
+        convos: Convo[]
+    }
+
+    type SelectedChat = Chat | undefined
+
+    type Convo = {
+        isOpened: boolean,
+        convoId: string,
+        messagesAi: MessagesAi[],
+        messagesUi: MessagesUi[]
+    }
+
+    type SelectedConvo = Convo | undefined
+
+    type MessagesAi = {
+        role: "user" | "model",
+        parts: TextForMessage[]
+    }
+
+    type TextForMessage = {
+        text: string
+    }
+
+    type MessagesUi = {
+        role: "user" | "model",
+        message: string
+    }
 }
 
 // CONTEXT VARIABLE
@@ -177,8 +239,9 @@ declare global {
         toolsPages: ToolsPages[], setToolsPages: Dispatch<SetStateAction<ToolsPages[]>>,
         historyChanges: HistoryChanges, setHistoryChanges: Dispatch<SetStateAction<HistoryChanges>>
         taskClass: TaskClass[], setTaskClass: Dispatch<SetStateAction<TaskClass[]>>,
-        modifyData: ModifyData, setModifyData: Dispatch<SetStateAction<ModifyData>> ,
-        selectedTaskClass: SelectedTaskClass;
+        chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
+        modifyData: ModifyData, setModifyData: Dispatch<SetStateAction<ModifyData>>,
+        selectedTaskClass: SelectedTaskClass, selectedChat: SelectedChat
     }
 }
 

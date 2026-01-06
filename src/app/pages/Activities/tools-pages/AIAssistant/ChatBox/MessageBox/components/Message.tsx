@@ -105,7 +105,7 @@ export function Message ({ res }: { res: MessagesUi }) {
                         setTaskClass((prev) => prev.map(t => {
                             if (t.id == projectObject.id) {
                                 locStor.saveDataToLocalStorage({
-                                    updatedTaskClass: projectObject, taskType: "projects", taskClass
+                                    updatedTaskClass: projectObject, taskType: "projects", taskClass, valueFor: "taskClass"
                                 })
                                 return { ...projectObject }
                             }

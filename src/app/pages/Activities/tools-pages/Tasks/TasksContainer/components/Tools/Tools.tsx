@@ -5,7 +5,7 @@ import Button from '../../../../../../../../components/ui/Button';
 import { DropDown } from '../../../../../../../../components/DropDown/DropDown';
 import handleHistory from '../../utils/handleHistory';
 
-export default function Tools({ setShowGTM }: ToolsProps) {
+export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerValues) {
   const { darkMode, setTaskClass, selectedTaskClass, historyChanges, setHistoryChanges, setAllowChanges, taskClass, locStor } = useContext(context) as Context;
   const [showTools, setShowTools] = useState<boolean>(false);
   const selectedHistory = useMemo(() => {
@@ -63,7 +63,7 @@ export default function Tools({ setShowGTM }: ToolsProps) {
           iconElement={<i className="fa fa-chevron-right"></i>} />
         <Button
           className={s.actionButton}
-          clickListener={() => { }}
+          clickListener={() => setShowSearchBox(true)}
           iconElement={<i className="	fas fa-search"></i>} />
         <Button
           className={s.actionButton}

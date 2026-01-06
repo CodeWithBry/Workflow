@@ -209,6 +209,46 @@ pre {
 }
 
 
+/* loading */
+
+.loadingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1a73e8;
+    animation: fade-in .3s ease-in forwards;
+    /* Blue accent matching your theme */
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #e0e0e0;
+    /* Light gray background */
+    border-top: 3px solid #1a73e8;
+    /* Blue accent */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loadingText {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
 /* .userBox {
     background-color: #f4f5f7;
     color: #111;

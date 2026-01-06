@@ -1,4 +1,4 @@
-export function saveChat(chat: Chat) {
-    const stringifyChat = JSON.stringify(chat);
-    localStorage.setItem("chat", stringifyChat);
+export function saveChat(chats: Chats) {
+    const stringifyChat = JSON.stringify(chats);
+    localStorage.setItem("chats", stringifyChat);
 }

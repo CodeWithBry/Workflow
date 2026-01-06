@@ -6,7 +6,7 @@ import s from "./styles.module.css"
 import AIAssintant from "./tools-pages/AIAssistant/AIAssistant";
 
 function ActivitiesTools() {
-    const { taskClass, setTaskClass, selectedTaskClass, navigation, historyChanges, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded, getUrl, showAssistant } = useContext(context) as Context;
+    const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded, getUrl, showAssistant } = useContext(context) as Context;
     const { id } = useParams<{ id: string }>();
 
     // USEEFFECT RUNS AND CHECKS THE ID PARAMS IF IT MATCHES ONE OF THE PROJECTS IN THE TASKCLASS.
@@ -32,12 +32,12 @@ function ActivitiesTools() {
             return; // It skips the unnecessary update of task class if the project is already open. 
         }
 
-        setTaskClass(prev =>
-            prev.map(t => ({
-                ...t,
-                isOpened: t.id.toLowerCase() === id.toLowerCase()
-            }))
-        );
+        const updatedTaskClass = taskClass.map(t => ({
+            ...t,
+            isOpened: t.id.toLowerCase() === id.toLowerCase()
+        }))
+
+        setTaskClass([...updatedTaskClass]);
 
         setHistoryChanges({
             currentStateNumber: -1,
@@ -55,8 +55,6 @@ function ActivitiesTools() {
                 }))
             }
         }
-
-        console.log(historyChanges)
     }, [selectedTaskClass])
 
 

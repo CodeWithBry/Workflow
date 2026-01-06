@@ -36,11 +36,16 @@
     border-radius: .5rem;
 }
 
-.projects .container .projectCard {
+.projects .container>label {
+    width: 100%;
+    position: relative;
+}
+
+.projects .container>label .projectCard {
     display: flex;
     align-items: center;
-    width: calc(100% - (var(--pad-x-s) * 2));
     gap: var(--gap-small);
+    width: calc(100% - (var(--pad-x-s) * 2));
     padding: calc(var(--pad-y-s) * 2) calc(var(--pad-x-s) * 1);
     background-color: var(--l-light);
     background-color: rgba(217, 217, 217, 0.5);
@@ -49,11 +54,19 @@
     transition: .3s ease;
 }
 
-.projects .container .projectCard:hover {
+.projects .container>label .projectCard:hover {
+    scale: 1;
+}
+
+.projects .container>label .projectCard:active {
+    scale: 1;
+}
+
+.projects .container>label .projectCard:hover {
     background-color: rgba(217, 217, 217, 0.9);
 }
 
-.projects .container .projectCard>i {
+.projects .container>label .projectCard>i {
     width: 30px;
     height: 30px;
     color: var(--l-mid);
@@ -64,17 +77,38 @@
     font-size: var(--p-large);
 }
 
-.projects .container .projectCard .right>h2 {
+.projects .container>label .projectCard .right {
+    width: 100%;
+}
+
+.projects .container>label .projectCard .right>h2 {
     color: var(--secondary-color);
     font-size: var(--h1-smallest);
 }
 
-.projects .container .projectCard .right>span {
+.projects .container>label .projectCard .right>span {
     color: var(--l-mid);
     font-size: var(--p-smaller);
 }
+
+
 /* Dark Mode */
+
 .projects.dark .searchWrapper>input {
     background-color: transparent;
     color: white;
+}
+
+.actionToolButton {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    padding: var(--pad-y-s) var(--pad-x-s);
+    border-radius: 2rem;
+    background-color: transparent;
+}
+
+.actionToolButton:hover {
+    background-color: var(--l-light);
 }

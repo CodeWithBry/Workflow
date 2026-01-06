@@ -1,15 +1,61 @@
 import { Link } from 'react-router-dom'
 import s from './styles.module.css'
+import { DropDown } from '../../../../../components/DropDown/DropDown'
+import Button from '../../../../../components/ui/Button'
+import { useContext, useState } from 'react'
+import { context } from '../../../../context/AppContext'
+import { updateProject } from '../../../../../utils/updateProject'
+import { updateChat } from '../../../../../utils/updateChat'
 
-function ProjectCard({ icon, projectName, id }: ProjectCardProps) {
+function ProjectCard({ project, setDataToModify, setEditModal }: ProjectCardProps) {
+    const { darkMode, setTaskClass, setChats, locStor } = useContext(context) as Context;
+    const [showActions, setShowActions] = useState<boolean>(false);
+    const actionLists: ActionsLists[] = [
+        {
+            action: "Edit Project",
+            functionCall: () => {
+                setDataToModify(project);
+                setEditModal(true)
+            }
+        },
+        {
+            action: "Delete Project",
+            functionCall: () => {
+                updateProject({
+                    setTaskClass,
+                    projectId: project.id,
+                    projectName: project.name,
+                    value: "",
+                    action: "delete",
+                    locStor
+                })
+
+                updateChat({project, setChats, locStor})
+            }
+        }
+    ]
+
     return (
-        <Link to={`/activities/${id}/tasks`} className={s.projectCard}>
-            <i className={icon}></i>
-            <div className={s.right}>
-                <h2>{projectName}</h2>
-                <span>{id}</span>
-            </div>
-        </Link>
+        <label
+            htmlFor={`#${project.id}`}>
+            <Link
+                to={`/activities/${project.id}/tasks`}
+                className={s.projectCard}
+                id={`${project.id}`} >
+                <i className={project.icon}></i>
+                <div className={s.right}>
+                    <h2>{project.name}</h2>
+                    <span>{project.id}</span>
+                </div>
+            </Link>
+            <Button
+                className={s.actionToolButton}
+                clickListener={() => {
+                    setShowActions(true);
+                }}
+                iconElement={<i className="fas fa-ellipsis-v" />} />
+            <DropDown {...{ darkMode, showTools: showActions, setShowTools: setShowActions, actionLists }} />
+        </label>
     )
 }
 

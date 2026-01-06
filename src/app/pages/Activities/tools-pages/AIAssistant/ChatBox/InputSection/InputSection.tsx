@@ -4,9 +4,9 @@ import s from "./styles.module.css"
 import Button from "../../../../../../../components/ui/Button";
 import { addUserMessage } from "../utils/addUserMessage";
 
-function InputSection({ chat, setChat, setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValues) {
+function InputSection({ setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValues) {
 
-    const { darkMode, modifyData } = useContext(context) as Context;
+    const { darkMode, modifyData, chats, setChats, selectedChat } = useContext(context) as Context;
     const inputSectionClassName = !darkMode ? s.inputSection : `${s.inputSection} ${s.dark}`
     const inputRef = useRef<HTMLDivElement>(null);
     const [isEmpty, setIsEmpty] = useState(true);
@@ -41,15 +41,16 @@ function InputSection({ chat, setChat, setIsNewChat, pseudoConvo, selectedConvo 
 
                             const text = inputRef.current?.innerText ?? "";
                             if (!text.trim()) return;
-
+                            console.log(selectedChat)
                             addUserMessage({
                                 element: e,
                                 inputRefText: text,
-                                chat,
-                                setChat,
-                                setIsNewChat,
+                                chats,
                                 pseudoConvo: selectedConvo ? undefined : pseudoConvo,
-                                modifyData
+                                modifyData,
+                                selectedChat,
+                                setChats,
+                                setIsNewChat,
                             });
 
                             // Clear input
@@ -64,7 +65,7 @@ function InputSection({ chat, setChat, setIsNewChat, pseudoConvo, selectedConvo 
                 <Button
                     className={s.sendButton}
                     clickListener={() => {
-                        addUserMessage({ send: true, inputRefText: inputRef.current?.innerText ?? "", chat, setChat, setIsNewChat, pseudoConvo: selectedConvo ? undefined : pseudoConvo, modifyData });
+                        addUserMessage({ send: true, inputRefText: inputRef.current?.innerText ?? "", chats, setChats, selectedChat, setIsNewChat, pseudoConvo: selectedConvo ? undefined : pseudoConvo, modifyData });
                         if(inputRef.current) inputRef.current.innerText = "";
                     }}
                     iconElement={(<i className="fa fa-send"></i>)} />

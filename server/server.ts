@@ -14,9 +14,17 @@ const origins = [
 ];
 
 const promptForTask = `
-            IMPORTANT:
-            MAKE SURE TO SUMMARIZE AND SIMPLIFY EVERYTHING!
-            YOUR MAXIMUM TEXT IS ONLY 500 WORDS!
+            IMPORTANT!
+            Be very specific (narrow topic only)
+            Limit output length (e.g., “max 3 bullets”)
+            Use constraints (word/character limit)
+            Ask for bullets, not paragraphs
+            Request summaries only (“TL;DR”, “one-line each”)
+            Avoid follow-up explanations
+            Reuse context instead of repeating prompts
+            Set a fixed format (template)
+            Disable creativity (“no examples, no emojis”)
+            Chunk tasks (small prompts, one goal)
 
             You are a helpful productivity assistant.
             Your job:
@@ -29,9 +37,17 @@ const promptForTask = `
             - Keep the explanation concise but helpful
         `;
 const promptForProject = `
-            IMPORTANT:
-            MAKE SURE TO SUMMARIZE AND SIMPLIFY EVERYTHING!
-            YOUR MAXIMUM TEXT IS ONLY 500 WORDS!
+            IMPORTANT!
+            Be very specific (narrow topic only)
+            Limit output length (e.g., “max 3 bullets”)
+            Use constraints (word/character limit)
+            Ask for bullets, not paragraphs
+            Request summaries only (“TL;DR”, “one-line each”)
+            Avoid follow-up explanations
+            Reuse context instead of repeating prompts
+            Set a fixed format (template)
+            Disable creativity (“no examples, no emojis”)
+            Chunk tasks (small prompts, one goal)
 
             You are a helpful productivity assistant.
             Your job:
@@ -118,7 +134,50 @@ app.post("/server/ai-chat", async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-})
+
+});
+
+// app.post("/server/ai-chat-stream", async (req, res) => {
+//     res.setHeader("Content-Type", "text/event-stream");
+//     res.setHeader("Cache-Control", "no-cache");
+//     res.setHeader("Connection", "keep-alive");
+
+//     try {
+//         const { messagesAi, modifyData } = req.body;
+
+//         const aiAssistPrompt = modifyData?.task
+//             ? promptForTask + `
+//                 Task: ${JSON.stringify(modifyData.task)}
+//                 Project: ${JSON.stringify(modifyData.project)}
+//             `
+//             : promptForProject + `
+//                 Project: ${JSON.stringify(modifyData.project)}
+//             `;
+
+//         const persona = { role: "model", parts: [{ text: aiAssistPrompt }] };
+//         const messAi = [persona, ...messagesAi];
+
+//         // 👇 MUST be a streaming method
+//         const stream = await getModel.generateContentStream({
+//             contents: messAi
+//         });
+
+//         for await (const chunk of stream) {
+//             const text = chunk?.text();
+//             if (text) {
+//                 res.write(`data: ${JSON.stringify(text)}\n\n`);
+//             }
+//         }
+
+//         res.write(`data: [DONE]\n\n`);
+//         res.end();
+
+//     } catch (err) {
+//         console.error(err);
+//         res.write(`data: [ERROR]\n\n`);
+//         res.end();
+//     }
+// });
 
 app.listen(3000, "0.0.0.0", () => {
     console.log(`🚀 BryTech server is running on port ${3000}`);
