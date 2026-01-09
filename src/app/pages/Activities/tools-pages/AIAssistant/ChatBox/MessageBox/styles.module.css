@@ -202,6 +202,7 @@
     font-size: 0.9rem;
 }
 
+ol,
 pre {
     width: 100%;
     overflow: hidden;
@@ -246,6 +247,48 @@ pre {
 .loadingText {
     font-size: 16px;
     font-weight: 500;
+}
+
+
+/* CODE BLOCK */
+
+.codeBlockWrapper {
+    border-radius: 0.7rem;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.codeBlockHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e1e1e;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+}
+
+.language {
+    color: #9cdcfe;
+    text-transform: lowercase;
+}
+
+.copyBtn {
+    background: transparent;
+    border: none;
+    color: #d4d4d4;
+    cursor: pointer;
+}
+
+.copyBtn:hover {
+    color: #ffffff;
+}
+
+.inlineCode {
+    background: #2a2a2a;
+    padding: 0.15rem 0.35rem;
+    border-radius: 0.3rem;
+    font-size: 0.85rem;
+    color: white;
 }
 
 

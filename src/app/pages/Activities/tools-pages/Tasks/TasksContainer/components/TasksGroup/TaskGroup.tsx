@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import s from './styles.module.css'
-import { DropDown } from '../../../../../../../../components/DropDown/DropDown';
+import { DropDown } from '../../../../../../../../components/drop-down/DropDown';
 import { context } from '../../../../../../../context/AppContext';
 import Button from '../../../../../../../../components/ui/Button';
 import Task from '../Task/Task';

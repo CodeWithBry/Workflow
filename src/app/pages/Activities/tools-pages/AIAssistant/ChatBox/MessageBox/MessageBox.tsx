@@ -1,17 +1,50 @@
-import { useContext, useState } from 'react';
-import { context } from '../../../../../../context/AppContext';
-import s from './styles.module.css'
-import Suggestion from './components/Suggestion';
-import Convo from './components/Convo';
-import { DropDown } from '../../../../../../../components/DropDown/DropDown';
-import Button from '../../../../../../../components/ui/Button';
-import LoadingPage from './components/Loading';
+import {
+    useContext,
+    useState,
+    useTransition,
+    useEffect,
+} from "react";
+import { context } from "../../../../../../context/AppContext";
+import s from "./styles.module.css";
+
+import Suggestion from "./components/Suggestion";
+import Convo from "./components/Convo";
+import { DropDown } from "../../../../../../../components/drop-down/DropDown";
+import Button from "../../../../../../../components/ui/Button";
+import LoadingPage from "./components/Loading";
 
 function MessageBox(props: ChatBotValues) {
-    const { selectedConvo, isNewChat, setIsNewChat, isConvoLoading } = props as ChatBotValues;
-    const { darkMode, selectedTaskClass } = useContext(context) as Context;
-    const messageBoxStyles = !darkMode ? s.messageBox : `${s.messageBox} ${s.dark}`;
-    const [showActionLists, setShowActionLists] = useState<boolean>(false);
+    const {
+        selectedConvo,
+        isNewChat,
+        setIsNewChat,
+        isConvoLoading,
+    } = props as ChatBotValues;
+
+    const { darkMode, selectedTaskClass } =
+        useContext(context) as Context;
+
+    const messageBoxStyles = !darkMode
+        ? s.messageBox
+        : `${s.messageBox} ${s.dark}`;
+
+    const [showActionLists, setShowActionLists] =
+        useState<boolean>(false);
+
+    /** 🧠 NEW: controls heavy UI mounting */
+    const [showConvo, setShowConvo] = useState(false);
+    const [isPending, startTransition] = useTransition();
+
+    /** 🔁 Transition when convo is ready */
+    useEffect(() => {
+        if (!isConvoLoading && selectedConvo && isNewChat) {
+            startTransition(() => {
+                setShowConvo(true);
+            });
+        } else {
+            setShowConvo(false);
+        }
+    }, [isConvoLoading, selectedConvo, isNewChat]);
 
     // ARRAYS AND OBJECTS
     const actionLists: ActionsLists[] = [
@@ -20,60 +53,65 @@ function MessageBox(props: ChatBotValues) {
             action: "New chat",
             functionCall() {
                 setIsNewChat(false);
-                // setChat(prev => {
-                //     const updatedConvos = prev.convos.map(convo => ({ ...convo, isOpened: false }));
-                //     return { ...prev, convos: updatedConvos };
-                // })
-            }
+            },
         },
         {
             icon: "far fa-edit",
             action: "History",
-            functionCall() {
-
-            }
+            functionCall() { },
         },
         {
             icon: "far fa-edit",
             action: "Search",
-            functionCall() { }
-        }
-    ]
+            functionCall() { },
+        },
+    ];
 
     const values = {
-        // IMMUTABLE VARIABLES
         actionLists,
-        // BOOLEAN
-        showActionLists, setShowActionLists,
-        // STRINGS
-        // NUMBERS
-    }
+        showActionLists,
+        setShowActionLists,
+    };
 
     return (
         <div className={messageBoxStyles}>
+            {/* HEADER */}
             <div className={s.heading}>
                 <h2>
                     <span className={s.titleWrapper}>
                         <span>{selectedTaskClass?.name}</span>
                     </span>
                     <Button
-                        iconElement={<i className="fa fa-bars"></i>}
+                        iconElement={<i className="fa fa-bars" />}
                         className={s.hamburger}
-                        clickListener={() => { setShowActionLists(true) }} />
+                        clickListener={() =>
+                            setShowActionLists(true)
+                        }
+                    />
                 </h2>
 
-                <DropDown {...{ darkMode, showTools: showActionLists, setShowTools: setShowActionLists, actionLists }} />
+                <DropDown
+                    {...{
+                        darkMode,
+                        showTools: showActionLists,
+                        setShowTools: setShowActionLists,
+                        actionLists,
+                    }}
+                />
             </div>
 
-            {
-                isConvoLoading
-                    ? <LoadingPage />
-                    : selectedConvo == null || !isNewChat
-                        ? <Suggestion />
-                        : <Convo {...{ ...values, ...props }} />
-            }
+            {/* BODY */}
+            {isConvoLoading || isPending ? (
+                <LoadingPage />
+            ) : selectedConvo == null || !isNewChat ? (
+                <Suggestion />
+            ) : showConvo ? (
+                <Convo {...{ ...values, ...props }} />
+            ) : (
+                <LoadingPage />
+            )}
         </div>
-    )
+    );
 }
 
-export default MessageBox
+export default MessageBox;

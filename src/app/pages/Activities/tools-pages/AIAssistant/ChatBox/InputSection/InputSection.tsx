@@ -17,15 +17,17 @@ function InputSection({ setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValue
     return (
         <div className={inputSectionClassName}>
             <label htmlFor="inputMessage">
+                <div className={s.attachment}></div>
                 <div
                     ref={inputRef}
                     className={`${s.inputContainer} ${isEmpty ? s.placeholder : ""}`}
                     contentEditable
                     suppressContentEditableWarning
                     data-placeholder="type anything..."
-                    onInput={() => {
+                    onInput={(e: React.InputEvent<HTMLDivElement>) => {
                         const text = inputRef.current?.innerText ?? "";
                         setIsEmpty(!text.trim());
+                        e.currentTarget.scrollTop = e.currentTarget.scrollHeight;
                     }}
                     onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                         // SHIFT + ENTER → new line

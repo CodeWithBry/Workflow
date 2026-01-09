@@ -1,36 +1,45 @@
-import { useContext, useMemo } from "react";
-import s from "../styles.module.css"
+import { memo, useContext, useMemo } from "react";
+import s from "../styles.module.css";
 
 // REMARKS
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { motion } from "framer-motion";
+
 import sanitizeBackticks from "../../utils/sanitizeBackticks";
 import { safeJsonParse } from "../../utils/safeJsonParse";
 import Button from "../../../../../../../../components/ui/Button";
 import { context } from "../../../../../../../context/AppContext";
-export function Message ({ res }: { res: MessagesUi }) {
-    const { setTaskClass, locStor, taskClass } = useContext(context) as Context
-    const raw = res.message
-        .replace(/```json/gi, "")
-        .replace(/```/g, "")
-        .replace(/^\s*[\r\n]/gm, "")
-        .trim();
-    const message = useMemo(() => sanitizeBackticks(res.message, 12), [res.message]);
-    const projectObject = safeJsonParse<TaskClass>(raw);
+import { CodeBlock } from "./CodeBlock";
 
+function MessageComponent({ res }: { res: MessagesUi }) {
+    const { setTaskClass, locStor, taskClass } = useContext(context) as Context;
+
+    // ⚠️ Heavy string ops → memoized
+    const raw = useMemo(() => (
+        res.message
+            .replace(/```json/gi, "")
+            .replace(/```/g, "")
+            .replace(/^\s*[\r\n]/gm, "")
+            .trim()
+    ), [res.message]);
+
+    const message = useMemo(
+        () => sanitizeBackticks(res.message, 12),
+        [res.message]
+    );
+
+    const projectObject = useMemo(
+        () => safeJsonParse<TaskClass>(raw),
+        [raw]
+    );
 
     return (
-        <motion.li
-            key={res.message}
+        <li
             className={res.role === "user" ? s.user : s.model}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22 }}
         >
-            <div className={`${s.wrapper} ${res.role === "user" ? s.userBox : s.modelBox}`} >
+            <div
+                className={`${s.wrapper} ${res.role === "user" ? s.userBox : s.modelBox}`}
+            >
                 <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
@@ -43,33 +52,26 @@ export function Message ({ res }: { res: MessagesUi }) {
                                     ? className.split(/\s+/)
                                     : [];
 
-                            const languageClass = classes.find((c) =>
+                            const languageClass = classes.find(c =>
                                 c.startsWith("language-")
                             );
 
                             const lang = languageClass?.replace("language-", "");
+                            const value = String(children).replace(/\n$/, "");
 
-                            // Block code (fenced)
+                            // Fenced code block
                             if (lang) {
                                 return (
-                                    <SyntaxHighlighter
-                                        style={oneDark}
+                                    <CodeBlock
                                         language={lang}
-                                        PreTag="div"
-                                        wrapLongLines
-                                        customStyle={{
-                                            borderRadius: "0.7rem",
-                                            fontSize: "0.9rem",
-                                        }}
-                                    >
-                                        {String(children).replace(/\n$/, "")}
-                                    </SyntaxHighlighter>
+                                        value={value}
+                                    />
                                 );
                             }
 
                             // Inline code
                             return (
-                                <code className={s.inlineCode} aria-label="inline-code">
+                                <code className={s.inlineCode}>
                                     {children}
                                 </code>
                             );
@@ -95,27 +97,46 @@ export function Message ({ res }: { res: MessagesUi }) {
                 >
                     {message}
                 </ReactMarkdown>
-
             </div>
 
-            {res.role === "model" && <div className={s.actions}>
-                {projectObject?.id && <Button
-                    className={`${s.actionButton} ${s.saveButton}`}
-                    clickListener={() => {
-                        setTaskClass((prev) => prev.map(t => {
-                            if (t.id == projectObject.id) {
-                                locStor.saveDataToLocalStorage({
-                                    updatedTaskClass: projectObject, taskType: "projects", taskClass, valueFor: "taskClass"
-                                })
-                                return { ...projectObject }
-                            }
-
-                            return t
-                        }))
-                    }}
-                    iconElement={<i className="fas fa-save"></i>}
-                    content={"Update This Project"} />}
-            </div>}
-        </motion.li>
+            {res.role === "model" && (
+                <div className={s.actions}>
+                    {projectObject?.id && (
+                        <Button
+                            className={`${s.actionButton} ${s.saveButton}`}
+                            clickListener={() => {
+                                setTaskClass(prev =>
+                                    prev.map(t => {
+                                        if (t.id === projectObject.id) {
+                                            locStor.saveDataToLocalStorage({
+                                                updatedTaskClass: projectObject,
+                                                taskType: "projects",
+                                                taskClass,
+                                                valueFor: "taskClass",
+                                            });
+                                            return { ...projectObject };
+                                        }
+                                        return t;
+                                    })
+                                );
+                            }}
+                            iconElement={<i className="fas fa-save" />}
+                            content="Update This Project"
+                        />
+                    )}
+                </div>
+            )}
+        </li>
     );
 }
+
+/**
+ * 🧠 Memoized Message
+ * Re-renders ONLY when res changes
+ */
+export const Message = memo(
+    MessageComponent,
+    (prev, next) =>
+        prev.res.message === next.res.message &&
+        prev.res.role === next.res.role
+);

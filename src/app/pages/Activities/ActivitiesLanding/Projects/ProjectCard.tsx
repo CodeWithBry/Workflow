@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import s from './styles.module.css'
-import { DropDown } from '../../../../../components/DropDown/DropDown'
+import { DropDown } from '../../../../../components/drop-down/DropDown'
 import Button from '../../../../../components/ui/Button'
 import { useContext, useState } from 'react'
 import { context } from '../../../../context/AppContext'

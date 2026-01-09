@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 import s from './styles.module.css'
 import { context } from '../../../../../../../context/AppContext';
 import Button from '../../../../../../../../components/ui/Button';
-import { DropDown } from '../../../../../../../../components/DropDown/DropDown';
+import { DropDown } from '../../../../../../../../components/drop-down/DropDown';
 import handleHistory from '../../utils/handleHistory';
 
 export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerValues) {
@@ -34,7 +34,7 @@ export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerVal
             className={`${s.actionButton} ${s.saveButton}`}
             clickListener={() => {
               if (selectedTaskClass) {
-                locStor.saveDataToLocalStorage({ updatedTaskClass: selectedTaskClass, taskType: selectedTaskClass.taskType, taskClass })
+                locStor.saveDataToLocalStorage({ updatedTaskClass: selectedTaskClass, taskType: selectedTaskClass.taskType, taskClass, valueFor: "taskClass" })
                 setHistoryChanges(prev => {
                   const findSelectedHistory = prev.changesInProject.map((t, i) => {
                     if (i == historyChanges.currentStateNumber) {

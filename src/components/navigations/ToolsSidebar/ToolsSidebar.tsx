@@ -22,7 +22,7 @@ function ToolsSidebar() {
                     <h2>
                         <LinkTag
                             className={s.backToHome}
-                            to="/activities"
+                            to="/"
                             content={"Workflow"} />
                     </h2>
                 </div>

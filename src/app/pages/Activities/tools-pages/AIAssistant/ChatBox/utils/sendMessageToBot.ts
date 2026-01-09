@@ -1,124 +1,111 @@
 import { saveChat } from "./saveChat";
 import { updateConvo } from "./updateConvo";
 
+export const URL_API =
+    import.meta.env.MODE === "development"
+        ? "http://localhost:3000/server"
+        : "https://spread-m5ja.onrender.com/server";
+
 export async function sendMessageToBot({
-    setChats, messagesAi, modifyData, selectedChat
+    setChats,
+    messagesAi,
+    modifyData,
+    selectedChat,
 }: SendMessageToBot) {
-    const apiEndPoint = "/server/ai-chat";
-    const response = await fetch(`http://localhost:3000${apiEndPoint}`, {
+    if (!selectedChat) return;
+
+    const response = await fetch(`${URL_API}/ai-chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messagesAi, modifyData }),
     });
-    const getResponse = await response.json();
-    const newMessageAi: MessagesAi = {
+
+    if (!response.body) return;
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    let streamedText = "";
+
+    // 🔹 placeholder messages (TYPE SAFE)
+    const placeholderUi: MessagesUi = {
         role: "model",
-        parts: [
-            { text: getResponse.reply }
-        ]
-    }
-    const newMessage: MessagesUi = {
+        message: "",
+    };
+
+    const placeholderAi: MessagesAi = {
         role: "model",
-        message: getResponse.reply
-    }
+        parts: [{ text: "" }],
+    };
 
-    if (!selectedChat) return;
+    // 1️⃣ Insert placeholder into the ACTIVE convo using updateConvo
+    setChats(prev =>
+        prev.map(chat => {
+            if (chat.id !== selectedChat.id) return chat;
 
+            const updatedConvos = updateConvo({
+                chat: selectedChat,
+                newMessage: placeholderUi,
+                newMessageAi: placeholderAi,
+            });
 
-    setChats(prev => {
-        const updateChats = prev.map((chat) => {
-            if (chat.id == selectedChat?.id) {
-                const updatedConvos: Convo[] = updateConvo({ chat: selectedChat, newMessage, newMessageAi });
-
-                return { ...selectedChat, convos: [...updatedConvos] }
-            }
-
-            return chat
+            return {
+                ...chat,
+                convos: updatedConvos,
+            };
         })
+    );
 
-        saveChat(updateChats);
-        return updateChats
-    })
+    // 2️⃣ Streaming UI updates (only messagesUi)
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        streamedText += chunk;
+
+        setChats(prev =>
+            prev.map(chat => {
+                if (chat.id !== selectedChat.id) return chat;
+
+                const updatedConvos = chat.convos.map((convo) => {
+                    if (!convo.isOpened) return convo;
+
+                    const messagesUi = convo.messagesUi.map((msg, i) =>
+                        i === convo.messagesUi.length - 1
+                            ? { ...msg, message: streamedText }
+                            : msg
+                    );
+
+                    return { ...convo, messagesUi };
+                });
+
+                return { ...chat, convos: updatedConvos };
+            })
+        );
+    }
+
+    // 3️⃣ FINAL COMMIT → update BOTH Ui + Ai using updateConvo + save
+    setChats(prev =>
+        prev.map(chat => {
+            if (chat.id !== selectedChat.id) return chat;
+
+            const finalUi: MessagesUi = { role: "model", message: streamedText };
+            const finalAi: MessagesAi = { role: "model", parts: [{ text: streamedText }] };
+
+            const updatedConvos = updateConvo({
+                chat: selectedChat,
+                newMessage: finalUi,
+                newMessageAi: finalAi,
+            });
+
+            const updatedChat = { ...chat, convos: updatedConvos };
+
+            saveChat(
+                prev.map(c => (c.id === updatedChat.id ? updatedChat : c))
+            );
+
+            return updatedChat;
+        })
+    );
 }
-
-
-// export async function sendMessageToBot({
-//     setChat,
-//     messagesAi,
-//     modifyData
-// }: SendMessageToBot) {
-
-//     const response = await fetch("http://localhost:3000/server/ai-chat-stream", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ messagesAi, modifyData })
-//     });
-
-//     if (!response.body) return;
-
-//     const reader = response.body.getReader();
-//     const decoder = new TextDecoder();
-
-//     // 1️⃣ Create an EMPTY model message first
-//     let streamedText = "";
-
-//     const tempMessage: MessagesUi = {
-//         role: "model",
-//         message: ""
-//     };
-
-//     const tempMessageAi: MessagesAi = {
-//         role: "model",
-//         parts: [{ text: "" }]
-//     };
-
-//     // Add placeholder message immediately
-//     setChat(prev => {
-//         const updatedConvos = updateConvo({
-//             chat: prev,
-//             newMessage: tempMessage,
-//             newMessageAi: tempMessageAi
-//         });
-//         return { ...prev, convos: updatedConvos };
-//     });
-
-//     // 2️⃣ Stream loop
-//     while (true) {
-//         const { value, done } = await reader.read();
-//         if (done) break;
-
-//         const chunk = decoder.decode(value);
-//         const lines = chunk.split("\n\n");
-
-//         for (const line of lines) {
-//             if (!line.startsWith("data: ")) continue;
-
-//             const data = line.replace("data: ", "").trim();
-
-//             streamedText += JSON.parse(data);
-
-//             // 3️⃣ Update the LAST message only
-//             setChat(prev => {
-//                 const convos = [...prev.convos];
-//                 const last = convos[convos.length - 1];
-
-//                 last.messagesUi[last.messagesUi.length - 1] = {
-//                     role: "model",
-//                     message: streamedText
-//                 };
-
-//                 last.messagesAi[last.messagesAi.length - 1] = {
-//                     role: "model",
-//                     parts: [{ text: streamedText }]
-//                 };
-
-//                 if (data === "[DONE]") {
-//                     // final save
-//                     saveChat({ ...prev, convos });
-//                 }
-
-//                 return { ...prev, convos };
-//             });
-//         }
-//     }
-// }

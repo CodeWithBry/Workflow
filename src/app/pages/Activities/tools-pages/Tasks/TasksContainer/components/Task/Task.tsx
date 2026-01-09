@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import s from "./styles.module.css"
 import Button from "../../../../../../../../components/ui/Button"
-import { DropDown } from "../../../../../../../../components/DropDown/DropDown"
+import { DropDown } from "../../../../../../../../components/drop-down/DropDown"
 import { context } from "../../../../../../../context/AppContext"
 import { deleteTask } from "../../utils/deleteTask"
 import { updateTask } from "../../utils/updateTask"

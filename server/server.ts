@@ -116,25 +116,69 @@ app.options(/.*/, cors({ origin: true }));
 app.use(express.json());
 
 
-// Normal Convo AI
 app.post("/server/ai-chat", async (req, res) => {
     try {
         const { messagesAi, modifyData } = req.body;
-        console.log(modifyData.task)
-        const aiAssistPrompt = modifyData?.task ? promptForTask + `
-            Task: ${JSON.stringify(modifyData.task)}
-            Project: ${JSON.stringify(modifyData.project)}
-        ` : promptForProject + `Project: ${JSON.stringify(modifyData.project)}`;
-        const persona = { role: "model", parts: [{ text: aiAssistPrompt }] };
-        const messAi = [persona, ...messagesAi];
-        const result = await getModel.generateContent({ contents: messAi });
-        const reply = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "Something went wrong.";
-        res.json({ reply, messagesAi });
-    } catch (error) {
-        console.log(error)
-    }
 
+        const aiAssistPrompt = modifyData?.task
+            ? promptForTask + `
+Task: ${JSON.stringify(modifyData.task)}
+Project: ${JSON.stringify(modifyData.project)}
+`
+            : promptForProject + `
+Project: ${JSON.stringify(modifyData.project)}
+`;
+
+        const persona = {
+            role: "model",
+            parts: [{ text: aiAssistPrompt }],
+        };
+
+        const messAi = [persona, ...messagesAi];
+
+        // 🔥 REQUIRED STREAMING HEADERS
+        res.status(200);
+        res.setHeader("Content-Type", "text/plain; charset=utf-8");
+        res.setHeader("Cache-Control", "no-cache, no-transform");
+        res.setHeader("Connection", "keep-alive");
+        res.setHeader("Content-Encoding", "identity");
+        res.flushHeaders?.();
+
+        // Start Gemini streaming
+        const stream = await getModel.generateContentStream({
+            contents: messAi,
+        });
+
+        // Handle client disconnect
+        let aborted = false;
+        req.on("close", () => {
+            aborted = true;
+        });
+
+        // 🔥 Correct Gemini chunk parsing
+        for await (const chunk of stream.stream) {
+            if (aborted) break;
+
+            const parts = chunk.candidates?.[0]?.content?.parts;
+            if (!parts) continue;
+
+            for (const part of parts) {
+                if (part.text) {
+                    res.write(part.text);
+                }
+            }
+        }
+
+        res.end();
+    } catch (error) {
+        console.error("Streaming error:", error);
+
+        if (!res.headersSent) {
+            res.status(500).json({ error: "Streaming error" });
+        } else {
+            res.end();
+        }
+    }
 });
 
 // app.post("/server/ai-chat-stream", async (req, res) => {
