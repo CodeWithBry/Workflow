@@ -3,7 +3,6 @@ import s from "./styles.module.css"
 import { context } from "../../../context/AppContext"
 import QuickActions from "./QuickActions/QuickActions";
 import Projects from "./Projects/Projects";
-import Navbar from "../../../../components/navigations/Navbar/Navbar";
 import CreateProjectModal from "./CreateProjectModal/CreateProjectModal";
 import EditProjectModal from "./EditProjectModal/EditProjectModal";
 
@@ -17,7 +16,6 @@ function ActivitiesLanding() {
     <div className={!darkMode ? s.activitiesLanding : `${s.activitiesLanding} ${s.dark}`}>
       <CreateProjectModal {...{showModal, setShowModal}}/>
       <EditProjectModal {...{editModal, setEditModal, dataToModify, setDataToModify}}/>
-      <Navbar />
       <div className={s.container}>
         <div className={s.greetings}>
           <h1>Hello, Bryan A.</h1>

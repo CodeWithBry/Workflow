@@ -88,9 +88,31 @@
     scale: .8;
 }
 
+.navBar .right .authButton {
+    gap: var(--gap-small);
+    width: fit-content;
+    font-size: var(--p-smaller);
+    padding: var(--pad-y-m) var(--pad-x-s);
+    text-wrap: nowrap;
+    font-family: var(--font-title);
+    font-weight: 700;
+    border-radius: .5rem;
+    background-color: transparent;
+}
+
+.navBar .right .authButton:last-child {
+    color: white;
+    background-color: var(--secondary-color);
+}
+
+.navBar .right .authButton:hover {
+    background-color: var(--l-very-light);
+}
+
 .navBar .hamburger {
     display: none;
 }
+
 
 /* DARK MODE */
 
@@ -111,16 +133,17 @@
         display: flex;
         margin-right: 1rem;
     }
-
     .navBar .right {
         display: none;
     }
-
     .navBar .right .colorTheme {
         display: flex;
         flex-direction: column;
     }
-
+    .navBar .right .authButton {
+        width: calc(100% - 1.5rem);
+        justify-content: center;
+    }
     .navBar .right.dropDown {
         display: flex;
         flex-direction: column;
@@ -132,12 +155,10 @@
         border-radius: 1rem;
         padding: var(--pad-y-m) var(--pad-x-s);
     }
-
     .navBar.dark .hamburger {
         color: white;
         background-color: transparent;
     }
-
     .navBar.dark .right.dropDown {
         background-color: var(--l-mid);
         box-shadow: 0 0 10px -5px rgba(0, 0, 0, 0.378);

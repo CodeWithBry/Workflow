@@ -10,6 +10,11 @@ import { useNavigate, type NavigateFunction } from "react-router-dom";
 import Tasks from "../pages/Activities/tools-pages/Tasks/Tasks";
 import { useGetPath } from "../../hooks/useGetPath";
 import { useLocaleStorage } from "../../hooks/useLocaleStorage";
+import PageNotFound from "../pages/PageNotFound/PageNotFound";
+import Login from "../pages/auth/Login/Login";
+import Signup from "../pages/auth/Signup/Signup";
+import { onAuthStateChanged, type User } from "firebase/auth";
+import { auth, getDataFromFirestore } from "../../lib/firebase";
 
 function AppProvider() {
     // NAVIGATION
@@ -28,13 +33,19 @@ function AppProvider() {
     const [subPath, setSubPath] = useState<string>("");
 
     // OBJECTS AND ARRAYS
+    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+    const [authCredentials, setAuthCredentials] = useState<User | null>(null);
+
     const [pages, setPages] = useState<Pages[]>([
         { tabName: "Activities", tabPath: "/", tabIcon: "fas fa-tools", tabElement: ActivitiesLanding, tabFocused: false },
+        { tabName: "Login", tabPath: "/login", tabIcon: "fas fa-tools", tabElement: Login, tabFocused: false },
+        { tabName: "Signup", tabPath: "/signup", tabIcon: "fas fa-tools", tabElement: Signup, tabFocused: false },
+        { tabName: "PageNotFound", tabPath: "*", tabIcon: "fas fa-tools", tabElement: PageNotFound, tabFocused: false },
     ]);
     const [toolsPages, setToolsPages] = useState<Pages[]>([
         { tabName: "Tasks", tabPath: "tasks", tabIcon: "fas fa-tasks", tabElement: Tasks, tabFocused: false },
         { tabName: "Analytics", tabPath: "analytics", tabIcon: "fas fa-chart-bar", tabElement: Analytics, tabFocused: false },
-        { tabName: "AI-Assistant", tabPath: "ai-assistant", tabIcon: "	fas fa-hand-sparkles", tabElement: AIAssintant, tabFocused: false },
+        { tabName: "AI-Assistant", tabPath: "ai-assistant", tabIcon: "	fas fa-hand-sparkles", tabElement: AIAssintant, tabFocused: false }
     ]);
 
     const [historyChanges, setHistoryChanges] = useState<HistoryChanges>({
@@ -75,6 +86,8 @@ function AppProvider() {
 
         subPath, setSubPath,
         // OBJECTS AND ARRAYS
+        userInfo, setUserInfo,
+        authCredentials, setAuthCredentials,
         pages, setPages,
         toolsPages, setToolsPages,
         historyChanges, setHistoryChanges,
@@ -83,6 +96,22 @@ function AppProvider() {
         modifyData, setModifyData,
         selectedTaskClass, selectedChat
     };
+
+
+
+    if (!userInfo?.userId) {
+        onAuthStateChanged(auth, async (current) => {
+            if (current?.uid != null) {
+                setAuthCredentials(current)
+                const getData = await getDataFromFirestore(current.uid);
+                console.log(getData);
+            }
+        })
+    }
+
+    useEffect(() => {
+        console.log(authCredentials)
+    }, [authCredentials])
 
     useEffect(() => {
         setToolsPages(prev => prev.map(page => ({ ...page, tabFocused: page.tabPath == getUrl[3] })));

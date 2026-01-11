@@ -9,12 +9,12 @@
     --l-mid: #828282;
     --l-bold: #000000;
     --l-box-shadow: 0 0 15px -5px black;
-    --d-bg: #212225e4;
+    --d-bg: #3a3b3e;
     --d-bg-light: #2b2a2f;
     --d-box-shadow: 0 0 15px -10px rgba(255, 255, 255, 0.473);
     --font-title: "Kulim Park", sans-serif;
     --p-smaller: clamp(.4rem, 2.5vw, .6rem);
-    --p-small: clamp(.75rem, 2.5vw, .9rem);
+    --p-small: clamp(.75rem, 2.5vw, .8rem);
     --p-medium: clamp(.8rem, 2.5vw, 1.25rem);
     --p-large: clamp(1.25rem, 2.5vw, 1.75rem);
     --h1-smallest: clamp(.8rem, 2.5vw, 1rem);

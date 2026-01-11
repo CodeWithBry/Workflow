@@ -2,14 +2,16 @@ import { useContext } from "react"
 import { context } from "../context/AppContext"
 import { Route, Routes } from "react-router-dom";
 import ActivitiesTools from "../pages/Activities/ActivitiesTools";
+import PageNotFound from "../pages/PageNotFound/PageNotFound";
+import Navbar from "../../components/navigations/Navbar/Navbar";
 // import Tools from "../pages/Tools/Tools";
 
 
 function MainRoutes() {
     const { pages, toolsPages, taskClass } = useContext(context) as Context;
     return (
-
         <div>
+            <Navbar />
             <Routes>
                 {pages.map((page) => {
                     return <Route element={(<page.tabElement />)} path={`${page.tabPath}`} />
@@ -32,6 +34,8 @@ function MainRoutes() {
                         </>
                     })}
                 </Route>}
+
+                <Route path="/activities/:id/*" element={<PageNotFound />} />
             </Routes>
         </div>
     )

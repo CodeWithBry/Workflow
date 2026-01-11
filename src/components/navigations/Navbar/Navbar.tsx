@@ -2,10 +2,12 @@ import { useContext, useState } from "react"
 import s from "./styles.module.css"
 import { context } from "../../../app/context/AppContext"
 import Button from "../../ui/Button";
+import LinkTag from "../../ui/LinkTag";
+import { logOut } from "../../../lib/firebase";
 
 function Navbar() {
-  const { darkMode, setDarkMode } = useContext(context) as Context;
-  const [dropDown, setDropDown] = useState<boolean>(false); 
+  const { darkMode, setDarkMode, authCredentials, navigation, setAuthCredentials, setUserInfo } = useContext(context) as Context;
+  const [dropDown, setDropDown] = useState<boolean>(false);
   return (
     <div className={!darkMode ? s.navBar : `${s.navBar} ${s.dark}`}>
       <div className={s.left}>
@@ -25,9 +27,32 @@ function Navbar() {
             content={<span>Dark Mode</span>}
             clickListener={() => setDarkMode(true)} />
         </div>
-        <div className={s.userIcon}>
+        {
+          !authCredentials ? <>
+            <LinkTag
+              className={s.authButton}
+              to="/login"
+              content={"Login"} />
+            <LinkTag
+              className={s.authButton}
+              to="/signup"
+              content={"Signup"} />
+          </> :
+            <Button
+              className={s.authButton}
+              clickListener={async () => {
+                const getMessage = await logOut();
+                if(getMessage) {
+                  navigation("/login");
+                  setAuthCredentials(null);
+                  setUserInfo(null);
+                }
+              }}
+              content={"Log Out"} />
+        }
+        {/* <div className={s.userIcon}>
           <span className={s.firstLetter}>P</span>
-        </div>
+        </div> */}
 
       </div>
       <Button

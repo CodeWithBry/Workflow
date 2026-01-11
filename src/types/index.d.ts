@@ -1,3 +1,4 @@
+import type { User } from "firebase/auth";
 import type { Dispatch, SetStateAction } from "react";
 import type { NavigateFunction } from "react-router-dom";
 
@@ -98,6 +99,14 @@ declare global {
 
 // VARIABLES 
 declare global {
+    // USER INFO
+    type UserInfo = {
+        userId: string,
+        fullName: string,
+        email: string,
+        password: string
+    }
+
     // GLOBAL REUSABLE VARIABLES
     type ActionsLists = {
         action: string,
@@ -116,13 +125,6 @@ declare global {
 
     type ToolsPages = Pages;
 
-    // USER
-    type User = {
-        userName: string,
-        userPass: string,
-        projects: Projects[],
-        normalTasks: NormalTasks[]
-    };
 
     // PROJECTS/NORMAL-TASKS
     type TaskClass = {
@@ -235,6 +237,8 @@ declare global {
         subPath: string, setSubPath: Dispatch<SetStateAction<string>>,
         // NUMERICAL VALUES
         // OBJECTS AND ARRAYS
+        userInfo: UserInfo | null, setUserInfo: Dispatch<SetStateAction<UserInfo | null>>, 
+        authCredentials: User | null, setAuthCredentials: Dispatch<SetStateAction<User | null>>, 
         pages: Pages[], setPages: Dispatch<SetStateAction<Pages[]>>,
         toolsPages: ToolsPages[], setToolsPages: Dispatch<SetStateAction<ToolsPages[]>>,
         historyChanges: HistoryChanges, setHistoryChanges: Dispatch<SetStateAction<HistoryChanges>>
