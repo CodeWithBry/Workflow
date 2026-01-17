@@ -99,6 +99,13 @@ declare global {
 
 // VARIABLES 
 declare global {
+    // UserData
+    type UserData = {
+        user: UserInfo,
+        projectLists: TaskClassLists[],
+        chatLists: Chats
+    }
+
     // USER INFO
     type UserInfo = {
         userId: string,
@@ -137,6 +144,15 @@ declare global {
         status?: "finished" | "pending"
     };
 
+    type TaskClassLists = {
+        name: string,
+        taskType: "projects" | "normal-tasks"
+        id: string,
+        isOpened: boolean,
+        icon: string,
+        status?: "finished" | "pending"
+    }
+
     type SelectedTaskClass = TaskClass | null;
 
     // TASK GROUP
@@ -166,9 +182,9 @@ declare global {
         dateCreated?: Date,
         isOpened: boolean,
         icon: string,
-        taskGroups: TaskGroup[],
         isSaved?: boolean,
-        status?: "finished" | "pending"
+        status?: "finished" | "pending",
+        taskGroups: TaskGroup[]
     }
 
     type HistoryChanges = {
@@ -187,24 +203,27 @@ declare global {
     type DataToModify = TaskClass | null
 
     // CHATS
-
-    type Chats = Chat[];
-
-    type Chat = {
+    type ChatList = {
         isOpen: boolean,
         id: string,
-        convos: Convo[]
+        convoLists: ConvoList[]
+    }
+    type SelectedChat = Chat | null
+
+    // CHAT -> CONVO
+    type ConvoList = {
+        isOpen: boolean,
+        convoId: string,
+        title?: string
     }
 
-    type SelectedChat = Chat | undefined
-
     type Convo = {
-        isOpened: boolean,
+        title?: string,
+        isOpen: boolean,
         convoId: string,
         messagesAi: MessagesAi[],
         messagesUi: MessagesUi[]
     }
-
     type SelectedConvo = Convo | undefined
 
     type MessagesAi = {
@@ -217,9 +236,41 @@ declare global {
     }
 
     type MessagesUi = {
-        role: "user" | "model",
-        message: string
-    }
+        role: "user" | "model";
+        message: string;
+        attachments?: Attachment[];
+        replyTo?: string
+    };
+
+    // ATTACHMENTS
+
+    type FileAttachment = BaseAttachment & {
+        kind: "file" | "image";
+        name: string;
+        size: number;
+        mimeType: string;
+        url: string; // Object URL or uploaded URL
+    };
+
+    type TaskAttachment = BaseAttachment & {
+        kind: "task";
+        title: string;
+        description?: string;
+        payload: ModifyData; // your task object
+    };
+
+    type BaseAttachment = {
+        id: string;
+        kind: AttachmentKind;
+    };
+
+    type AttachmentKind =
+        | "image"
+        | "file"
+        | "task"
+        | "json"
+        | "code";
+
 }
 
 // CONTEXT VARIABLE
@@ -233,19 +284,24 @@ declare global {
         allowChanges: boolean, setAllowChanges: Dispatch<SetStateAction<boolean>>,
         isDataLoaded: boolean, setIsDataLoaded: Dispatch<SetStateAction<boolean>>,
         showAssistant: boolean, setShowAssistant: Dispatch<SetStateAction<boolean>>,
+        pauseEffect: boolean, setPauseEffect: Dispatch<SetStateAction<boolean>>,
         // STRINGS
         subPath: string, setSubPath: Dispatch<SetStateAction<string>>,
         // NUMERICAL VALUES
         // OBJECTS AND ARRAYS
-        userInfo: UserInfo | null, setUserInfo: Dispatch<SetStateAction<UserInfo | null>>, 
-        authCredentials: User | null, setAuthCredentials: Dispatch<SetStateAction<User | null>>, 
+        userInfo: UserInfo | null, setUserInfo: Dispatch<SetStateAction<UserInfo | null>>,
+        authCredentials: User | null, setAuthCredentials: Dispatch<SetStateAction<User | null>>,
         pages: Pages[], setPages: Dispatch<SetStateAction<Pages[]>>,
         toolsPages: ToolsPages[], setToolsPages: Dispatch<SetStateAction<ToolsPages[]>>,
         historyChanges: HistoryChanges, setHistoryChanges: Dispatch<SetStateAction<HistoryChanges>>
-        taskClass: TaskClass[], setTaskClass: Dispatch<SetStateAction<TaskClass[]>>,
-        chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
+
+        taskClass: TaskClassLists[], setTaskClass: Dispatch<SetStateAction<TaskClassLists[]>>,
+        selectedTaskClass: SelectedTaskClass, setSelectedTaskClass: Dispatch<SetStateAction<SelectedTaskClass>>,
+        chatLists: ChatList[], setChatLists: Dispatch<SetStateAction<ChatList[]>>,
+        convoLists: ConvoList[], setConvoLists: Dispatch<SetStateAction<ConvoList[]>>,
+        selectedConvo: SelectedConvo, setSelectedConvo: Dispatch<SetStateAction<SelectedConvo>>
+
         modifyData: ModifyData, setModifyData: Dispatch<SetStateAction<ModifyData>>,
-        selectedTaskClass: SelectedTaskClass, selectedChat: SelectedChat
     }
 }
 

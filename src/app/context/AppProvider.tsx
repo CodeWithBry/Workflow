@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { context } from "./AppContext"
 
 import MainRoutes from "../routes/MainRoutes";
@@ -26,8 +26,9 @@ function AppProvider() {
     const [darkMode, setDarkMode] = useState<boolean>(false);
     const [showToolBar, setShowToolBar] = useState<boolean>(false);
     const [allowChanges, setAllowChanges] = useState<boolean>(false);
-    const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
+    const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     const [showAssistant, setShowAssistant] = useState<boolean>(false);
+    const [pauseEffect, setPauseEffect] = useState<boolean>(false);
 
     // STRINGS
     const [subPath, setSubPath] = useState<string>("");
@@ -56,21 +57,11 @@ function AppProvider() {
         task: null,
         project: null
     });
-    const [taskClass, setTaskClass] = useState<TaskClass[]>([
-        // NORMAL TASKS
-        { name: "Everyday Tasks", id: "everyday-task", icon: "fas far fa-list-alt", taskType: "normal-tasks", isOpened: false, taskGroups: [], status: "pending" },
-        { name: "Daily Routine", id: "daily-routine", icon: "fas fa-calendar-alt", taskType: "normal-tasks", isOpened: false, taskGroups: [], status: "pending" },
-        { name: "Occasional", id: "occasional", icon: "	fas fa-calendar-day", taskType: "normal-tasks", isOpened: false, taskGroups: [], status: "pending" },
-        // ALL OF THE ADDED TASK CLASS WILL BE CLASSIFIED AS A PROJECTS
-    ]);
-    const [chats, setChats] = useState<Chats>([]);
-    const selectedChat: SelectedChat = useMemo(() => {
-        return chats.find(chat => chat.isOpen);
-    }, [chats])
-    const selectedTaskClass: SelectedTaskClass = useMemo(() => {
-        return taskClass.find(t => t.isOpened) ?? null;
-    }, [taskClass])
-
+    const [taskClass, setTaskClass] = useState<TaskClassLists[]>([]);
+    const [selectedTaskClass, setSelectedTaskClass] = useState<SelectedTaskClass>(null);
+    const [chatLists, setChatLists] = useState<ChatList[]>([]);
+    const [convoLists, setConvoLists] = useState<ConvoList[]>([]);
+    const [selectedConvo, setSelectedConvo] = useState<SelectedConvo>(undefined);
 
     const contextValues: Context = {
         // CUSTOM HOOKS
@@ -81,6 +72,7 @@ function AppProvider() {
         allowChanges, setAllowChanges,
         isDataLoaded, setIsDataLoaded,
         showAssistant, setShowAssistant,
+        pauseEffect, setPauseEffect,
         // STRINGS
         // NUMBERICAL VALUES
 
@@ -91,27 +83,28 @@ function AppProvider() {
         pages, setPages,
         toolsPages, setToolsPages,
         historyChanges, setHistoryChanges,
+
         taskClass, setTaskClass,
-        chats, setChats,
+        selectedTaskClass, setSelectedTaskClass,
+        chatLists, setChatLists,
+        convoLists, setConvoLists,
+        selectedConvo, setSelectedConvo,
+
         modifyData, setModifyData,
-        selectedTaskClass, selectedChat
+        // selectedChat
     };
-
-
 
     if (!userInfo?.userId) {
         onAuthStateChanged(auth, async (current) => {
-            if (current?.uid != null) {
-                setAuthCredentials(current)
+            if (current?.uid != null && current.uid != userInfo?.userId) {
                 const getData = await getDataFromFirestore(current.uid);
-                console.log(getData);
+                setUserInfo(getData.user);
+                setChatLists(getData.chatLists);
+                setTaskClass(getData.projectLists);
+                setAuthCredentials(current);
             }
         })
     }
-
-    useEffect(() => {
-        console.log(authCredentials)
-    }, [authCredentials])
 
     useEffect(() => {
         setToolsPages(prev => prev.map(page => ({ ...page, tabFocused: page.tabPath == getUrl[3] })));
@@ -127,88 +120,22 @@ function AppProvider() {
     }, [getUrl[3]])
 
     useEffect(() => {
-        const getData: GetDataFromLocalStorage = locStor.getDataFromLocalStorage("taskClass");
-        if (getData?.taskClass && taskClass) {
-            const notBelongToTaskClass = getData.taskClass.filter(t => !taskClass.some(ta => t.id == ta.id))
-            if (notBelongToTaskClass) {
-                const updateNormalTasks: TaskClass[] = taskClass.map((taskClass, index) => {
-                    return getData.taskClass[index]?.id == taskClass.id ?
-                        { ...getData.taskClass[index] } : taskClass
-                })
-                const mergeWithTaskClass = [...updateNormalTasks, ...notBelongToTaskClass]
-                setTaskClass([...mergeWithTaskClass])
-            } else {
-                setTaskClass(prev => prev.map((taskClass, index) => {
-                    return getData.taskClass[index]?.id == taskClass.id ?
-                        { ...getData.taskClass[index] } : taskClass
-                }))
-            }
-        }
-    }, [])
-
-    useEffect(() => {
         if (selectedTaskClass) {
             setModifyData(prev => ({
                 ...prev,
                 project: selectedTaskClass
             }))
 
-            setChats(prev => prev.map(chat => {
+            setChatLists(prev => prev.map(chat => {
+                if(chat.id == selectedTaskClass.id) {
+                    setConvoLists([...chat.convoLists])
+                }
                 return { ...chat, isOpen: chat.id == selectedTaskClass.id }
             }))
         }
     }, [selectedTaskClass])
 
-    useEffect(() => {
-        const getData: GetDataFromLocalStorage = locStor.getDataFromLocalStorage("chat");
-        if (getData && taskClass) {
-            let newChats: Chats = [];
-
-            for (let i in taskClass) {
-                const newChat: Chat = {
-                    isOpen: false,
-                    id: taskClass[i].id,
-                    convos: []
-                }
-                newChats.push(newChat)
-            }
-
-            if (getData.chats.length != 0) {
-                const notBelongToChats = getData.chats.filter(t => !newChats.some(ta => t.id == ta.id));
-                console.log(notBelongToChats)
-                if (notBelongToChats.length != 0) {
-                    const updateChats: Chats = chats.map((chat, index) => {
-                        return getData.chats[index]?.id == chat.id
-                            ? { ...getData.chats[index] } : chat
-                    })
-                    setChats([...updateChats])
-                } else {
-                    const updateChats = newChats.map((chat, index) => {
-                        console.log(getData.chats[index]?.id == chat.id)
-                        return getData.chats[index]?.id == chat.id
-                            ? { ...getData.chats[index] } : chat
-                    })
-                    setChats([...updateChats])
-                }
-            } else {
-                setChats([...newChats])
-            }
-
-            setIsDataLoaded(false);
-        } else {
-            setIsDataLoaded(false);
-        }
-    }, [taskClass])
-
-    useEffect(() => {
-        setChats(prev => prev.map(chat => {
-            if (selectedTaskClass?.id == chat.id) {
-                return { ...chat, isOpen: true }
-            }
-
-            return { ...chat, isOpen: false }
-        }))
-    }, [selectedTaskClass])
+    
 
     return (
         <context.Provider value={contextValues}>

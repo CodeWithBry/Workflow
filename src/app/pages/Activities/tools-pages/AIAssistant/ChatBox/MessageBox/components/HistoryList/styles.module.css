@@ -1,0 +1,119 @@
+.searchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-family: var(--font-title);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.hideSearch {
+    display: none;
+}
+
+.searchBox {
+    display: flex;
+    flex-direction: column;
+    padding: var(--pad-x-s) var(--pad-x-s);
+    background-color: white;
+    border-radius: 1rem;
+    z-index: 1;
+    width: 400px;
+    animation: fade-in .3s ease-in forwards;
+}
+
+.searchBox>h2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    margin: 0 auto;
+    color: var(--l-mid);
+    margin-bottom: 1rem;
+}
+
+.searchBox>h2>.closeButton {
+    background-color: transparent;
+    color: black;
+    font-size: var(--h1-smallest);
+}
+
+.searchBox .searchWrapper {
+    width: calc(100% - (var(--pad-x-s) * 2));
+    border: 2px solid var(--l-very-light);
+    border-radius: .5rem;
+    padding: var(--pad-y-m) var(--pad-x-s);
+    display: flex;
+}
+
+.searchBox .searchWrapper>input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    margin-left: 1rem;
+    font-family: var(--font-title);
+}
+
+.searchBox .searchWrapper>i {
+    color: black;
+}
+
+.searchBox .resultsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-small);
+    width: 100%;
+    height: 300px;
+    margin-top: var(--pad-y-m);
+    border-radius: 1rem;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.searchBox .resultsContainer .noResults {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-title);
+    animation: fade-in .3s ease-in forwards;
+}
+
+.task {
+    padding: var(--pad-x-s) var(--pad-x-s);
+    width: calc(100% - (var(--pad-x-s) * 4));
+    background-color: transparent;
+    font-family: var(--font-title);
+    font-size: var(--p-small);
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.15);
+    border-radius: 1rem;
+    animation: fade-in .3s ease-in forwards;
+}
+
+.task:hover {
+    background-color: var(--l-very-light);
+}
+
+.task:nth-child(1) {
+    margin-top: var(--pad-x-s);
+}
+
+.task:last-child {
+    margin-bottom: var(--pad-x-s);
+}

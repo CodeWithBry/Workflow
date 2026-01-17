@@ -6,7 +6,7 @@ import { context } from "../../../../context/AppContext"
 
 export default function Bottom(props: CPMBottomProps): JSX.Element {
     const { projectName, setShowModal } = props as CPMBottomProps
-    const {setTaskClass, locStor} = useContext(context) as Context;
+    const {setTaskClass, setChatLists, userInfo} = useContext(context) as Context;
 
     // useEffect(() => { console.log(selectedNormalTask) }, [selectedNormalTask])
 
@@ -19,9 +19,10 @@ export default function Bottom(props: CPMBottomProps): JSX.Element {
             <Button
                 className={projectName == "" ? s.actionButton : `${s.actionButton} ${s.active}`}
                 clickListener={() => {
-                    if(projectName == "") return 
+                    console.log(projectName, userInfo)
+                    if(projectName == "" || !userInfo) return 
                     setShowModal(false)
-                    addProject({setTaskClass, projectName, locStor})
+                    addProject({setTaskClass, setChatLists, projectName, userId: userInfo.userId})
                 }}
                 content={"Submit"} />
         </div>

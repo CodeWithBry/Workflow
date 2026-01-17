@@ -6,7 +6,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
 const app = express();
 const genAi = new GoogleGenerativeAI(process.env.VITE_GEN_API_KEY!);
-const getModel = genAi.getGenerativeModel({ model: "gemini-2.5-flash" });
+const getModel = genAi.getGenerativeModel({ model: "gemini-3-flash-preview" });
 const origins = [
     "http://localhost:5173",
     "https://codewithbry.github.io",
@@ -115,19 +115,18 @@ app.use(cors({
 app.options(/.*/, cors({ origin: true }));
 app.use(express.json());
 
-
 app.post("/server/ai-chat", async (req, res) => {
     try {
         const { messagesAi, modifyData } = req.body;
 
         const aiAssistPrompt = modifyData?.task
             ? promptForTask + `
-Task: ${JSON.stringify(modifyData.task)}
-Project: ${JSON.stringify(modifyData.project)}
-`
+                Task: ${JSON.stringify(modifyData.task)}
+                Project: ${JSON.stringify(modifyData.project)}
+                `
             : promptForProject + `
-Project: ${JSON.stringify(modifyData.project)}
-`;
+                Project: ${JSON.stringify(modifyData.project)}
+                `;
 
         const persona = {
             role: "model",
@@ -181,47 +180,27 @@ Project: ${JSON.stringify(modifyData.project)}
     }
 });
 
-// app.post("/server/ai-chat-stream", async (req, res) => {
-//     res.setHeader("Content-Type", "text/event-stream");
-//     res.setHeader("Cache-Control", "no-cache");
-//     res.setHeader("Connection", "keep-alive");
+app.post("/server/generate-title", async (req, res) => {
+    try {
+        const { messagesAi } = req.body;
+        const prompt = `
+            MessagesAi: ${JSON.stringify(messagesAi)}
 
-//     try {
-//         const { messagesAi, modifyData } = req.body;
+            Using the MessagesAi data, I want you to generate a convo title that matches the messages topic.
+            STRICTLY RETURN ONLY A TITLE TEXT FOR THE CONVO AND NOTHING ELSE!
+        `
+        const persona = { role: "user", parts: [{ text: prompt }] };
+        const result = await getModel.generateContent({ contents: [persona] });
 
-//         const aiAssistPrompt = modifyData?.task
-//             ? promptForTask + `
-//                 Task: ${JSON.stringify(modifyData.task)}
-//                 Project: ${JSON.stringify(modifyData.project)}
-//             `
-//             : promptForProject + `
-//                 Project: ${JSON.stringify(modifyData.project)}
-//             `;
+        const reply =
+            result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "Hmm, di ko alam paano sagutin yan.";
+        res.json({title: reply});
 
-//         const persona = { role: "model", parts: [{ text: aiAssistPrompt }] };
-//         const messAi = [persona, ...messagesAi];
-
-//         // 👇 MUST be a streaming method
-//         const stream = await getModel.generateContentStream({
-//             contents: messAi
-//         });
-
-//         for await (const chunk of stream) {
-//             const text = chunk?.text();
-//             if (text) {
-//                 res.write(`data: ${JSON.stringify(text)}\n\n`);
-//             }
-//         }
-
-//         res.write(`data: [DONE]\n\n`);
-//         res.end();
-
-//     } catch (err) {
-//         console.error(err);
-//         res.write(`data: [ERROR]\n\n`);
-//         res.end();
-//     }
-// });
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 app.listen(3000, "0.0.0.0", () => {
     console.log(`🚀 BryTech server is running on port ${3000}`);

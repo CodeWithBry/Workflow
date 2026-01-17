@@ -12,6 +12,7 @@ import Convo from "./components/Convo";
 import { DropDown } from "../../../../../../../components/drop-down/DropDown";
 import Button from "../../../../../../../components/ui/Button";
 import LoadingPage from "./components/Loading";
+import ConvoList from "./components/HistoryList/SearchBox";
 
 function MessageBox(props: ChatBotValues) {
     const {
@@ -21,26 +22,19 @@ function MessageBox(props: ChatBotValues) {
         isConvoLoading,
     } = props as ChatBotValues;
 
-    const { darkMode, selectedTaskClass } =
-        useContext(context) as Context;
-
-    const messageBoxStyles = !darkMode
-        ? s.messageBox
-        : `${s.messageBox} ${s.dark}`;
-
-    const [showActionLists, setShowActionLists] =
-        useState<boolean>(false);
+    const { darkMode, selectedTaskClass, setSelectedConvo, setConvoLists } = useContext(context) as Context;
+    const messageBoxStyles = !darkMode ? s.messageBox : `${s.messageBox} ${s.dark}`;
+    const [showActionLists, setShowActionLists] = useState<boolean>(false);
 
     /** 🧠 NEW: controls heavy UI mounting */
     const [showConvo, setShowConvo] = useState(false);
+    const [showConvoLists, setShowConvoLists] = useState(false);
     const [isPending, startTransition] = useTransition();
 
     /** 🔁 Transition when convo is ready */
     useEffect(() => {
         if (!isConvoLoading && selectedConvo && isNewChat) {
-            startTransition(() => {
-                setShowConvo(true);
-            });
+            startTransition(() => setShowConvo(true));
         } else {
             setShowConvo(false);
         }
@@ -53,12 +47,14 @@ function MessageBox(props: ChatBotValues) {
             action: "New chat",
             functionCall() {
                 setIsNewChat(false);
+                setSelectedConvo(undefined);
+                setConvoLists(prev => prev.map((convo) => ({...convo, isOpen: false})))
             },
         },
         {
             icon: "far fa-edit",
             action: "History",
-            functionCall() { },
+            functionCall() {setShowConvoLists(true)},
         },
         {
             icon: "far fa-edit",
@@ -76,6 +72,7 @@ function MessageBox(props: ChatBotValues) {
     return (
         <div className={messageBoxStyles}>
             {/* HEADER */}
+            <ConvoList showConvoLists={showConvoLists} setShowConvoLists={setShowConvoLists} />
             <div className={s.heading}>
                 <h2>
                     <span className={s.titleWrapper}>

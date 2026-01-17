@@ -1,6 +1,16 @@
 .taskGroup {
     height: fit-content;
     width: 100%;
+    transform: translateY(50px);
+    opacity: 0;
+    animation: pop-up .4s .4s ease forwards;
+}
+
+@keyframes pop-up {
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 .taskGroup .top {
@@ -20,10 +30,10 @@
     font-size: var(--h1-medium);
     margin-right: auto;
     display: flex;
-        align-items: center;
-        gap: .5rem;
-        padding: var(--pad-y-m) var(--pad-x-s);
-        user-select: none;
+    align-items: center;
+    gap: .5rem;
+    padding: var(--pad-y-m) var(--pad-x-s);
+    user-select: none;
 }
 
 .taskGroup .top .groupName .hide {
@@ -45,7 +55,7 @@
 
 .taskGroup .top .actionButton:hover {
     background-color: var(--l-light);
-        ;
+    ;
 }
 
 .taskGroup .top .actionButton:active {

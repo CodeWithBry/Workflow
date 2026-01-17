@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react"
+import { saveProjectFromFirestore } from "../../../../../../../lib/firebase";
 // import { saveData } from "../../../../../utils/saveData";
 
 export type UpdateTask = {
@@ -6,32 +7,32 @@ export type UpdateTask = {
     changedValue: string | "true" | "false" | "pending" | "finished",
     task?: Task,
     groupId?: string,
-    taskClassId?: string,
+    userId?: string,
     setPseudoTasks?: Dispatch<SetStateAction<PseudoTasks>>,
     isMultipleTarget?: boolean,
-    setTaskClass?: Dispatch<SetStateAction<TaskClass[]>>,
+    setSelectedTaskClass?: Dispatch<SetStateAction<SelectedTaskClass>>,
     setAllowChanges?: Dispatch<SetStateAction<boolean>>,
 }
 
-export function updateTask({ setPseudoTasks, targetAttribute, changedValue, task, taskClassId, groupId, isMultipleTarget, setTaskClass, setAllowChanges,  }: UpdateTask) {
+export function updateTask({ setPseudoTasks, targetAttribute, changedValue, task, userId, groupId, isMultipleTarget, setSelectedTaskClass, setAllowChanges, }: UpdateTask) {
     const ifStatus = targetAttribute == "status" && (changedValue == "pending" || changedValue == "finished");
     const ifTaskDescription = targetAttribute == "taskDescription" && changedValue;
     const ifIsSelected = targetAttribute == "isSelected" && (changedValue == "true" || changedValue == "false");
     const ifGroupId = targetAttribute == "groupId" && changedValue;
 
-    if (setTaskClass) {
-        setTaskClass(prev => prev.map(taskClass => {
-            if (taskClass.id == taskClassId) {
+    if (setSelectedTaskClass) {
+        setSelectedTaskClass((prev => {
+            if (prev) {
                 // MAP THE TASK GROUPS
-                const updatedGroup = taskClass.taskGroups.map(group => {
+                const updatedGroup = prev.taskGroups.map(group => {
                     // CHECK IF THE TARGET TASKGROUP USING ITS ID
                     if (group.groupId == groupId) {
                         // MAP THE TASKS
-                        
+
                         const updatedTasks: Task[] = group.tasks.map(t => {
                             if (((task?.id == t.id && !isMultipleTarget) || (t.isSelected == "true" && task?.id == t.id)) && ifStatus) {
                                 console.log(task, changedValue)
-                                return {...t, status: changedValue}
+                                return { ...t, status: changedValue }
                             }
                             return {
                                 ...t,
@@ -45,20 +46,21 @@ export function updateTask({ setPseudoTasks, targetAttribute, changedValue, task
                                     changedValue : t.groupId,
                             }
                         })
-                        if(setAllowChanges && ifStatus) {setAllowChanges(true)}
-                        else if (setAllowChanges && !ifStatus) {setAllowChanges(false)}
+                        if (setAllowChanges && ifStatus) { setAllowChanges(true) }
+                        else if (setAllowChanges && !ifStatus) { setAllowChanges(false) }
                         return { ...group, tasks: [...updatedTasks] }
                     }
 
                     return { ...group }
                 });
-                const updatedProject = { ...taskClass, taskGroups: updatedGroup };
-
+                const updatedProject = { ...prev, taskGroups: updatedGroup };
+                // save data to firestore
+                if(userId)saveProjectFromFirestore(userId, updatedProject, "update");
                 // saveData({ updatedProject, taskCategory: "Projects" })
                 return updatedProject
             }
 
-            return { ...taskClass }
+            return prev
         }));
 
     } else if (setPseudoTasks && task) {

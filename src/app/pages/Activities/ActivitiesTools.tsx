@@ -4,47 +4,39 @@ import { context } from "../../context/AppContext";
 import ToolsSidebar from "../../../components/navigations/ToolsSidebar/ToolsSidebar";
 import s from "./styles.module.css"
 import AIAssintant from "./tools-pages/AIAssistant/AIAssistant";
+import { getSelectedTaskClass } from "../../../utils/getSelectedTaskClass";
 
 function ActivitiesTools() {
-    const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded, getUrl, showAssistant } = useContext(context) as Context;
+    const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded, getUrl, showAssistant, userInfo, setSelectedTaskClass, setIsDataLoaded, setChatLists, chatLists } = useContext(context) as Context;
     const { id } = useParams<{ id: string }>();
 
-    // USEEFFECT RUNS AND CHECKS THE ID PARAMS IF IT MATCHES ONE OF THE PROJECTS IN THE TASKCLASS.
     useEffect(() => {
-        if (!id) return;
-        if (isDataLoaded) return; // ⬅️ if the data is already loaded, it skips the whole code in use effect
-
-        const defineTaskClass = taskClass.find(
-            t => t.id.toLowerCase() === id.toLowerCase()
-        );
-        // If the user navigates to different project, it rechecks the taskclass if the ID is equal to the ID PARAMS.
+        if (!id || !userInfo) return;
+        if (isDataLoaded && taskClass.length == 0) return; // ⬅️ if the data is already loaded, it skips the whole code in use effect
+        const defineTaskClass = taskClass.find(t => t.id.toLowerCase() === id.toLowerCase());
         const isAlreadyOpen = taskClass.find(t => (t.id.toLowerCase() === id.toLowerCase() && t.isOpened))
-
-        setAllowChanges(true);
-
         if (!defineTaskClass) {
-            navigation("/activities");
+            navigation("/");
             return;
         }
-
         if (isAlreadyOpen) {
             setAllowChanges(false)
             return; // It skips the unnecessary update of task class if the project is already open. 
         }
-
-        const updatedTaskClass = taskClass.map(t => ({
-            ...t,
-            isOpened: t.id.toLowerCase() === id.toLowerCase()
+        setTaskClass(prev => prev.map((taskClass) => {
+            return { ...taskClass, isOpened: taskClass.id == id };
         }))
-
-        setTaskClass([...updatedTaskClass]);
-
+        setChatLists(prev => prev.map((chat) => {
+            return { ...chat, isOpen: chat.id == id };
+        }))
         setHistoryChanges({
             currentStateNumber: -1,
             changesInProject: []
         });
-    }, [id, isDataLoaded, taskClass]);
-
+        setChatLists(prev => prev.map(chat => ({...chat, isOpen: id == chat.id})));
+        getSelectedTaskClass(defineTaskClass.id, userInfo.userId, setSelectedTaskClass);
+        setIsDataLoaded(true);
+    }, [id, isDataLoaded, taskClass, userInfo, chatLists])
 
     useEffect(() => {
         if (selectedTaskClass) {

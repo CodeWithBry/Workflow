@@ -1,4 +1,5 @@
 import { type Dispatch, type SetStateAction } from "react"
+import { saveProjectFromFirestore } from "../../../../../../../lib/firebase";
 
 export type AddGroupTask = {
     pseudoGroup: PseudoGroup,
@@ -6,18 +7,19 @@ export type AddGroupTask = {
     setPseudoGroup: Dispatch<SetStateAction<PseudoGroup>>,
     groupName: string,
     taskClassId?: string,
-    taskClass?: TaskClass[],
-    setTaskClass?: Dispatch<SetStateAction<TaskClass[]>>,
-    setAllowChanges: Dispatch<SetStateAction<boolean>>
+    taskClass?: TaskClassLists[],
+    setSelectedTaskClass?: Dispatch<SetStateAction<SelectedTaskClass>>,
+    setAllowChanges: Dispatch<SetStateAction<boolean>>,
+    userId?: string
 }
 
-export function addGroupTask({ pseudoGroup, pseudoTasks, setPseudoGroup, groupName, taskClassId, taskClass, setTaskClass, setAllowChanges }: AddGroupTask) {
+export function addGroupTask({ pseudoGroup, pseudoTasks, setPseudoGroup, groupName, taskClassId, taskClass, setSelectedTaskClass, setAllowChanges, userId }: AddGroupTask) {
     const groupTask: PseudoGroup = {
         groupId: crypto.randomUUID(),
         groupName,
         tasks: []
     }
-    const findTaskClass: TaskClass | undefined = taskClass?.find(t => t.id == taskClassId);
+    const findTaskClass: TaskClassLists | undefined = taskClass?.find(t => t.id == taskClassId);
     if (pseudoGroup) {
         setAllowChanges(true)
         const psuedoGroupWithTask: PseudoGroup = {
@@ -25,16 +27,19 @@ export function addGroupTask({ pseudoGroup, pseudoTasks, setPseudoGroup, groupNa
             tasks: pseudoTasks ? [...pseudoTasks] : []
         }
 
-        if (findTaskClass && setTaskClass) {
-            return setTaskClass(prev => prev.map(taskClass => {
-                if (taskClass.id == taskClassId) {
-                    return {...taskClass, taskGroups: [...taskClass.taskGroups, psuedoGroupWithTask] }
+        if (findTaskClass && setSelectedTaskClass) {
+            return setSelectedTaskClass(prev => {
+                if (prev) {
+                    const updatedProject = { ...prev, taskGroups: [...prev.taskGroups, psuedoGroupWithTask] }
+                    if(userId) saveProjectFromFirestore(userId, updatedProject, "update");
+                    return updatedProject;
                 }
-                return taskClass
-            }))
+
+                return null
+            })
         }
     }
 
-    
+
     setPseudoGroup(groupTask);
 }

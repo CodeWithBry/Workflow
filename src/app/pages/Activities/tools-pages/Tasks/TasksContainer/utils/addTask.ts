@@ -1,4 +1,5 @@
 import { type Dispatch, type SetStateAction } from "react"
+import { saveProjectFromFirestore } from "../../../../../../../lib/firebase";
 
 export type AddTask = {
     taskDescription: string,
@@ -6,9 +7,9 @@ export type AddTask = {
     setPseudoTasks?: Dispatch<SetStateAction<PseudoTasks>>,
     pseudoTasks?: PseudoTasks,
 
-    setTaskClass?: Dispatch<SetStateAction<TaskClass[]>>
-    taskClassId?: string,
-    setAllowChanges?: Dispatch<SetStateAction<boolean>>
+    setSelectedTaskClass?: Dispatch<SetStateAction<SelectedTaskClass>>
+    setAllowChanges?: Dispatch<SetStateAction<boolean>>,
+    userId?: string
 }
 
 export function addTask({
@@ -16,8 +17,8 @@ export function addTask({
     groupId,
     setPseudoTasks,
     pseudoTasks,
-    taskClassId,
-    setTaskClass,
+    userId,
+    setSelectedTaskClass,
     setAllowChanges
 }: AddTask) {
     if (!groupId) return;
@@ -30,22 +31,25 @@ export function addTask({
         isSelected: "false",
         groupId: groupId
     }
-    if (setTaskClass && setAllowChanges) {
+    if (setSelectedTaskClass && setAllowChanges) {
         setAllowChanges(true)
-        return setTaskClass(prev => prev.map(taskClass => {
-            if (taskClass.id == taskClassId) {
-                const updatedGroups = taskClass.taskGroups.map((group) => {
-                    if(group.groupId == groupId) {
-                        return {...group, tasks: [...group.tasks, task]}
+        return setSelectedTaskClass(prev => {
+            if (prev) {
+                const updatedGroups = prev.taskGroups.map((group) => {
+                    if (group.groupId == groupId) {
+                        return { ...group, tasks: [task, ...group.tasks] }
                     }
 
                     return group
                 })
-                return { ...taskClass, taskGroups: [...updatedGroups] }
+                const updatedTaskClass = { ...prev, taskGroups: [...updatedGroups] }
+                // save to firestore
+                if(userId)saveProjectFromFirestore(userId, updatedTaskClass, "update")
+                return updatedTaskClass
             }
 
-            return taskClass
-        }))
+            return prev
+        })
     }
 
     if (setPseudoTasks) {

@@ -2,29 +2,29 @@ import type { Dispatch, SetStateAction } from "react";
 
 type HandleHistory = {
     action: "undo" | "redo",
-    setTaskClass: Dispatch<SetStateAction<TaskClass[]>>,
+    setSelectedTaskClass: Dispatch<SetStateAction<SelectedTaskClass>>,
     taskClassId: string | undefined,
     historyChanges: HistoryChanges,
     setHistoryChanges: Dispatch<SetStateAction<HistoryChanges>>,
     setAllowChanges: Dispatch<SetStateAction<boolean>>,
-    taskClass?: TaskClass[]
+    taskClass?: TaskClassLists[]
 }
 
-function handleHistory({ action, setTaskClass, taskClassId, historyChanges, setHistoryChanges, setAllowChanges }: HandleHistory) {
-    if(!taskClassId) return
+function handleHistory({ action, setSelectedTaskClass, taskClassId, historyChanges, setHistoryChanges, setAllowChanges }: HandleHistory) {
+    if (!taskClassId) return
 
     setAllowChanges(false)
     if (action == "undo" && (historyChanges.currentStateNumber - 1) > -1) {
-        setTaskClass(prev => prev.map((taskClass) => {
-            if (taskClassId == taskClass.id) return { ...historyChanges.changesInProject[historyChanges.currentStateNumber - 1] }
-            return taskClass
-        }))
-        setHistoryChanges(prev => ({...prev, currentStateNumber: prev.currentStateNumber - 1}))
-    } else if (action == "redo" && ( historyChanges.currentStateNumber + 1) < historyChanges.changesInProject.length) {
-        setTaskClass(prev => prev.map((taskClass) => {
-            if (taskClassId == taskClass.id) return { ...historyChanges.changesInProject[historyChanges.currentStateNumber + 1] }
-            return taskClass
-        }))
+        setSelectedTaskClass((prev) => {
+            if (prev) return { ...historyChanges.changesInProject[historyChanges.currentStateNumber - 1] }
+            return prev
+        })
+        setHistoryChanges(prev => ({ ...prev, currentStateNumber: prev.currentStateNumber - 1 }))
+    } else if (action == "redo" && (historyChanges.currentStateNumber + 1) < historyChanges.changesInProject.length) {
+        setSelectedTaskClass((prev) => {
+            if (prev) return { ...historyChanges.changesInProject[historyChanges.currentStateNumber + 1] }
+            return prev
+        })
         setHistoryChanges(prev => ({ ...prev, currentStateNumber: prev.currentStateNumber + 1 }))
     }
 }

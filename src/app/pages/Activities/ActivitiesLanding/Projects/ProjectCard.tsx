@@ -5,10 +5,9 @@ import Button from '../../../../../components/ui/Button'
 import { useContext, useState } from 'react'
 import { context } from '../../../../context/AppContext'
 import { updateProject } from '../../../../../utils/updateProject'
-import { updateChat } from '../../../../../utils/updateChat'
 
 function ProjectCard({ project, setDataToModify, setEditModal }: ProjectCardProps) {
-    const { darkMode, setTaskClass, setChats, locStor } = useContext(context) as Context;
+    const { darkMode, setTaskClass, userInfo} = useContext(context) as Context;
     const [showActions, setShowActions] = useState<boolean>(false);
     const actionLists: ActionsLists[] = [
         {
@@ -21,16 +20,14 @@ function ProjectCard({ project, setDataToModify, setEditModal }: ProjectCardProp
         {
             action: "Delete Project",
             functionCall: () => {
-                updateProject({
+                if(userInfo) updateProject({
                     setTaskClass,
-                    projectId: project.id,
                     projectName: project.name,
+                    projectId: project.id,
                     value: "",
                     action: "delete",
-                    locStor
-                })
-
-                updateChat({project, setChats, locStor})
+                    project
+                }, userInfo)
             }
         }
     ]

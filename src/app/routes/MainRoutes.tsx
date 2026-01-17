@@ -8,7 +8,7 @@ import Navbar from "../../components/navigations/Navbar/Navbar";
 
 
 function MainRoutes() {
-    const { pages, toolsPages, taskClass } = useContext(context) as Context;
+    const { pages, toolsPages, taskClass, isDataLoaded } = useContext(context) as Context;
     return (
         <div>
             <Navbar />
@@ -18,24 +18,25 @@ function MainRoutes() {
                 })}
 
                 {/* TOOLS (LAYOUT ROUTE) */}
-                {taskClass.length != 0 && <Route path="activities/:id" element={<ActivitiesTools />}>
-                    {toolsPages.map((tab) => {
-                        return <>
-                            <Route
-                                key={tab.tabPath}
-                                path={tab.tabPath}
-                                element={<tab.tabElement />}
-                            />
-                            {tab.tabPath == "ai-assistant" && <Route
-                                key={tab.tabPath}
-                                path={`${tab.tabPath}/:convoId`}
-                                element={<tab.tabElement />}
-                            />}
-                        </>
-                    })}
-                </Route>}
-
-                <Route path="/activities/:id/*" element={<PageNotFound />} />
+                {taskClass.length != 0 || !isDataLoaded
+                    ? <Route path="activities/:id" element={<ActivitiesTools />}>
+                        {toolsPages.map((tab) => {
+                            return <>
+                                <Route
+                                    key={tab.tabPath}
+                                    path={tab.tabPath}
+                                    element={<tab.tabElement />}
+                                />
+                                {tab.tabPath == "ai-assistant" && <Route
+                                    key={tab.tabPath}
+                                    path={`${tab.tabPath}/:convoId`}
+                                    element={<tab.tabElement />}
+                                />}
+                            </>
+                        })}
+                    </Route>
+                    : <Route path="/activities/:id/*" element={<PageNotFound />} />
+                }
             </Routes>
         </div>
     )

@@ -39,6 +39,7 @@
 
 .task .left>p {
     font-size: var(--p-small);
+    word-break: break-all;
 }
 
 .task .right {

@@ -1,45 +1,43 @@
 import type { Dispatch, SetStateAction } from "react"
+import { getProjectsData, saveProjectFromFirestore, updateProjectLists } from "../lib/firebase";
 
 type UpdateProject = {
-    setTaskClass: Dispatch<SetStateAction<TaskClass[]>>,
+    setTaskClass: Dispatch<SetStateAction<TaskClassLists[]>>,
     projectName: string,
     projectId: string,
     value: string,
-    action: "delete" | "update" ,
-    locStor: UseLocaleStorage
+    action: "delete" | "update",
+    project?: TaskClass
 }
 
-export function updateProject({
+export async function updateProject({
     setTaskClass,
-    projectName,
     projectId,
     value,
     action,
-    locStor
-}: UpdateProject) {
-    if(action == "delete") {
+    project
+}: UpdateProject, userInfo: UserInfo) {
+    if (action == "delete") {
         setTaskClass(prev => {
-            const filterProjects = prev.filter(taskClass => taskClass.id != projectId)
-            locStor.saveDataToLocalStorage({
-                taskType: "projects",
-                taskClass: filterProjects,
-                valueFor: "taskClass"
-            })
+            const filterProjects = prev.filter(taskClass => taskClass.id != projectId);
+            updateProjectLists(userInfo, filterProjects);
+            if(project) saveProjectFromFirestore(userInfo.userId, {...project}, "delete");
             return [...filterProjects]
         });
         return;
     }
-    setTaskClass(prev => prev.map(taskClass => {
-        if(taskClass.id == projectId) {
-            locStor.saveDataToLocalStorage({
-                updatedTaskClass: {...taskClass, name: projectName},
-                taskType: "projects",
-                taskClass: prev,
-                valueFor: "taskClass"
-            })
-            return {...taskClass, name: value}
-        }
 
-        return taskClass
-    }))
+    const getSelectedProject = await getProjectsData(userInfo.userId, projectId);
+    await saveProjectFromFirestore(userInfo.userId, {...getSelectedProject, name: value}, "update");
+    setTaskClass((prev) => {
+        const updatedProject = prev.map(taskClass => {
+            if (taskClass.id == projectId) {
+                return { ...taskClass, name: value };
+            }
+
+            return taskClass;
+        })
+        updateProjectLists(userInfo, updatedProject)
+        return updatedProject;
+    })
 }   

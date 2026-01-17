@@ -6,9 +6,10 @@ import { context } from '../../../../../context/AppContext';
 import TaskGroup from './components/TasksGroup/TaskGroup';
 import CreateAndEditModal from './components/CreateAndEditModal/CreateAndEditModal';
 import SearchBox from './components/SearchBox/SearchBox';
+import SkeletonGroup from './components/skeletons/SkeletonGroup';
 
 export default function TaskContainer() {
-    const { darkMode, selectedTaskClass } = useContext(context) as Context;
+    const { darkMode, selectedTaskClass, isDataLoaded } = useContext(context) as Context;
 
     // BOOLEANS
     const [showTools, setShowTools] = useState<boolean>(false);
@@ -51,15 +52,18 @@ export default function TaskContainer() {
             <CreateAndEditModal {
                 ...{ ...values }
             } />
-            <SearchBox {...values}/>
+            <SearchBox {...values} />
 
             {/* Main UI */}
             <div className={s.groups} id='groupsContainer'>
                 {
-                    selectedTaskClass?.taskGroups.map(group => {
-                        
-                        return <TaskGroup {...{ ...values, group }} />
-                    })
+                    isDataLoaded && selectedTaskClass
+                        ? selectedTaskClass?.taskGroups?.length > 0
+                            ? selectedTaskClass?.taskGroups?.map(group => {
+                                return <TaskGroup {...{ ...values, group }} />
+                            })
+                            : isDataLoaded && <h1>There is no task groups.</h1>
+                        : <SkeletonGroup style={s.skeletonGroup}/>
                 }
             </div>
         </div>

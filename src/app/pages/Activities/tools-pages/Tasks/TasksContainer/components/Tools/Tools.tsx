@@ -4,9 +4,10 @@ import { context } from '../../../../../../../context/AppContext';
 import Button from '../../../../../../../../components/ui/Button';
 import { DropDown } from '../../../../../../../../components/drop-down/DropDown';
 import handleHistory from '../../utils/handleHistory';
+import { saveProjectFromFirestore } from '../../../../../../../../lib/firebase';
 
 export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerValues) {
-  const { darkMode, setTaskClass, selectedTaskClass, historyChanges, setHistoryChanges, setAllowChanges, taskClass, locStor } = useContext(context) as Context;
+  const { darkMode, setSelectedTaskClass, selectedTaskClass, historyChanges, setHistoryChanges, setAllowChanges, taskClass,userInfo } = useContext(context) as Context;
   const [showTools, setShowTools] = useState<boolean>(false);
   const selectedHistory = useMemo(() => {
     return historyChanges.changesInProject[historyChanges.currentStateNumber]
@@ -33,8 +34,8 @@ export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerVal
           <Button
             className={`${s.actionButton} ${s.saveButton}`}
             clickListener={() => {
-              if (selectedTaskClass) {
-                locStor.saveDataToLocalStorage({ updatedTaskClass: selectedTaskClass, taskType: selectedTaskClass.taskType, taskClass, valueFor: "taskClass" })
+              if (selectedTaskClass && userInfo) {
+                saveProjectFromFirestore(userInfo.userId, selectedTaskClass, "update")
                 setHistoryChanges(prev => {
                   const findSelectedHistory = prev.changesInProject.map((t, i) => {
                     if (i == historyChanges.currentStateNumber) {
@@ -52,13 +53,13 @@ export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerVal
         <Button
           className={historyChanges.currentStateNumber > 0 ? s.actionButton : `${s.actionButton} ${s.disabled}`}
           clickListener={() => {
-            handleHistory({ action: "undo", setTaskClass, taskClassId: selectedTaskClass?.id, historyChanges, setHistoryChanges, setAllowChanges, taskClass });
+            handleHistory({ action: "undo", setSelectedTaskClass, taskClassId: selectedTaskClass?.id, historyChanges, setHistoryChanges, setAllowChanges, taskClass });
           }}
           iconElement={<i className="fa fa-chevron-left"></i>} />
         <Button
           className={historyChanges.currentStateNumber < historyChanges.changesInProject.length - 1 ? s.actionButton : `${s.actionButton} ${s.disabled}`}
           clickListener={() => {
-            handleHistory({ action: "redo", setTaskClass, taskClassId: selectedTaskClass?.id, historyChanges, setHistoryChanges, setAllowChanges });
+            handleHistory({ action: "redo", setSelectedTaskClass, taskClassId: selectedTaskClass?.id, historyChanges, setHistoryChanges, setAllowChanges });
           }}
           iconElement={<i className="fa fa-chevron-right"></i>} />
         <Button

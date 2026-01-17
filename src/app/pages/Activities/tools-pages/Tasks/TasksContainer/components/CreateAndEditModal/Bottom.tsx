@@ -7,7 +7,7 @@ import { addTask } from "../../utils/addTask";
 
 export default function Bottom(props: CEMBottomProps): JSX.Element {
     const { setCreateAndEditModal, propsForCEM, changedValue, setChangedValue, setPropsForCEM } = props as CEMBottomProps
-    const { selectedTaskClass, setTaskClass, setAllowChanges } = useContext(context) as Context;
+    const { setSelectedTaskClass, setAllowChanges, userInfo } = useContext(context) as Context;
     const ifEditTask = propsForCEM?.modalAction == "update" && propsForCEM?.modalFor == "task";
 
     return (
@@ -23,8 +23,8 @@ export default function Bottom(props: CEMBottomProps): JSX.Element {
                     if (propsForCEM.modalFor == "group") {
                         updateGroup({
                             groupId: propsForCEM.group.groupId,
-                            changedValue, action: "update",
-                            selectedTaskClass, setTaskClass, setAllowChanges
+                            changedValue, action: "update",setSelectedTaskClass, setAllowChanges,
+                            userId: userInfo?.userId
                         })
                         setChangedValue("");
                         setCreateAndEditModal(false);
@@ -34,9 +34,9 @@ export default function Bottom(props: CEMBottomProps): JSX.Element {
                     else if (ifEditTask) {
                         updateGroup({
                             groupId: propsForCEM.group.groupId,
-                            changedValue, action: "update",
-                            selectedTaskClass, setTaskClass,
-                            task: propsForCEM.task, setAllowChanges
+                            changedValue, action: "update", setSelectedTaskClass,
+                            task: propsForCEM.task, setAllowChanges,
+                            userId: userInfo?.userId
                         })
                         setChangedValue("");
                         setCreateAndEditModal(false);
@@ -44,7 +44,7 @@ export default function Bottom(props: CEMBottomProps): JSX.Element {
                     } else {
                         addTask({
                             taskDescription: changedValue, groupId: propsForCEM.group.groupId,
-                            taskClassId: selectedTaskClass?.id, setTaskClass, setAllowChanges
+                            userId: userInfo?.userId, setSelectedTaskClass, setAllowChanges
                         })
                         setChangedValue("");
                         setCreateAndEditModal(false);

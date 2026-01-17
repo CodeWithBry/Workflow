@@ -18,23 +18,33 @@ declare global {
         inputRefText: string 
         pseudoConvo?: Convo,
         send?: boolean,
-        setIsNewChat?: Dispatch<SetStateAction<boolean>>,
-        chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
+        chatLists: ChatList[], 
         modifyData: ModifyData,
-        selectedChat: SelectedChat
+        selectedConvo: SelectedConvo,
+        userId: string,
+        attachment?: string,
+        setIsNewChat?: Dispatch<SetStateAction<boolean>>,
+        setSelectedConvo: Dispatch<SetStateAction<SelectedConvo>>,
+        setConvoLists: Dispatch<SetStateAction<ConvoList[]>>,
+        setChatLists: Dispatch<SetStateAction<ChatList[]>>,
+        setPauseEffect: Dispatch<SetStateAction<boolean>>,
     }
 
     type SendMessageToBot = {
         messagesAi: MessagesAi[],
         modifyData: ModifyData,
         chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
-        selectedChat: SelectedChat
+        selectedChat: SelectedChat,
+        setPauseEffect: Dispatch<SetStateAction<boolean>>,
     }
 
     type UpdateConvo = {
-        chat: Chat,
+        chatInfo: ChatList,
         newMessage: MessagesUi,
-        newMessageAi: MessagesAi
+        newMessageAi: MessagesAi,
+        selectedConvo: SelectedConvo,
+        userId: string,
+        setSelectedConvo: Dispatch<SetStateAction<SelectedConvo>>,
     }
 }
 

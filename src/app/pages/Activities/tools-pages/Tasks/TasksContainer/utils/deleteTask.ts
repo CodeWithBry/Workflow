@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import { saveProjectFromFirestore } from "../../../../../../../lib/firebase";
 // import { saveData } from "../../../../../utils/saveData";
 
 export type DeleteTask = {
@@ -6,30 +7,32 @@ export type DeleteTask = {
     setPseudoTasks?: Dispatch<SetStateAction<PseudoTasks>>,
     isRealTask: boolean,
     groupId?: string,
-    taskClassId?: string,
-    setTaskClass?: Dispatch<SetStateAction<TaskClass[]>>,
+    userId?: string,
+    setSelectedTaskClass?: Dispatch<SetStateAction<SelectedTaskClass>>,
     setAllowChanges: Dispatch<SetStateAction<boolean>>
 };
 
-export function deleteTask({ task, setTaskClass, setPseudoTasks, isRealTask, groupId, taskClassId, setAllowChanges }: DeleteTask) {
+export function deleteTask({ task, setSelectedTaskClass, setPseudoTasks, isRealTask, groupId, setAllowChanges, userId }: DeleteTask) {
     if (!isRealTask && setPseudoTasks) return setPseudoTasks(prev => prev ? prev.filter((t) => task.id != t.id) : null)
 
-    if (setTaskClass) return setTaskClass(prev => prev.map((proj) => {
-        if (proj.id == taskClassId) {
+    if (setSelectedTaskClass) return setSelectedTaskClass((prev) => {
+        if (prev) {
             setAllowChanges(true)
-            const updatedGroup = proj.taskGroups.map(group => {
+            const updatedGroup = prev.taskGroups.map(group => {
                 if (groupId != group.groupId || group.tasks == null) return { ...group }
                 const updatedTasks = group.tasks.filter((t) => task.id != t.id)
 
                 return { ...group, tasks: updatedTasks }
             })
-            const updatedProject = { ...proj, taskGroups: updatedGroup };
+            const updatedProject = { ...prev, taskGroups: updatedGroup };
+            // save data to firestore
+            if(userId) saveProjectFromFirestore(userId, updatedProject, "update")
             // saveData({ updatedProject, taskCategory: "Projects" })
             return updatedProject;
         }
 
-        return { ...proj }
-    }))
+        return null
+    })
 
     // if (setNormalTasks) {
     //     setNormalTasks(prev => prev.map(cat => {

@@ -10,9 +10,10 @@ import { safeJsonParse } from "../../utils/safeJsonParse";
 import Button from "../../../../../../../../components/ui/Button";
 import { context } from "../../../../../../../context/AppContext";
 import { CodeBlock } from "./CodeBlock";
+import { saveProjectFromFirestore } from "../../../../../../../../lib/firebase";
 
 function MessageComponent({ res }: { res: MessagesUi }) {
-    const { setTaskClass, locStor, taskClass } = useContext(context) as Context;
+    const { setSelectedTaskClass, userInfo } = useContext(context) as Context;
 
     // ⚠️ Heavy string ops → memoized
     const raw = useMemo(() => (
@@ -105,20 +106,8 @@ function MessageComponent({ res }: { res: MessagesUi }) {
                         <Button
                             className={`${s.actionButton} ${s.saveButton}`}
                             clickListener={() => {
-                                setTaskClass(prev =>
-                                    prev.map(t => {
-                                        if (t.id === projectObject.id) {
-                                            locStor.saveDataToLocalStorage({
-                                                updatedTaskClass: projectObject,
-                                                taskType: "projects",
-                                                taskClass,
-                                                valueFor: "taskClass",
-                                            });
-                                            return { ...projectObject };
-                                        }
-                                        return t;
-                                    })
-                                );
+                                setSelectedTaskClass(projectObject);
+                                if(userInfo) saveProjectFromFirestore(userInfo?.userId, projectObject, null, undefined, "update")
                             }}
                             iconElement={<i className="fas fa-save" />}
                             content="Update This Project"

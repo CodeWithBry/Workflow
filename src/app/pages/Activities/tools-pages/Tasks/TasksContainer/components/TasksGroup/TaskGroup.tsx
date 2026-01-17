@@ -10,7 +10,7 @@ import { updateGroup } from '../../utils/updateGroup';
 
 export default function TaskGroup(props: TaskGroupProps) {
   // CONTEXT & PROPS
-  const { darkMode, selectedTaskClass, setTaskClass, setAllowChanges } = useContext(context) as Context;
+  const { darkMode, setSelectedTaskClass, setAllowChanges, userInfo } = useContext(context) as Context;
   const { group, setCreateAndEditModal, setPropsForCEM } = props as TaskGroupProps
   // BOOLEAN
   const [showTools, setShowTools] = useState<boolean>(false)
@@ -31,7 +31,7 @@ export default function TaskGroup(props: TaskGroupProps) {
     {
       action: "Delete", functionCall: () => {
         updateGroup({
-          groupId: group.groupId, changedValue: null, action: "delete", selectedTaskClass: selectedTaskClass, setTaskClass, setAllowChanges
+          groupId: group.groupId, changedValue: null, action: "delete", setSelectedTaskClass, setAllowChanges
         })
       }
     },
@@ -39,8 +39,8 @@ export default function TaskGroup(props: TaskGroupProps) {
       action: "Pending Selected", functionCall: () => {
         setAllowChanges(true)
         group.tasks.forEach((task) => updateTask({
-          setTaskClass, targetAttribute: "status", changedValue: "pending",
-          task, groupId: group.groupId, taskClassId: selectedTaskClass?.id,
+          setSelectedTaskClass, targetAttribute: "status", changedValue: "pending",
+          task, groupId: group.groupId, userId: userInfo?.userId,
           isMultipleTarget: true
         }))
       }
@@ -49,8 +49,8 @@ export default function TaskGroup(props: TaskGroupProps) {
       action: "Finish Selected", functionCall: () => {
         setAllowChanges(true)
         group.tasks.forEach((task) => updateTask({
-          setTaskClass, targetAttribute: "status", changedValue: "finished",
-          task, groupId: group.groupId, taskClassId: selectedTaskClass?.id,
+          setSelectedTaskClass, targetAttribute: "status", changedValue: "finished",
+          task, groupId: group.groupId, userId: userInfo?.userId,
           isMultipleTarget: true
         }))
       }

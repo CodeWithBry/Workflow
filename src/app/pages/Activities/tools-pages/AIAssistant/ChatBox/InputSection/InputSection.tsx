@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { context } from "../../../../../../context/AppContext";
 import s from "./styles.module.css"
 import Button from "../../../../../../../components/ui/Button";
@@ -6,18 +6,32 @@ import { addUserMessage } from "../utils/addUserMessage";
 
 function InputSection({ setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValues) {
 
-    const { darkMode, modifyData, chats, setChats, selectedChat } = useContext(context) as Context;
+    const { darkMode, modifyData, setModifyData, chatLists, userInfo, setSelectedConvo, setConvoLists, setPauseEffect, setChatLists } = useContext(context) as Context;
     const inputSectionClassName = !darkMode ? s.inputSection : `${s.inputSection} ${s.dark}`
     const inputRef = useRef<HTMLDivElement>(null);
     const [isEmpty, setIsEmpty] = useState(true);
-
-
+    const attachTask = useMemo<boolean>(() => {
+        return modifyData.task ? true : false
+    }, [modifyData]);
     // useEffect(() => console.log(userInput == " " || userInput == "" ? userInput.length : userInput.length), [userInput])
 
     return (
         <div className={inputSectionClassName}>
             <label htmlFor="inputMessage">
                 <div className={s.attachment}></div>
+                {attachTask && <div className={s.attachmentTask}>
+                    <i className="far fa-file-alt"></i>
+                    <div className={s.contents}>
+                        <h4>Task:</h4>
+                        <p>{modifyData.task?.description}</p>
+                    </div>
+                    <Button
+                        className={s.close}
+                        iconElement={<i className="fa fa-close"></i>}
+                        clickListener={() => {
+                            setModifyData(prev => ({ ...prev, task: null }))
+                        }} />
+                </div>}
                 <div
                     ref={inputRef}
                     className={`${s.inputContainer} ${isEmpty ? s.placeholder : ""}`}
@@ -43,16 +57,13 @@ function InputSection({ setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValue
 
                             const text = inputRef.current?.innerText ?? "";
                             if (!text.trim()) return;
-                            console.log(selectedChat)
-                            addUserMessage({
-                                element: e,
-                                inputRefText: text,
-                                chats,
+                            if (userInfo) addUserMessage({
+                                element: e, inputRefText: text,
+                                chatLists, setSelectedConvo,
                                 pseudoConvo: selectedConvo ? undefined : pseudoConvo,
-                                modifyData,
-                                selectedChat,
-                                setChats,
-                                setIsNewChat,
+                                modifyData, setIsNewChat,
+                                selectedConvo, userId: userInfo?.userId,
+                                setConvoLists, setPauseEffect, setChatLists,
                             });
 
                             // Clear input
@@ -67,8 +78,15 @@ function InputSection({ setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValue
                 <Button
                     className={s.sendButton}
                     clickListener={() => {
-                        addUserMessage({ send: true, inputRefText: inputRef.current?.innerText ?? "", chats, setChats, selectedChat, setIsNewChat, pseudoConvo: selectedConvo ? undefined : pseudoConvo, modifyData });
-                        if(inputRef.current) inputRef.current.innerText = "";
+                        if (userInfo && inputRef.current) addUserMessage({
+                            inputRefText: inputRef.current?.innerText,
+                            chatLists, setSelectedConvo,
+                            pseudoConvo: selectedConvo ? undefined : pseudoConvo,
+                            modifyData, setIsNewChat,
+                            selectedConvo, userId: userInfo?.userId,
+                            setConvoLists, setPauseEffect, setChatLists
+                        });
+                        if (inputRef.current) inputRef.current.innerText = "";
                     }}
                     iconElement={(<i className="fa fa-send"></i>)} />
             </label>

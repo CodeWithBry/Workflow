@@ -1,12 +1,14 @@
 import type { Dispatch, SetStateAction } from "react"
+import { saveProjectFromFirestore } from "../lib/firebase";
 
 type AddProject = {
-    setTaskClass: Dispatch<SetStateAction<TaskClass[]>>,
+    setTaskClass: Dispatch<SetStateAction<TaskClassLists[]>>,
+    setChatLists: Dispatch<SetStateAction<ChatList[]>>
     projectName: string,
-    locStor: UseLocaleStorage
+    userId: string
 }
 
-export function addProject({setTaskClass, projectName, locStor}: AddProject) {
+export async function addProject({setTaskClass, setChatLists, projectName, userId}: AddProject) {
     const newProject: TaskClass = {
         name: projectName,
         taskType: "projects",
@@ -17,8 +19,22 @@ export function addProject({setTaskClass, projectName, locStor}: AddProject) {
         status: "pending"
     };
 
-    setTaskClass(prev => {
-        locStor.saveDataToLocalStorage({ taskClass: [...prev, newProject], taskType: "projects", updatedTaskClass: newProject,valueFor: "taskClass" });
-        return [...prev, newProject]
-    })
+    const projectInfo: TaskClassLists = {
+        name: projectName,
+        taskType: "projects",
+        id: newProject.id,
+        isOpened: false,
+        icon: "fas fa-history",
+        status: "pending"
+    };
+
+    const chatInfo: ChatList = {
+        isOpen: false,
+        id: projectInfo.id,
+        convoLists: []
+    }
+
+    await saveProjectFromFirestore(userId, {...newProject}, projectInfo, chatInfo, "create");
+    setTaskClass(prev => [newProject, ...prev])
+    setChatLists(prev => [...prev, chatInfo]);
 }

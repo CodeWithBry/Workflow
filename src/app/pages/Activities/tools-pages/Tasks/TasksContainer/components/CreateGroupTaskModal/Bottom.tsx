@@ -9,7 +9,7 @@ export default function Bottom(props: GTMBottomProps & GTMProps): JSX.Element {
     const { setShowGTM, setGroupName,
         setShowTaskForm, setPseudoGroup,
         setPseudoTasks }: GTMBottomProps & GTMProps = props
-    const { taskClass, setTaskClass, selectedTaskClass, setAllowChanges } = useContext(context) as Context;
+    const { taskClass, setSelectedTaskClass, selectedTaskClass, setAllowChanges, userInfo } = useContext(context) as Context;
 
     // useEffect(() => { console.log(selectedNormalTask) }, [selectedNormalTask])
 
@@ -29,7 +29,7 @@ export default function Bottom(props: GTMBottomProps & GTMProps): JSX.Element {
                 className={groupName == "" ? s.actionButton : `${s.actionButton} ${s.active}`}
                 clickListener={() => {
                     if (showTaskForm) {
-                        addGroupTask({ pseudoGroup, setPseudoGroup, pseudoTasks, groupName, setTaskClass, taskClass, taskClassId: selectedTaskClass?.id, setAllowChanges });
+                        addGroupTask({ pseudoGroup, setPseudoGroup, pseudoTasks, groupName, setSelectedTaskClass, taskClass, taskClassId: selectedTaskClass?.id, setAllowChanges, userId: userInfo?.userId });
                         setShowTaskForm(false);
                         setPseudoGroup(null);
                         setPseudoTasks(null);

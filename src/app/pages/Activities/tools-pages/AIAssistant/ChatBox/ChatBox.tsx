@@ -1,11 +1,12 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import s from './styles.module.css'
 import { context } from '../../../../../context/AppContext'
 import MessageBox from './MessageBox/MessageBox';
 import InputSection from './InputSection/InputSection';
+import { getConvo } from './utils/getConvo';
 
 function ChatBox() {
-  const { darkMode, selectedChat } = useContext(context) as Context;
+  const { darkMode, convoLists, userInfo, chatLists, selectedConvo, setSelectedConvo, pauseEffect } = useContext(context) as Context;
   const chatBoxClassName = !darkMode ? s.chatBox : `${s.chatBox} ${s.dark}`
   // BOOLEANS
   const [isNewChat, setIsNewChat] = useState<boolean>(true);
@@ -14,11 +15,10 @@ function ChatBox() {
   // ARRAYS AND OBJECTS
   const [pseudoConvo, setPseudoConvo] = useState<Convo>({
     convoId: crypto.randomUUID(),
-    isOpened: true,
+    isOpen: false,
     messagesAi: [],
     messagesUi: []
   })
-  const selectedConvo: SelectedConvo = useMemo(() => selectedChat?.convos.find(convo => convo.isOpened), [selectedChat?.convos])
 
   const values = {
     // BOOLEANS
@@ -31,7 +31,18 @@ function ChatBox() {
 
   useEffect(() => {
     setIsConvoLoading(false);
-  }, [selectedChat])
+  }, [selectedConvo])
+  
+  useEffect(() => {
+    if(pauseEffect) return;
+    if(convoLists.length > 0 && chatLists.length > 0 && userInfo) {
+      const getOpenedConvo: ConvoList | undefined= convoLists.find(convo => convo?.isOpen);
+      const getOpenedChat: ChatList | undefined = chatLists.find(chat => chat.isOpen);
+      if(getOpenedConvo && getOpenedChat) {
+        getConvo(userInfo?.userId, getOpenedChat.id, getOpenedConvo.convoId, setSelectedConvo);
+      } 
+    }
+  }, [convoLists, chatLists, userInfo?.userId])
 
   return (
     <div className={chatBoxClassName}>

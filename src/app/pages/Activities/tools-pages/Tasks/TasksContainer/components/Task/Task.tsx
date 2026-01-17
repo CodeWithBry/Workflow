@@ -8,7 +8,7 @@ import { updateTask } from "../../utils/updateTask"
 
 function Task(props: TaskProps) {
     const { task, isRealTask, setPseudoTasks, group, setPropsForCEM, setCreateAndEditModal }: TaskProps = props;
-    const { darkMode, setTaskClass, selectedTaskClass, setAllowChanges, setShowAssistant, setModifyData } = useContext(context) as Context;
+    const { darkMode, setSelectedTaskClass, setAllowChanges, setShowAssistant, setModifyData, userInfo } = useContext(context) as Context;
 
     const [showStatus, setShowStatus] = useState<boolean>(false);
     const [showActions, setShowActions] = useState<boolean>(false);
@@ -18,8 +18,8 @@ function Task(props: TaskProps) {
             action: "Pending", functionCall: () => {
                 if (isRealTask) {
                     return updateTask({
-                        setTaskClass, targetAttribute: "status", changedValue: "pending",
-                        task, groupId: group.groupId, taskClassId: selectedTaskClass?.id,
+                        setSelectedTaskClass, targetAttribute: "status", changedValue: "pending",
+                        task, groupId: group.groupId, userId: userInfo?.userId,
                         setAllowChanges
                     })
                 }
@@ -30,8 +30,8 @@ function Task(props: TaskProps) {
             action: "Finished", functionCall: () => {
                 if (isRealTask) {
                     return updateTask({
-                        setTaskClass, targetAttribute: "status", changedValue: "finished",
-                        task, groupId: group.groupId, taskClassId: selectedTaskClass?.id,
+                        setSelectedTaskClass, targetAttribute: "status", changedValue: "finished",
+                        task, groupId: group.groupId, userId: userInfo?.userId,
                         setAllowChanges
                     })
                 }
@@ -54,7 +54,7 @@ function Task(props: TaskProps) {
         },
         {
             action: "Delete",
-            functionCall: () => { deleteTask({task, setTaskClass, isRealTask: true, groupId: group.groupId, taskClassId: selectedTaskClass?.id, setAllowChanges}) }
+            functionCall: () => { deleteTask({task, setSelectedTaskClass, isRealTask: true, groupId: group.groupId, userId: userInfo?.userId, setAllowChanges}) }
         }
     ]
 
@@ -73,9 +73,9 @@ function Task(props: TaskProps) {
                         if (isRealTask) {
                             setAllowChanges(false)
                             return updateTask({
-                                setTaskClass, targetAttribute: "isSelected",
+                                setSelectedTaskClass, targetAttribute: "isSelected",
                                 changedValue: e.target.checked ? "true" : "false",
-                                task, groupId: group.groupId, taskClassId: selectedTaskClass?.id})
+                                task, groupId: group.groupId, userId: userInfo?.userId})
                         }
                         updateTask({ setPseudoTasks, targetAttribute: "isSelected", changedValue: e.target.checked ? "true" : "false", task })
                     }} />
@@ -110,7 +110,7 @@ function Task(props: TaskProps) {
                             iconElement={<i className="fas fa-ellipsis-v" />} />
                         : <Button
                             className={s.actionButton}
-                            clickListener={() => { deleteTask({ task, setPseudoTasks, isRealTask: false, setTaskClass, setAllowChanges }) }}
+                            clickListener={() => { deleteTask({ task, setPseudoTasks, isRealTask: false, setSelectedTaskClass, setAllowChanges }) }}
                             iconElement={<i className="far fa-trash-alt" />} />
                 }
                 <DropDown {...{ darkMode, showTools: showActions, setShowTools: setShowActions, actionLists }} />

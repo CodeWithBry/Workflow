@@ -23,6 +23,56 @@
     padding: calc(var(--pad-y-m)) var(--pad-x-m);
     background-color: white;
     border-radius: .5rem;
+    position: relative;
+}
+
+.inputSection>label .attachmentTask {
+    width: calc(100% - (var(--pad-x-s) * 2));
+    padding: var(--pad-x-s) var(--pad-x-s);
+    padding-bottom: calc(var(--pad-x-s) + 10px);
+    background-color: var(--l-very-light);
+    position: absolute;
+    bottom: 80%;
+    left: 0;
+    display: flex;
+    align-items: center;
+    z-index: -1;
+    gap: var(--gap-small);
+}
+
+.inputSection>label .attachmentTask .contents {
+    width: 100%;
+    overflow: hidden;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 100%;
+        background-color: var(--l-very-light);
+    }
+}
+
+.inputSection>label .attachmentTask .contents>h4 {
+    font-size: var(--p-small);
+}
+
+.inputSection>label .attachmentTask .contents>p {
+    font-size: var(--p-smaller);
+}
+
+.inputSection>label .attachmentTask>i {
+    background-color: var(--l-light);
+    font-size: var(--h1-smaller);
+    padding: var(--pad-x-s) calc(var(--pad-x-s) + 5px);
+}
+
+.inputSection>label .attachmentTask>i,
+.inputSection>label .attachmentTask .close {
+    border-radius: 1rem;
+    background-color: var(--l-light);
+}
+
+.inputSection>label .attachmentTask .close {
+    padding: calc(var(--pad-x-s) - 5px) calc(var(--pad-x-s) - 5px);
 }
 
 .inputSection>label .inputContainer {

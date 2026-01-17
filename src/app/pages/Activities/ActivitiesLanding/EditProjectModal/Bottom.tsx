@@ -5,7 +5,7 @@ import { context } from "../../../../context/AppContext"
 import { updateProject } from "../../../../../utils/updateProject";
 
 export default function Bottom(props: EPMBottomProps): JSX.Element {
-    const {setTaskClass, locStor} = useContext(context) as Context;
+    const {setTaskClass, userInfo} = useContext(context) as Context;
 
     return (
         <div className={s.bottom}>
@@ -16,15 +16,14 @@ export default function Bottom(props: EPMBottomProps): JSX.Element {
             <Button
                 className={false ? s.actionButton : `${s.actionButton} ${s.active}`}
                 clickListener={() => {
-                    if(props.changedValue.length != 0 && props.dataToModify) {
+                    if(props.changedValue.length != 0 && props.dataToModify && userInfo) {
                         updateProject({
                             setTaskClass,
                             projectName: props.dataToModify?.name,
                             projectId: props.dataToModify?.id,
                             value: props.changedValue,
-                            action: "update",
-                            locStor
-                        })
+                            action: "update"
+                        }, userInfo)
                         props.setEditModal(false);
 
                     } 
