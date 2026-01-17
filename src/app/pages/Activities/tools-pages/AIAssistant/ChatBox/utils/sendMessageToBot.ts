@@ -5,7 +5,7 @@ import { generateTitleForConvo } from "./generateTitleForConvo";
 export const URL_API =
     import.meta.env.MODE === "development"
         ? "http://localhost:3000/server"
-        : "https://spread-m5ja.onrender.com/server";
+        : "https://workflow-cqg2.onrender.com/server";
 
 export async function sendMessageToBot(
     userId: string,
