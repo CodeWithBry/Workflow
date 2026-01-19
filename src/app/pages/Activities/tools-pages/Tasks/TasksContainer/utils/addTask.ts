@@ -44,7 +44,7 @@ export function addTask({
                 })
                 const updatedTaskClass = { ...prev, taskGroups: [...updatedGroups] }
                 // save to firestore
-                if(userId)saveProjectFromFirestore(userId, updatedTaskClass, "update")
+                if(userId)saveProjectFromFirestore(userId, updatedTaskClass, null, undefined, "update")
                 return updatedTaskClass
             }
 

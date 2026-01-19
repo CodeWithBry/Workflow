@@ -8,9 +8,9 @@ function Projects(props: {
   editModal: boolean, setEditModal: Dispatch<SetStateAction<boolean>>,
 }) {
   const { taskClass, darkMode } = useContext(context) as Context;
-  const projectCards: TaskClass[] | undefined = useMemo(() => {
+  const projectCards: TaskClassLists[] | undefined = useMemo(() => {
     if (taskClass.length > 3) {
-      const projects: TaskClass[] = []
+      const projects: TaskClassLists[] = []
       taskClass.map(t => {
         if (t.taskType == "projects") {
           const projectCardAttributes = { ...t, icon: "fas fa-folder" }

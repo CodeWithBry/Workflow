@@ -4,7 +4,7 @@ import s from "./styles.module.css"
 import Button from "../../../../../../../components/ui/Button";
 import { addUserMessage } from "../utils/addUserMessage";
 
-function InputSection({ setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValues) {
+function InputSection({ setIsNewChat, pseudoConvo, selectedConvo, setIsFailedToSend }: ChatBotValues) {
 
     const { darkMode, modifyData, setModifyData, chatLists, userInfo, setSelectedConvo, setConvoLists, setPauseEffect, setChatLists } = useContext(context) as Context;
     const inputSectionClassName = !darkMode ? s.inputSection : `${s.inputSection} ${s.dark}`
@@ -64,6 +64,7 @@ function InputSection({ setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValue
                                 modifyData, setIsNewChat,
                                 selectedConvo, userId: userInfo?.userId,
                                 setConvoLists, setPauseEffect, setChatLists,
+                                setIsFailedToSend
                             });
 
                             // Clear input
@@ -84,7 +85,8 @@ function InputSection({ setIsNewChat, pseudoConvo, selectedConvo }: ChatBotValue
                             pseudoConvo: selectedConvo ? undefined : pseudoConvo,
                             modifyData, setIsNewChat,
                             selectedConvo, userId: userInfo?.userId,
-                            setConvoLists, setPauseEffect, setChatLists
+                            setConvoLists, setPauseEffect, setChatLists,
+                            setIsFailedToSend
                         });
                         if (inputRef.current) inputRef.current.innerText = "";
                     }}

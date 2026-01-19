@@ -35,7 +35,7 @@ export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerVal
             className={`${s.actionButton} ${s.saveButton}`}
             clickListener={() => {
               if (selectedTaskClass && userInfo) {
-                saveProjectFromFirestore(userInfo.userId, selectedTaskClass, "update")
+                saveProjectFromFirestore(userInfo.userId, selectedTaskClass, null, undefined, "update")
                 setHistoryChanges(prev => {
                   const findSelectedHistory = prev.changesInProject.map((t, i) => {
                     if (i == historyChanges.currentStateNumber) {

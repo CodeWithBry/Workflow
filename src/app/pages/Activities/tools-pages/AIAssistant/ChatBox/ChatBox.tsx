@@ -19,11 +19,13 @@ function ChatBox() {
     messagesAi: [],
     messagesUi: []
   })
+  const [isFailedToSend, setIsFailedToSend] = useState<boolean>(false);
 
   const values = {
     // BOOLEANS
     isNewChat, setIsNewChat,
     isConvoLoading, setIsConvoLoading,
+    isFailedToSend, setIsFailedToSend,
     // ARRAYS AND OBJECTS
     pseudoConvo, setPseudoConvo,
     selectedConvo

@@ -12,9 +12,8 @@ export function updateConvo({ chatInfo, newMessage, newMessageAi, selectedConvo,
             messagesAi: [...selectedConvo.messagesAi, newMessageAi],
             title: selectedConvo.title
         }
+        
         setSelectedConvo({...updatedConvo});
-        // saveConvoData(userId, chatInfo.id, updatedConvoList.convoId, updatedConvo);
-        console.log(updatedConvo)
         return updatedConvo;
     } else if (!selectedConvo) {
         const updatedConvo: SelectedConvo = {
@@ -23,8 +22,8 @@ export function updateConvo({ chatInfo, newMessage, newMessageAi, selectedConvo,
             messagesUi: [newMessage],
             messagesAi: [newMessageAi]
         }
+
         setSelectedConvo({...updatedConvo});
-        console.log("NO CONVO!")
         saveConvoData(userId, chatInfo.id, updatedConvoList.convoId, updatedConvo);
         return updatedConvo;
     }

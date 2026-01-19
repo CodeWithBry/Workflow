@@ -8,10 +8,6 @@ declare global {
 
 // FUNCTIONS
 declare global {
-    type HandleInput = {
-        element: KeyboardEvent<HTMLInputElement>,
-        chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
-    }
 
     type AddUserMessage = {
         element?: KeyboardEvent<HTMLInputElement>,
@@ -28,12 +24,14 @@ declare global {
         setConvoLists: Dispatch<SetStateAction<ConvoList[]>>,
         setChatLists: Dispatch<SetStateAction<ChatList[]>>,
         setPauseEffect: Dispatch<SetStateAction<boolean>>,
+        setIsFailedToSend: Dispatch<SetStateAction<boolean>>, 
+        
     }
 
     type SendMessageToBot = {
         messagesAi: MessagesAi[],
         modifyData: ModifyData,
-        chats: Chats, setChats: Dispatch<SetStateAction<Chats>>,
+        chats: ChatList[], setChats: Dispatch<SetStateAction<ChatList[]>>,
         selectedChat: SelectedChat,
         setPauseEffect: Dispatch<SetStateAction<boolean>>,
     }
@@ -55,6 +53,7 @@ declare global {
         // BOOLEANS
         isNewChat: boolean, setIsNewChat: Dispatch<SetStateAction<boolean>>
         isConvoLoading: boolean, setIsConvoLoading: Dispatch<SetStateAction<boolean>>,
+        isFailedToSend: boolean, setIsFailedToSend: Dispatch<SetStateAction<boolean>>, 
         // STRINGS
         // OBJECTS AND ARRAYS
         pseudoConvo: Convo, setPseudoConvo: Dispatch<SetStateAction<Convo>>,

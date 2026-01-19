@@ -202,19 +202,19 @@ export async function getProjectsData(userId: string, projectId: string): Promis
 
 export async function saveProjectFromFirestore(userId: string, project: TaskClass, projectInfo: TaskClassLists | null, chatInfo: ChatList | undefined, action: "update" | "create" | "delete"): Promise<string> {
     const userRef = doc(firestore, "Users", userId);
-    const docRef = doc(firestore, "Users", userId, "Projects", project.id);
+    const projectRef = doc(firestore, "Users", userId, "Projects", project.id);
     try {
 
         if (action == "delete") {
-            await deleteDoc(docRef)
+            await deleteDoc(projectRef)
         }
 
         if (action == "update") {
-            await updateDoc(docRef, { project: project });
+            await updateDoc(projectRef, { project: project });
         }
 
         if (action == "create") {
-            await setDoc(docRef, { project: project });
+            await setDoc(projectRef, { project: project });
             if (chatInfo) {
                 const chatRef = doc(firestore, "Users", userId, "Chats", chatInfo.id);
                 await setDoc(chatRef, { convoLists: [] })

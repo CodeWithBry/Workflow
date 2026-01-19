@@ -55,7 +55,7 @@ export function updateTask({ setPseudoTasks, targetAttribute, changedValue, task
                 });
                 const updatedProject = { ...prev, taskGroups: updatedGroup };
                 // save data to firestore
-                if(userId)saveProjectFromFirestore(userId, updatedProject, "update");
+                if(userId)saveProjectFromFirestore(userId, updatedProject, null, undefined, "update");
                 // saveData({ updatedProject, taskCategory: "Projects" })
                 return updatedProject
             }

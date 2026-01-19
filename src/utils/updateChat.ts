@@ -2,18 +2,12 @@ import type { Dispatch, SetStateAction } from "react"
 
 type UpdateChat = {
     project: TaskClass,
-    setChats: Dispatch<SetStateAction<Chats>>,
-    locStor: UseLocaleStorage
+    setChats: Dispatch<SetStateAction<ChatList[]>>,
 }
 
-export function updateChat({ project, setChats, locStor }: UpdateChat) {
+export function updateChat({ project, setChats }: UpdateChat) {
     setChats(prev => {
         const updatedChats = prev.filter(chat => chat.id != project.id)
-        locStor.saveDataToLocalStorage({
-            taskType: "",
-            valueFor: "chats",
-            chats: updatedChats,
-        })
         return updatedChats
     });
 

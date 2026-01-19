@@ -15,20 +15,20 @@ export async function updateProject({
     projectId,
     value,
     action,
-    project
+    project,
 }: UpdateProject, userInfo: UserInfo) {
     if (action == "delete") {
         setTaskClass(prev => {
             const filterProjects = prev.filter(taskClass => taskClass.id != projectId);
             updateProjectLists(userInfo, filterProjects);
-            if(project) saveProjectFromFirestore(userInfo.userId, {...project}, "delete");
+            if(project) saveProjectFromFirestore(userInfo.userId, {...project}, null, undefined, "delete");
             return [...filterProjects]
         });
         return;
     }
 
     const getSelectedProject = await getProjectsData(userInfo.userId, projectId);
-    await saveProjectFromFirestore(userInfo.userId, {...getSelectedProject, name: value}, "update");
+    await saveProjectFromFirestore(userInfo.userId, {...getSelectedProject, name: value}, null, undefined, "update");
     setTaskClass((prev) => {
         const updatedProject = prev.map(taskClass => {
             if (taskClass.id == projectId) {

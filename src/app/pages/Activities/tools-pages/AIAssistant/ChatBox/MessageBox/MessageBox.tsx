@@ -38,6 +38,8 @@ function MessageBox(props: ChatBotValues) {
         } else {
             setShowConvo(false);
         }
+
+        console.log(isConvoLoading, isPending)
     }, [isConvoLoading, selectedConvo, isNewChat]);
 
     // ARRAYS AND OBJECTS

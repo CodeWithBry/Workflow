@@ -40,7 +40,7 @@ declare global {
     }
 
     type ProjectCardProps = {
-        project: TaskClass
+        project: TaskClassLIsts
         dataToModify: DataToModify, setDataToModify: Dispatch<SetStateAction<DataToModify>>,
         editModal: boolean, setEditModal: Dispatch<SetStateAction<boolean>>,
     }
@@ -198,7 +198,7 @@ declare global {
         project: TaskClass | null
     }
 
-    type ProjectCard = TaskClass[]
+    type ProjectCard = TaskClassLIsts[]
 
     type DataToModify = TaskClass | null
 

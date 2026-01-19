@@ -6,7 +6,8 @@ export async function addUserMessage(args: AddUserMessage) {
         element, inputRefText, chatLists,
         pseudoConvo, send, modifyData,
         selectedConvo, userId, setSelectedConvo, setIsNewChat,
-        setConvoLists, setPauseEffect, setChatLists
+        setConvoLists, setPauseEffect, setChatLists,
+        setIsFailedToSend 
     } = args as AddUserMessage;
     const dummyConvo: ConvoList = {
         isOpen: true,
@@ -43,12 +44,23 @@ export async function addUserMessage(args: AddUserMessage) {
                 })
                 const getUpdatedConvo = updateConvo({ chatInfo: updatedChat, newMessage, newMessageAi, selectedConvo: pseudoConvo, userId, setSelectedConvo });
                 setConvoLists([...updatedChat.convoLists]);
-                if(getUpdatedConvo) await sendMessageToBot(userId, updatedChat, getUpdatedConvo, setSelectedConvo, getUpdatedConvo.messagesAi, modifyData, setPauseEffect, setConvoLists, true, setChatLists, updatedChatLists);
+                if(getUpdatedConvo) {
+                    try {
+                        await sendMessageToBot(userId, updatedChat, getUpdatedConvo, setSelectedConvo, getUpdatedConvo.messagesAi, modifyData, setPauseEffect, setConvoLists, true, setChatLists, updatedChatLists);
+                    } catch (error) {
+                        if(error instanceof Error) setIsFailedToSend(true);
+                    }
+                }
             } 
             else {
                 const getUpdatedConvo = updateConvo({ chatInfo: findInChat, newMessage, newMessageAi, selectedConvo, userId, setSelectedConvo });
-                console.log(getUpdatedConvo)
-                if(getUpdatedConvo) await sendMessageToBot(userId, findInChat, getUpdatedConvo, setSelectedConvo, getUpdatedConvo.messagesAi, modifyData, setPauseEffect, setConvoLists, false, setChatLists, chatLists);
+                if(getUpdatedConvo) {
+                    try {
+                        await sendMessageToBot(userId, findInChat, getUpdatedConvo, setSelectedConvo, getUpdatedConvo.messagesAi, modifyData, setPauseEffect, setConvoLists, false, setChatLists, chatLists);
+                    } catch (error) {
+                        if(error instanceof Error) setIsFailedToSend(true);
+                    }
+                }
             }
         }
     }
