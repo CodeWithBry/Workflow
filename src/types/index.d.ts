@@ -277,7 +277,7 @@ declare global {
 declare global {
     type Context = {
         // NAVIGATION
-        navigation: NavigateFunction, locStor: UseLocaleStorage, getUrl: string[]
+        navigation: NavigateFunction, getUrl: string[]
         // BOOLEANS
         darkMode: boolean, setDarkMode: Dispatch<SetStateAction<boolean>>,
         showToolBar: boolean, setShowToolBar: Dispatch<SetStateAction<boolean>>,

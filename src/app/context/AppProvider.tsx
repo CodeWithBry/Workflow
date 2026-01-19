@@ -9,7 +9,6 @@ import ActivitiesLanding from "../pages/Activities/ActivitiesLanding/ActivitiesL
 import { useNavigate, type NavigateFunction } from "react-router-dom";
 import Tasks from "../pages/Activities/tools-pages/Tasks/Tasks";
 import { useGetPath } from "../../hooks/useGetPath";
-import { useLocaleStorage } from "../../hooks/useLocaleStorage";
 import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import Login from "../pages/auth/Login/Login";
 import Signup from "../pages/auth/Signup/Signup";
@@ -20,7 +19,6 @@ function AppProvider() {
     // NAVIGATION
     const navigation: NavigateFunction = useNavigate();
     const getUrl: string[] = useGetPath();
-    const locStor = useLocaleStorage() as UseLocaleStorage;
 
     // BOOLEANS
     const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -65,7 +63,7 @@ function AppProvider() {
 
     const contextValues: Context = {
         // CUSTOM HOOKS
-        navigation, locStor, getUrl,
+        navigation, getUrl,
         // BOOLEANS
         darkMode, setDarkMode,
         showToolBar, setShowToolBar,
