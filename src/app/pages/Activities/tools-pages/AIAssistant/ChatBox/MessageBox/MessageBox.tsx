@@ -100,7 +100,7 @@ function MessageBox(props: ChatBotValues) {
             </div>
 
             {/* BODY */}
-            {isConvoLoading || isPending ? (
+            {isConvoLoading ? (
                 <LoadingPage />
             ) : selectedConvo == null || !isNewChat ? (
                 <Suggestion />

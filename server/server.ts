@@ -6,7 +6,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
 const app = express();
 const genAi = new GoogleGenerativeAI(process.env.VITE_GEN_API_KEY!);
-const getModel = genAi.getGenerativeModel({ model: "gemini-3-flash-preview" });
+const getModel = genAi.getGenerativeModel({ model: "gemini-2.5-flash" });
 const origins = [
     "http://localhost:5173",
     "https://codewithbry.github.io",

@@ -32,7 +32,7 @@ function ChatBox() {
   }
 
   useEffect(() => {
-    setIsConvoLoading(false);
+    if(selectedConvo) setIsConvoLoading(false);
   }, [selectedConvo])
   
   useEffect(() => {
