@@ -9,6 +9,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.3);
     font-family: var(--font-title);
+    z-index: 1;
 }
 
 @keyframes fade-in {
@@ -32,6 +33,7 @@
     border-radius: 1rem;
     z-index: 1;
     width: 400px;
+    margin: 1rem ;
     animation: fade-in .3s ease-in forwards;
 }
 
@@ -95,25 +97,39 @@
     animation: fade-in .3s ease-in forwards;
 }
 
-.task {
-    padding: var(--pad-x-s) var(--pad-x-s);
-    width: calc(100% - (var(--pad-x-s) * 4));
+.convo {
+    padding: var(--pad-x-s) var(--pad-x-m);
+    width: calc(100% - (var(--pad-x-m) * 2));
     background-color: transparent;
     font-family: var(--font-title);
     font-size: var(--p-small);
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.15);
-    border-radius: 1rem;
+    border-radius: .5rem;
+    overflow: hidden;
+    text-wrap: nowrap;
+    position: relative;
     animation: fade-in .3s ease-in forwards;
 }
 
-.task:hover {
+.convo::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 10%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.501), white, white);
+    z-index: 1;
+}
+
+.convo:hover {
     background-color: var(--l-very-light);
 }
 
-.task:nth-child(1) {
+.convo:nth-child(1) {
     margin-top: var(--pad-x-s);
 }
 
-.task:last-child {
+.convo:last-child {
     margin-bottom: var(--pad-x-s);
 }

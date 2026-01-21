@@ -12,13 +12,32 @@
 }
 
 .aiAssistant.aside {
-    max-width: calc(400px - .5rem);
-    min-width: calc(400px - .5rem);
+    max-width: calc(600px - .5rem);
+    min-width: calc(300px - .5rem);
     margin-right: .5rem;
+    position: relative;
 }
 
 .aiAssistant.hide {
     display: none;
+}
+
+.aiAssistant.hide .resizer {
+    display: none;
+}
+
+.aiAssistant.aside .resizer {
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    transition: .3s ease;
+}
+
+.aiAssistant.aside .resizer:hover {
+    background-color: rgba(0, 0, 0, 0.442);
 }
 
 .aiAssistant .top {

@@ -72,6 +72,8 @@ function InputSection({ setIsNewChat, pseudoConvo, selectedConvo, setIsFailedToS
                                 inputRef.current.innerText = "";
                                 setIsEmpty(true);
                             }
+
+                            setModifyData(prev => ({...prev, task: null}))
                         }
                     }}
                 />

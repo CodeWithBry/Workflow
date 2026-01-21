@@ -46,6 +46,12 @@ html {
 body {
     overflow-x: hidden;
     overflow-y: auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--l-light);
+    }
 }
 
 html,
