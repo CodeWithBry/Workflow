@@ -39,8 +39,10 @@ function ChatBox() {
       if(getOpenedConvo && getOpenedChat) {
         getConvo(userInfo?.userId, getOpenedChat.id, getOpenedConvo.convoId, setSelectedConvo);
         setIsConvoLoading(false);
-      } 
+      }
     }
+
+    setIsConvoLoading(false);
   }, [convoLists, chatLists, userInfo?.userId])
 
   return (
