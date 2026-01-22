@@ -30,10 +30,6 @@ function ChatBox() {
     pseudoConvo, setPseudoConvo,
     selectedConvo
   }
-
-  useEffect(() => {
-    if(selectedConvo) setIsConvoLoading(false);
-  }, [selectedConvo])
   
   useEffect(() => {
     if(pauseEffect) return;
@@ -42,6 +38,7 @@ function ChatBox() {
       const getOpenedChat: ChatList | undefined = chatLists.find(chat => chat.isOpen);
       if(getOpenedConvo && getOpenedChat) {
         getConvo(userInfo?.userId, getOpenedChat.id, getOpenedConvo.convoId, setSelectedConvo);
+        setIsConvoLoading(false);
       } 
     }
   }, [convoLists, chatLists, userInfo?.userId])
