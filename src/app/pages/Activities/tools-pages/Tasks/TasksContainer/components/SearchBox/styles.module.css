@@ -9,6 +9,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.3);
     font-family: var(--font-title);
+    z-index: 1;
 }
 
 @keyframes fade-in {

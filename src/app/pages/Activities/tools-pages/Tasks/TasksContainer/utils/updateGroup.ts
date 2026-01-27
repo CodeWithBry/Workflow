@@ -41,7 +41,7 @@ export function updateGroup({ groupId, changedValue, action, setSelectedTaskClas
                 else if (ifDelete && prev.taskGroups) {
                     const updatedGroup = prev.taskGroups.filter(gr => gr.groupId != groupId);
                     const updatedProject = { ...prev, taskGroups: [...updatedGroup] };
-                    if(userId)saveProjectFromFirestore(userId, updatedProject, null, undefined, "update");
+                    if(userId)saveProjectFromFirestore(userId, updatedProject, undefined, "update");
                     // saveData({ updatedProject, taskCategory: "Projects" });
                     return updatedProject;
                 }

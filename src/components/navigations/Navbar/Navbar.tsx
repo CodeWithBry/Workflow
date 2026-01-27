@@ -4,6 +4,7 @@ import { context } from "../../../app/context/AppContext"
 import Button from "../../ui/Button";
 import LinkTag from "../../ui/LinkTag";
 import { logOut } from "../../../lib/firebase";
+import Menu from "./Menu/Menu";
 
 function Navbar() {
   const { darkMode, setDarkMode, authCredentials, navigation, setAuthCredentials, setUserInfo } = useContext(context) as Context;
@@ -27,32 +28,7 @@ function Navbar() {
             content={<span>Dark Mode</span>}
             clickListener={() => setDarkMode(true)} />
         </div>
-        {
-          !authCredentials ? <>
-            <LinkTag
-              className={s.authButton}
-              to="/login"
-              content={"Login"} />
-            <LinkTag
-              className={s.authButton}
-              to="/signup"
-              content={"Signup"} />
-          </> :
-            <Button
-              className={s.authButton}
-              clickListener={async () => {
-                const getMessage = await logOut();
-                if(getMessage) {
-                  navigation("/login");
-                  setAuthCredentials(null);
-                  setUserInfo(null);
-                }
-              }}
-              content={"Log Out"} />
-        }
-        {/* <div className={s.userIcon}>
-          <span className={s.firstLetter}>P</span>
-        </div> */}
+        <Menu />
 
       </div>
       <Button

@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react"
-import { saveProjectFromFirestore } from "../lib/firebase";
+import { saveProjectFromFirestore, updateProjectLists } from "../lib/firebase";
 
 type AddProject = {
     setTaskClass: Dispatch<SetStateAction<TaskClassLists[]>>,
@@ -34,7 +34,13 @@ export async function addProject({setTaskClass, setChatLists, projectName, userI
         convoLists: []
     }
 
-    await saveProjectFromFirestore(userId, {...newProject}, projectInfo, chatInfo, "create");
-    setTaskClass(prev => [newProject, ...prev])
+    await saveProjectFromFirestore(userId, {...newProject}, chatInfo, "create");
+    setTaskClass(prev => {
+        const getNormalTasks = prev.filter(taskClass => taskClass.taskType == "normal-tasks");
+        const getProjects = prev.filter(taskClass => taskClass.taskType == "projects");
+        const insertBetween = [...getNormalTasks, newProject, ...getProjects];
+        updateProjectLists(userId, insertBetween)
+        return [...insertBetween];
+    })
     setChatLists(prev => [...prev, chatInfo]);
 }

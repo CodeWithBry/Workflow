@@ -79,7 +79,9 @@
     flex-shrink: 0;
     flex-shrink: 0;
     position: relative;
-    background-color: rgba(255, 255, 255, 0.166);
+    background-color: rgba(255, 255, 255, 0.351);
+    border-radius: .5rem .5rem 0 0;
+    z-index: 1;
 }
 
 .heading>h2 {
@@ -97,9 +99,6 @@
     overflow: hidden;
     position: relative;
     color: transparent;
-    /* background: linear-gradient(to right, transparent, transparent, transparent, transparent, #ebebeb);
-    background-size: 100% 100%;
-    background-position: center; */
 }
 
 .heading>h2 .titleWrapper>span {
@@ -125,6 +124,7 @@
     overflow: hidden;
     overflow-y: auto;
     position: absolute;
+    z-index: 0;
 }
 
 .container>li {
@@ -145,6 +145,15 @@
 .container>li.model {
     margin-right: auto;
     position: relative;
+    position: relative;
+    &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        border-bottom: var(--l-mid) 2px solid;
+    }
 }
 
 .container>li .actions {
@@ -177,34 +186,11 @@
     line-height: 1;
 }
 
-.markdown strong {
-    font-weight: 600;
-}
-
-.markdown em {
-    font-style: italic;
-}
-
-.markdown ul,
-.markdown ol {
-    margin: 0.5rem 0;
-    padding-left: 1.2rem;
-}
-
-.markdown a {
-    color: var(--secondary-color);
-    text-decoration: underline;
-}
-
-.inlineCode {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.9rem;
-}
-
 ol,
-pre {
+pre,
+ol>li,
+ul,
+ul li {
     width: 100%;
     overflow: hidden;
     overflow-x: auto;
@@ -293,44 +279,20 @@ pre {
 }
 
 
-/* .userBox {
-    background-color: #f4f5f7;
-    color: #111;
-    align-self: flex-end;
+/* Dark Mode */
+
+.messageBox.dark {
+    color: white;
 }
 
-.bryanBox li {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
+.messageBox.dark .heading {
+    background-color: transparent;
+}
+.messageBox.dark .heading>h2 .titleWrapper>span {
+    color: white;
 }
 
-.markdown p {
-    margin: 0.4rem 0;
+.messageBox.dark .heading>h2 .hamburger {
+    color: white;
+    background-color: transparent;
 }
-
-.markdown strong {
-    font-weight: 600;
-}
-
-.markdown em {
-    font-style: italic;
-}
-
-.markdown ul,
-.markdown ol {
-    margin: 0.5rem 0;
-    padding-left: 1.2rem;
-}
-
-.markdown a {
-    color: #3e3e3e;
-    text-decoration: underline;
-}
-
-.inlineCode {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.9rem;
-} */

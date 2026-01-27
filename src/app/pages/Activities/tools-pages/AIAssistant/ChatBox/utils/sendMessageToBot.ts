@@ -45,8 +45,6 @@ export async function sendMessageToBot(
         role: "model",
         parts: [{ text: "" }],
     };
-
-    console.log(selectedConvo)
     // 1️⃣ Insert placeholder into the ACTIVE convo using updateConvo
     setSelectedConvo(prev => {
         if (!prev) return undefined

@@ -9,6 +9,8 @@
     padding: .5rem;
     gap: var(--gap-small);
     font-family: var(--font-title);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .projectDetails .statusIcon {
@@ -55,6 +57,15 @@
 
 .projectDetails .contents .bottom .statusDescription.accomplished {
     color: var(--finished);
+}
+
+/* Dark Mode */
+
+.projectDetails.dark {
+    width: calc(100% - 1.5rem);
+    background-color: var(--d-bg);
+    box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.495);
+    color: white;
 }
 
 @media (max-width: 500px) {

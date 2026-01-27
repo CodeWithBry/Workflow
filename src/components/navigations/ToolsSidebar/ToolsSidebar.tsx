@@ -9,7 +9,7 @@ function ToolsSidebar() {
     const { darkMode, setDarkMode,
         showToolBar, setShowToolBar,
         toolsPages, selectedTaskClass,
-        taskClass } = useContext(context) as Context;
+        taskClass, userInfo } = useContext(context) as Context;
     const sideBarStyles = !darkMode
         ? `${s.sideBar} ${!showToolBar && s.collapseSideBar}`
         : `${s.sideBar} ${s.darkSideBar} ${!showToolBar && s.collapseSideBar}`;
@@ -87,16 +87,16 @@ function ToolsSidebar() {
                 </div>
                 <div className={s.userBox}>
                     <div className={s.userIcon}>
-                        <span className={s.firstLetter}>P</span>
+                        <span className={s.firstLetter}>{userInfo?.fullName[0]}</span>
                     </div>
                     <div className={s.contents}>
                         <p className={s.userName}>
-                            Bryan A. Pajarillaga
+                            {userInfo?.fullName}
                         </p>
                         <Button
                             className={s.logOut}
                             clickListener={() => { }}
-                            content="Log Out" />
+                            content="Manage Account" />
                     </div>
                 </div>
             </div>

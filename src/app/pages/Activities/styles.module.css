@@ -7,6 +7,10 @@
     gap: .5rem;
 }
 
+.activitiesContainer.dark {
+    background-color: var(--d-bg);
+}
+
 @media (max-width: 500px) {
     .activitiesContainer {
         display: flex;

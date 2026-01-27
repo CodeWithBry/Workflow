@@ -12,7 +12,7 @@ export default function ProjectDetails() {
             className={
                 !darkMode
                     ? s.projectDetails
-                    : `${s.projectDetails} ${s.darkProjectDetails}`
+                    : `${s.projectDetails} ${s.dark}`
             } >
 
             <div className={s.statusIcon}>

@@ -31,7 +31,7 @@ export function addGroupTask({ pseudoGroup, pseudoTasks, setPseudoGroup, groupNa
             return setSelectedTaskClass(prev => {
                 if (prev) {
                     const updatedProject = { ...prev, taskGroups: [...prev.taskGroups, psuedoGroupWithTask] }
-                    if(userId) saveProjectFromFirestore(userId, updatedProject, null, undefined, "update");
+                    if(userId) saveProjectFromFirestore(userId, updatedProject, undefined, "update");
                     return updatedProject;
                 }
 

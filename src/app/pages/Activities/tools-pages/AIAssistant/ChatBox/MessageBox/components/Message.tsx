@@ -25,7 +25,7 @@ function MessageComponent({ res }: { res: MessagesUi }) {
     ), [res.message]);
 
     const message = useMemo(
-        () => sanitizeBackticks(res.message, 12),
+        () => sanitizeBackticks(res.message, 20),
         [res.message]
     );
 
@@ -35,12 +35,8 @@ function MessageComponent({ res }: { res: MessagesUi }) {
     );
 
     return (
-        <li
-            className={res.role === "user" ? s.user : s.model}
-        >
-            <div
-                className={`${s.wrapper} ${res.role === "user" ? s.userBox : s.modelBox}`}
-            >
+        <li className={res.role === "user" ? s.user : s.model}>
+            <div className={`${s.wrapper} ${res.role === "user" ? s.userBox : s.modelBox}`} >
                 <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
@@ -100,14 +96,14 @@ function MessageComponent({ res }: { res: MessagesUi }) {
                 </ReactMarkdown>
             </div>
 
-            {res.role === "model" && (
+            {res.role === "model" && projectObject?.id && (
                 <div className={s.actions}>
-                    {projectObject?.id && (
+                    {(
                         <Button
                             className={`${s.actionButton} ${s.saveButton}`}
                             clickListener={() => {
                                 setSelectedTaskClass(projectObject);
-                                if(userInfo) saveProjectFromFirestore(userInfo?.userId, projectObject, null, undefined, "update")
+                                if(userInfo) saveProjectFromFirestore(userInfo?.userId, projectObject, undefined, "update")
                             }}
                             iconElement={<i className="fas fa-save" />}
                             content="Update This Project"

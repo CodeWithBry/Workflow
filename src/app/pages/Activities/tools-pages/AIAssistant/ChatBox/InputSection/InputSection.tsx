@@ -17,21 +17,21 @@ function InputSection({ setIsNewChat, pseudoConvo, selectedConvo, setIsFailedToS
 
     return (
         <div className={inputSectionClassName}>
+            <div className={s.attachment}></div>
+            {attachTask && <div className={s.attachmentTask}>
+                <i className="far fa-file-alt"></i>
+                <div className={s.contents}>
+                    <h4>Task:</h4>
+                    <p>{modifyData.task?.description}</p>
+                </div>
+                <Button
+                    className={s.close}
+                    iconElement={<i className="fa fa-close"></i>}
+                    clickListener={() => {
+                        setModifyData(prev => ({ ...prev, task: null }))
+                    }} />
+            </div>}
             <label htmlFor="inputMessage">
-                <div className={s.attachment}></div>
-                {attachTask && <div className={s.attachmentTask}>
-                    <i className="far fa-file-alt"></i>
-                    <div className={s.contents}>
-                        <h4>Task:</h4>
-                        <p>{modifyData.task?.description}</p>
-                    </div>
-                    <Button
-                        className={s.close}
-                        iconElement={<i className="fa fa-close"></i>}
-                        clickListener={() => {
-                            setModifyData(prev => ({ ...prev, task: null }))
-                        }} />
-                </div>}
                 <div
                     ref={inputRef}
                     className={`${s.inputContainer} ${isEmpty ? s.placeholder : ""}`}
@@ -57,23 +57,24 @@ function InputSection({ setIsNewChat, pseudoConvo, selectedConvo, setIsFailedToS
 
                             const text = inputRef.current?.innerText ?? "";
                             if (!text.trim()) return;
-                            if (userInfo) addUserMessage({
-                                element: e, inputRefText: text,
-                                chatLists, setSelectedConvo,
-                                pseudoConvo: selectedConvo ? undefined : pseudoConvo,
-                                modifyData, setIsNewChat,
-                                selectedConvo, userId: userInfo?.userId,
-                                setConvoLists, setPauseEffect, setChatLists,
-                                setIsFailedToSend
-                            });
+                            if (userInfo) {
+                                setModifyData(prev => ({ ...prev, task: null }));
+                                addUserMessage({
+                                    element: e, inputRefText: text,
+                                    chatLists, setSelectedConvo,
+                                    pseudoConvo: selectedConvo ? undefined : pseudoConvo,
+                                    modifyData, setIsNewChat,
+                                    selectedConvo, userId: userInfo?.userId,
+                                    setConvoLists, setPauseEffect, setChatLists,
+                                    setIsFailedToSend
+                                });
+                            }
 
                             // Clear input
                             if (inputRef.current) {
                                 inputRef.current.innerText = "";
                                 setIsEmpty(true);
                             }
-
-                            setModifyData(prev => ({...prev, task: null}))
                         }
                     }}
                 />

@@ -7,7 +7,7 @@ import { deleteTask } from "../../utils/deleteTask"
 import { updateTask } from "../../utils/updateTask"
 
 function Task(props: TaskProps) {
-    const { task, isRealTask, setPseudoTasks, group, setPropsForCEM, setCreateAndEditModal }: TaskProps = props;
+    const { task, isRealTask, setPseudoTasks, group, setPropsForCEM, setCreateAndEditModal, tasksLength, index }: TaskProps = props;
     const { darkMode, setSelectedTaskClass, setAllowChanges, setShowAssistant, setModifyData, userInfo } = useContext(context) as Context;
 
     const [showStatus, setShowStatus] = useState<boolean>(false);
@@ -60,7 +60,8 @@ function Task(props: TaskProps) {
 
     return (
         <label 
-            className={`${s.task} ${task.status == "pending" ? s.pending : s.finished}`}
+            className={`${s.task} ${darkMode && s.dark} ${task.status == "pending" ? s.pending : s.finished}`}
+            style={{zIndex: `${tasksLength - index}`}}
             id={`${task.id}`} 
             htmlFor={`${task.id}_input`}>
             <div className={s.left}>

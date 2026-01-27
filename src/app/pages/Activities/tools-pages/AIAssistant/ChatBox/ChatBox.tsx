@@ -6,8 +6,8 @@ import InputSection from './InputSection/InputSection';
 import { getConvo } from './utils/getConvo';
 
 function ChatBox() {
-  const { darkMode, convoLists, userInfo, chatLists, selectedConvo, setSelectedConvo, pauseEffect } = useContext(context) as Context;
-  const chatBoxClassName = !darkMode ? s.chatBox : `${s.chatBox} ${s.dark}`
+  const { darkMode, convoLists, userInfo, chatLists, selectedConvo, setSelectedConvo, pauseEffect, setPauseEffect } = useContext(context) as Context;
+  const chatBoxClassName = `${s.chatBox} ${darkMode && s.dark}`;
   // BOOLEANS
   const [isNewChat, setIsNewChat] = useState<boolean>(true);
   const [isConvoLoading, setIsConvoLoading] = useState<boolean>(true);
@@ -32,18 +32,23 @@ function ChatBox() {
   }
   
   useEffect(() => {
-    if(pauseEffect) return;
-    if(convoLists.length > 0 && chatLists.length > 0 && userInfo) {
-      const getOpenedConvo: ConvoList | undefined= convoLists.find(convo => convo?.isOpen);
+    if(pauseEffect) {
+      setPauseEffect(false);
+      setIsConvoLoading(false);
+      return;
+    };
+    if(chatLists.length > 0 && userInfo) {
+      const getOpenedConvo: ConvoList | undefined = convoLists.find(convo => convo?.isOpen);
       const getOpenedChat: ChatList | undefined = chatLists.find(chat => chat.isOpen);
       if(getOpenedConvo && getOpenedChat) {
         getConvo(userInfo?.userId, getOpenedChat.id, getOpenedConvo.convoId, setSelectedConvo);
         setIsConvoLoading(false);
+        setIsNewChat(false);
       }
     }
 
     setIsConvoLoading(false);
-  }, [convoLists, chatLists, userInfo?.userId])
+  }, [chatLists, userInfo?.userId])
 
   return (
     <div className={chatBoxClassName}>

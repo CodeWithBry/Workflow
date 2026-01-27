@@ -7,7 +7,7 @@ import AIAssintant from "./tools-pages/AIAssistant/AIAssistant";
 import { getSelectedTaskClass } from "../../../utils/getSelectedTaskClass";
 
 function ActivitiesTools() {
-    const { taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded, getUrl, showAssistant, userInfo, setSelectedTaskClass, setIsDataLoaded, setChatLists, chatLists } = useContext(context) as Context;
+    const { darkMode, taskClass, setTaskClass, selectedTaskClass, navigation, setHistoryChanges, allowChanges, setAllowChanges, isDataLoaded, getUrl, showAssistant, userInfo, setSelectedTaskClass, setIsDataLoaded, setChatLists, chatLists } = useContext(context) as Context;
     const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
@@ -52,7 +52,7 @@ function ActivitiesTools() {
 
     return (
         <>
-            <div className={s.activitiesContainer}>
+            <div className={`${s.activitiesContainer} ${darkMode &&  s.dark}`}>
                 <ToolsSidebar />
                 <Outlet />
                 {getUrl[3] == 'tasks' && showAssistant && <AIAssintant />}

@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 declare global {
     // VARIABLES
     type PseudoGroup = TaskGroup | null;
-    type PseudoTasks = Task[] | null;
+    type PseudoTasks = Task[] | null ;
 
     type ModalAction = "update" | "create";
     type ModalFor = "task" | "group";
@@ -26,13 +26,17 @@ declare global {
     }
 
     type TaskGroupProps = {
-        group: TaskGroup
+        group: TaskGroup,
+        index?: number
     } & TaskContainerValues
+
     type TaskProps = {
         task: Task,
         group: TaskGroup
-        isRealTask: boolean
-    } & TaskContainerValues
+        isRealTask: boolean,
+        tasksLength: number,
+        index: number
+    } & TaskContainerValues 
 
 
     // MODALS

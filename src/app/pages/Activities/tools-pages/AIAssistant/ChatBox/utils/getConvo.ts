@@ -8,6 +8,5 @@ export async function getConvo(
     setSelectedConvo: Dispatch<SetStateAction<SelectedConvo>>
 ) { 
     const getData = (await getConvoData(userId, chatId, convoId)) as Convo;
-    console.log(getData)
     setSelectedConvo(getData);  
 }

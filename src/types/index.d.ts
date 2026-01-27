@@ -119,6 +119,7 @@ declare global {
         action: string,
         functionCall: () => void
         icon?: string,
+        type?: string
     }
 
     // PAGES

@@ -93,13 +93,14 @@ function AppProvider() {
     };
 
     if (!userInfo?.userId) {
-        onAuthStateChanged(auth, async (current) => {
-            if (current?.uid != null && current.uid != userInfo?.userId) {
-                const getData = await getDataFromFirestore(current.uid);
+        onAuthStateChanged(auth, async (user) => {
+            if (user?.uid != null && user.uid != userInfo?.userId) {
+                const getData = await getDataFromFirestore(user.uid);
                 setUserInfo(getData.user);
                 setChatLists(getData.chatLists);
                 setTaskClass(getData.projectLists);
-                setAuthCredentials(current);
+                setAuthCredentials(user);
+                localStorage.setItem("user", JSON.stringify(user))
             }
         })
     }
@@ -126,14 +127,23 @@ function AppProvider() {
 
             setChatLists(prev => prev.map(chat => {
                 if(chat.id == selectedTaskClass.id) {
+                    console.log(chat.convoLists)
                     setConvoLists([...chat.convoLists])
                 }
                 return { ...chat, isOpen: chat.id == selectedTaskClass.id }
-            }))
+            }));
+
+            setPauseEffect(true);
         }
     }, [selectedTaskClass])
 
-    
+    useEffect(() => {
+        const checkUserOnDevice = localStorage.getItem("user");
+        if(!checkUserOnDevice) {
+            if(getUrl[1] == "login" || getUrl[1] == "signup") return;
+            navigation("/login");
+        }
+    }, [getUrl[1]])
 
     return (
         <context.Provider value={contextValues}>

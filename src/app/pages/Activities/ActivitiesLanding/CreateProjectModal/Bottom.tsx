@@ -8,8 +8,6 @@ export default function Bottom(props: CPMBottomProps): JSX.Element {
     const { projectName, setShowModal } = props as CPMBottomProps
     const {setTaskClass, setChatLists, userInfo} = useContext(context) as Context;
 
-    // useEffect(() => { console.log(selectedNormalTask) }, [selectedNormalTask])
-
     return (
         <div className={s.bottom}>
             <Button

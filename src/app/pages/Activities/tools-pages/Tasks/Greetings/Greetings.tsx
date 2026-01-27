@@ -3,7 +3,7 @@ import s from './styles.module.css'
 import { context } from '../../../../../context/AppContext'
 
 export default function Greetings() {
-    const { darkMode } = useContext(context) as Context
+    const { darkMode, userInfo } = useContext(context) as Context
 
     return (
         <div
@@ -12,11 +12,11 @@ export default function Greetings() {
                 : `${s.greetings} ${s.darkGreetings}`
             }>
             <div className={s.userIcon}>
-                <span className={s.firstLetter}>P</span>
+                <span className={s.firstLetter}>{userInfo?.fullName[0]}</span>
             </div>
             <div className={s.contents}>
                 <p className={s.greet}>
-                    Bryan A. Pajarillaga
+                    {userInfo ? userInfo?.fullName : "Username"}
                 </p>
                 <p className={s.description}>
                     Monitor your projects and tasks efficiently!.

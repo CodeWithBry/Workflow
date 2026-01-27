@@ -10,5 +10,4 @@ export function updateChat({ project, setChats }: UpdateChat) {
         const updatedChats = prev.filter(chat => chat.id != project.id)
         return updatedChats
     });
-
 }

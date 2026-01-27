@@ -23,25 +23,13 @@ function MessageBox(props: ChatBotValues) {
     } = props as ChatBotValues;
 
     const { darkMode, selectedTaskClass, setSelectedConvo, setConvoLists } = useContext(context) as Context;
-    const messageBoxStyles = !darkMode ? s.messageBox : `${s.messageBox} ${s.dark}`;
+    const messageBoxStyles = `${s.messageBox} ${darkMode && s.dark}`;
     const [showActionLists, setShowActionLists] = useState<boolean>(false);
 
     /** 🧠 NEW: controls heavy UI mounting */
     const [showConvo, setShowConvo] = useState(false);
     const [showConvoLists, setShowConvoLists] = useState(false);
     const [isPending, startTransition] = useTransition();
-
-    /** 🔁 Transition when convo is ready */
-    useEffect(() => {
-        if (!isConvoLoading && selectedConvo && isNewChat) {
-            startTransition(() => setShowConvo(true));
-        } else {
-            setShowConvo(false);
-        }
-
-        console.log(isConvoLoading, isPending)
-    }, [isConvoLoading, selectedConvo, isNewChat]);
-
     // ARRAYS AND OBJECTS
     const actionLists: ActionsLists[] = [
         {
@@ -64,12 +52,22 @@ function MessageBox(props: ChatBotValues) {
             functionCall() { },
         },
     ];
-
+    
     const values = {
         actionLists,
         showActionLists,
         setShowActionLists,
     };
+
+    /** 🔁 Transition when convo is ready */
+    useEffect(() => {
+        if (!isConvoLoading) {
+            startTransition(() => setShowConvo(true));
+        } else {
+            setShowConvo(false);
+        }
+
+    }, [isConvoLoading, selectedConvo, isNewChat]);
 
     return (
         <div className={messageBoxStyles}>
@@ -100,9 +98,9 @@ function MessageBox(props: ChatBotValues) {
             </div>
 
             {/* BODY */}
-            {isConvoLoading ? (
+            {isConvoLoading || isPending ? (
                 <LoadingPage />
-            ) : selectedConvo == null || !isNewChat ? (
+            ) : selectedConvo == null || isNewChat ? (
                 <Suggestion />
             ) : showConvo ? (
                 <Convo {...{ ...values, ...props }} />

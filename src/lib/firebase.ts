@@ -160,8 +160,8 @@ export async function saveUserToFirebase(user: UserInfo): Promise<string> {
     }
 }
 
-export async function updateProjectLists(user: UserInfo, projectLists: TaskClassLists[]): Promise<string> {
-    const userRef = doc(firestore, "Users", user.userId);
+export async function updateProjectLists(userId: string, projectLists: TaskClassLists[]): Promise<string> {
+    const userRef = doc(firestore, "Users", userId);
     try {
         await updateDoc(userRef, {
             projectLists
@@ -191,7 +191,6 @@ export async function getProjectsData(userId: string, projectId: string): Promis
     const docRef = doc(firestore, "Users", userId, "Projects", projectId);
     try {
         const requestData = await getDoc(docRef);
-        console.log(requestData.data())
         const getData = requestData.data()?.project as TaskClass;
         return getData;
     } catch (error) {
@@ -200,13 +199,15 @@ export async function getProjectsData(userId: string, projectId: string): Promis
     }
 }
 
-export async function saveProjectFromFirestore(userId: string, project: TaskClass, projectInfo: TaskClassLists | null, chatInfo: ChatList | undefined, action: "update" | "create" | "delete"): Promise<string> {
+export async function saveProjectFromFirestore(userId: string, project: TaskClass, chatInfo: ChatList | undefined, action: "update" | "create" | "delete"): Promise<string> {
     const userRef = doc(firestore, "Users", userId);
     const projectRef = doc(firestore, "Users", userId, "Projects", project.id);
+    const chatRef = doc(firestore, "Users", userId, "Chats", project.id);
     try {
 
         if (action == "delete") {
-            await deleteDoc(projectRef)
+            await deleteDoc(projectRef);
+            await deleteDoc(chatRef);
         }
 
         if (action == "update") {
@@ -218,7 +219,7 @@ export async function saveProjectFromFirestore(userId: string, project: TaskClas
             if (chatInfo) {
                 const chatRef = doc(firestore, "Users", userId, "Chats", chatInfo.id);
                 await setDoc(chatRef, { convoLists: [] })
-                await updateDoc(userRef, { projectLists: arrayUnion(projectInfo), chatLists: arrayUnion(chatInfo) });
+                await updateDoc(userRef, { chatLists: arrayUnion(chatInfo) });
             }
         }
         return "Saved!";
@@ -227,7 +228,6 @@ export async function saveProjectFromFirestore(userId: string, project: TaskClas
         throw new Error(err);;
     }
 }
-
 // CRUD OPERATIONS FOR CHATS
 
 // export async function getChatsData(userId: string): Promise<Chats> {

@@ -54,7 +54,9 @@ function Form() {
                     const getResponse: User = await signInWithEmail(email, password);
                     if (getResponse) {
                         setAuthCredentials(getResponse);
-                        navigation("/")
+                        setTimeout(() => {
+                            navigation("/")
+                        }, 500);
                     };
                     setEmail("");
                     setPassword("");
@@ -70,7 +72,7 @@ function Form() {
                         className={`${s.signInMethod} ${s.google}`}
                         clickListener={async () => {
                             const getResponse: User = await signInWithGoogle();
-                            if(getResponse){
+                            if (getResponse) {
                                 navigation("/");
                                 setAuthCredentials(getResponse);
                             }
@@ -81,9 +83,11 @@ function Form() {
                         className={`${s.signInMethod} ${s.facebook}`}
                         clickListener={async () => {
                             const getResponse: User = await signInWithFacebook();
-                            if(getResponse){
-                                navigation("/");
+                            if (getResponse) {
                                 setAuthCredentials(getResponse);
+                                setTimeout(() => {
+                                    navigation("/")
+                                }, 500);
                             }
                         }} />
                 </div>

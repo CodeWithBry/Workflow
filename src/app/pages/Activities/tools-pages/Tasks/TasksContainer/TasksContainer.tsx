@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useMemo } from 'react'
 import s from './styles.module.css'
 import Tools from './components/Tools/Tools';
 import GroupTaskModal from './components/CreateGroupTaskModal/CreateGroupTaskModal';
 import { context } from '../../../../../context/AppContext';
-import TaskGroup from './components/TasksGroup/TaskGroup';
 import CreateAndEditModal from './components/CreateAndEditModal/CreateAndEditModal';
 import SearchBox from './components/SearchBox/SearchBox';
 import SkeletonGroup from './components/skeletons/SkeletonGroup';
+import TaskGroup from './components/TasksGroup/TaskGroup';
 
 export default function TaskContainer() {
     const { darkMode, selectedTaskClass, isDataLoaded } = useContext(context) as Context;
@@ -26,7 +26,7 @@ export default function TaskContainer() {
     const [pseudoTasks, setPseudoTasks] = useState<PseudoTasks>(null);
     const [propsForCEM, setPropsForCEM] = useState<PropsForCEM>(null);
 
-    const values: TaskContainerValues = {
+    const values: TaskContainerValues = useMemo(() => ({
         // BOOLEANS
         showTools, setShowTools,
         showGTM, setShowGTM,
@@ -38,20 +38,21 @@ export default function TaskContainer() {
         pseudoGroup, setPseudoGroup,
         pseudoTasks, setPseudoTasks,
         propsForCEM, setPropsForCEM,
-    };
+    }), [
+        showTools, showGTM, showTaskForm, showSearchBox, createAndEditModal,
+        pseudoGroup, pseudoTasks, propsForCEM
+    ]);
 
     return (
         <div className={
             !darkMode
                 ? s.taskContainer
-                : `${s.taskContainer} ${s.darkTaskContainer}`
+                : `${s.taskContainer} ${s.dark}`
         }>
             {/* Dropdowns and Modals */}
             <Tools {...values} />
             <GroupTaskModal {...values} />
-            <CreateAndEditModal {
-                ...{ ...values }
-            } />
+            <CreateAndEditModal {...values} />
             <SearchBox {...values} />
 
             {/* Main UI */}
@@ -59,11 +60,14 @@ export default function TaskContainer() {
                 {
                     isDataLoaded && selectedTaskClass
                         ? selectedTaskClass?.taskGroups?.length > 0
-                            ? selectedTaskClass?.taskGroups?.map(group => {
-                                return <TaskGroup {...{ ...values, group }} />
+                            ? selectedTaskClass?.taskGroups?.map((group, index) => {
+                                return <TaskGroup
+                                    key={group.groupId}
+                                    {...{ ...values, group, index }}
+                                />
                             })
                             : isDataLoaded && <h1>There is no task groups.</h1>
-                        : <SkeletonGroup style={s.skeletonGroup}/>
+                        : <SkeletonGroup style={s.skeletonGroup} />
                 }
             </div>
         </div>

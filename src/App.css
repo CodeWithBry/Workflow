@@ -9,8 +9,9 @@
     --l-mid: #828282;
     --l-bold: #000000;
     --l-box-shadow: 0 0 15px -5px black;
+    
     --d-bg: #3a3b3e;
-    --d-bg-light: #2b2a2f;
+    --d-bg-light: #3e3d43;
     --d-box-shadow: 0 0 15px -10px rgba(255, 255, 255, 0.473);
     --font-title: "Kulim Park", sans-serif;
     --p-smaller: clamp(.4rem, 2.5vw, .6rem);
@@ -50,7 +51,7 @@ body {
         width: 5px;
     }
     &::-webkit-scrollbar-thumb {
-        background-color: var(--l-light);
+        background-color: var(--l-mid);
     }
 }
 

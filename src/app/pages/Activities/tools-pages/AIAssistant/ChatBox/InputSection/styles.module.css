@@ -1,5 +1,6 @@
 .inputSection {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: var(--pad-y-m);
@@ -26,21 +27,20 @@
     position: relative;
 }
 
-.inputSection>label .attachmentTask {
-    width: calc(100% - (var(--pad-x-s) * 2));
-    padding: var(--pad-x-s) var(--pad-x-s);
+.attachmentTask {
+    width: calc(100% - ((var(--pad-x-s) + 2px) * 2));
+    padding: 5px var(--pad-x-s);
     padding-bottom: calc(var(--pad-x-s) + 10px);
     background-color: var(--l-very-light);
-    position: absolute;
-    bottom: 80%;
-    left: 0;
+    border-radius: .5rem .5rem 0 0;
+    transform: translateY(15px);
     display: flex;
     align-items: center;
     z-index: -1;
     gap: var(--gap-small);
 }
 
-.inputSection>label .attachmentTask .contents {
+.attachmentTask .contents {
     width: 100%;
     overflow: hidden;
     overflow-x: auto;
@@ -51,27 +51,27 @@
     }
 }
 
-.inputSection>label .attachmentTask .contents>h4 {
+.attachmentTask .contents>h4 {
     font-size: var(--p-small);
 }
 
-.inputSection>label .attachmentTask .contents>p {
+.attachmentTask .contents>p {
     font-size: var(--p-smaller);
 }
 
-.inputSection>label .attachmentTask>i {
-    background-color: var(--l-light);
+.attachmentTask>i {
+    background-color: transparent;
     font-size: var(--h1-smaller);
-    padding: var(--pad-x-s) calc(var(--pad-x-s) + 5px);
+    padding: 10px calc(var(--pad-x-s));
 }
 
-.inputSection>label .attachmentTask>i,
-.inputSection>label .attachmentTask .close {
+.attachmentTask>i,
+.attachmentTask .close {
     border-radius: 1rem;
     background-color: var(--l-light);
 }
 
-.inputSection>label .attachmentTask .close {
+.attachmentTask .close {
     padding: calc(var(--pad-x-s) - 5px) calc(var(--pad-x-s) - 5px);
 }
 
@@ -113,4 +113,8 @@
     background-color: transparent;
     outline: none;
     border: none;
+}
+
+.inputSection.dark>label {
+    background-color: var(--l-light);
 }

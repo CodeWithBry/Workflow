@@ -25,7 +25,7 @@ export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerVal
     <div className={
       !darkMode
         ? s.tools
-        : `${s.tools} ${s.darkTools}`
+        : `${s.tools} ${s.dark}`
     }>
       <h2 className={s.title}>Main Tools</h2>
       <div className={s.right}>
@@ -35,7 +35,7 @@ export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerVal
             className={`${s.actionButton} ${s.saveButton}`}
             clickListener={() => {
               if (selectedTaskClass && userInfo) {
-                saveProjectFromFirestore(userInfo.userId, selectedTaskClass, null, undefined, "update")
+                saveProjectFromFirestore(userInfo.userId, selectedTaskClass, undefined, "update")
                 setHistoryChanges(prev => {
                   const findSelectedHistory = prev.changesInProject.map((t, i) => {
                     if (i == historyChanges.currentStateNumber) {

@@ -7,7 +7,7 @@ import { context } from '../../../../context/AppContext'
 import { updateProject } from '../../../../../utils/updateProject'
 
 function ProjectCard({ project, setDataToModify, setEditModal }: ProjectCardProps) {
-    const { darkMode, setTaskClass, userInfo} = useContext(context) as Context;
+    const { darkMode, setTaskClass, userInfo, setChatLists } = useContext(context) as Context;
     const [showActions, setShowActions] = useState<boolean>(false);
     const actionLists: ActionsLists[] = [
         {
@@ -22,6 +22,7 @@ function ProjectCard({ project, setDataToModify, setEditModal }: ProjectCardProp
             functionCall: () => {
                 if(userInfo) updateProject({
                     setTaskClass,
+                    setChatLists,
                     projectName: project.name,
                     projectId: project.id,
                     value: "",

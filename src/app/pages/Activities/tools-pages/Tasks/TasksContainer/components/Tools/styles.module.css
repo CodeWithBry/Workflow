@@ -7,6 +7,8 @@
     border-radius: 1rem;
     background-color: var(--l-very-light);
     margin: 1rem auto;
+    position: relative;
+    z-index: 1;
 }
 
 .tools .title {
@@ -26,7 +28,6 @@
     border-radius: 50%;
     background-color: transparent;
     position: relative;
-    z-index: 0;
 }
 
 .tools .right>.actionButton.disabled {
@@ -90,4 +91,20 @@
 .seeMore .actionButton:hover {
     scale: 1;
     background-color: var(--l-light);
+}
+
+/* Dark Mode */
+
+.tools.dark {
+    background-color: var(--d-bg-light);
+    box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.25);
+    color: white;
+}
+
+.tools.dark .right .actionButton {
+    color: white;
+}
+
+.tools.dark .right .actionButton:hover {
+    color: var(--l-mid);
 }

@@ -16,9 +16,11 @@
 .taskGroup .top {
     display: flex;
     align-items: center;
-    position: relative;
+    position: inherit;
     transition: all .2s ease;
     cursor: pointer;
+    position: relative;
+    z-index: 1000;
 }
 
 .taskGroup .top:hover {
@@ -40,13 +42,11 @@
     display: none;
 }
 
-.taskGroup .top {
-    display: flex;
-    align-items: center;
-}
-
 .taskGroup .top .actionButton {
-    padding: var(--pad-y-s) var(--pad-x-s);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
     border-radius: 50%;
     background-color: transparent;
     position: relative;
@@ -55,7 +55,6 @@
 
 .taskGroup .top .actionButton:hover {
     background-color: var(--l-light);
-    ;
 }
 
 .taskGroup .top .actionButton:active {
@@ -72,6 +71,18 @@
     display: none;
     opacity: 0;
 }
+
+/* Dark Mode */
+
+.taskGroup.dark .top:hover {
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.taskGroup.dark .top .actionButton {
+    color: white;
+}
+
+/* Media Queries */
 
 @media (max-height: 300px) {
     .taskGroup {

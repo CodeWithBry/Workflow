@@ -3,7 +3,6 @@ function useCountTasks(selectedTaskClass: SelectedTaskClass) {
         let tasksCount: number = 0;
         let finishedTasks: number = 0;
 
-        console.log(selectedTaskClass)
         if (selectedTaskClass.taskGroups instanceof Array) {
             selectedTaskClass.taskGroups?.forEach(g => {
                 tasksCount += g.tasks.length;

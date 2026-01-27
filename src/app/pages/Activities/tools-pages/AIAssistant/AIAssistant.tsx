@@ -9,7 +9,7 @@ import ChatBox from "./ChatBox/ChatBox";
 
 function AIAssistant(): JSX.Element {
     const { showAssistant, setShowAssistant, darkMode, getUrl, setModifyData, selectedTaskClass } = useContext(context) as Context;
-    const assistantClass = !darkMode ? `${s.aiAssistant} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide}` : `${s.aiAssistant} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide} ${s.dark}`;
+    const assistantClass = `${s.aiAssistant} ${darkMode && s.dark} ${showAssistant ? s.aside : getUrl[3] == "tasks" && s.hide}`;
     const resizerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
