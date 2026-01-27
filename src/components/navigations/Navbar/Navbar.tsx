@@ -2,12 +2,10 @@ import { useContext, useState } from "react"
 import s from "./styles.module.css"
 import { context } from "../../../app/context/AppContext"
 import Button from "../../ui/Button";
-import LinkTag from "../../ui/LinkTag";
-import { logOut } from "../../../lib/firebase";
 import Menu from "./Menu/Menu";
 
 function Navbar() {
-  const { darkMode, setDarkMode, authCredentials, navigation, setAuthCredentials, setUserInfo } = useContext(context) as Context;
+  const { darkMode, setDarkMode } = useContext(context) as Context;
   const [dropDown, setDropDown] = useState<boolean>(false);
   return (
     <div className={!darkMode ? s.navBar : `${s.navBar} ${s.dark}`}>

@@ -77,7 +77,9 @@ export default function Form(props: GTMFormProps): JSX.Element {
                                 const taskProps = {
                                     task,
                                     isRealTask: false,
-                                    group: pseudoGroup
+                                    group: pseudoGroup,
+                                    index: 0,
+                                    tasksLength: 0
                                 }
                                 return <Task {...{ ...taskProps, ...props }} />
                             }
