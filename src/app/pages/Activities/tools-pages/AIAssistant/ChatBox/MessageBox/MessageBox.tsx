@@ -33,7 +33,7 @@ function MessageBox(props: ChatBotValues) {
     // ARRAYS AND OBJECTS
     const actionLists: ActionsLists[] = [
         {
-            icon: "far fa-edit",
+            icon: "	fas fa-edit",
             action: "New chat",
             functionCall() {
                 setIsNewChat(false);
@@ -42,12 +42,12 @@ function MessageBox(props: ChatBotValues) {
             },
         },
         {
-            icon: "far fa-edit",
+            icon: "fas fa-history",
             action: "History",
             functionCall() {setShowConvoLists(true)},
         },
         {
-            icon: "far fa-edit",
+            icon: "fas fa-search",
             action: "Search",
             functionCall() { },
         },

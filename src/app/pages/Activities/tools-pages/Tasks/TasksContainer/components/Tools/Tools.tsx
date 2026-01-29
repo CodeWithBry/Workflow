@@ -15,8 +15,8 @@ export default function Tools({ setShowGTM, setShowSearchBox }: TaskContainerVal
 
   // ARRAYS AND OBJECTS
   const [actionLists] = useState<ActionsLists[]>([
-    { action: "Add Group Task", functionCall: () => setShowGTM(true) },
-    { action: "Delete Group", functionCall: () => setShowGTM(true) },
+    { action: "Add Group Task", functionCall: () => setShowGTM(true), icon: 'fas fa-plus' },
+    { action: "Delete Group", functionCall: () => setShowGTM(true), icon: "far fa-trash-alt" },
   ])
 
   useEffect(() => { console.log(selectedHistory) }, [selectedHistory])

@@ -27,6 +27,7 @@ function AppProvider() {
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     const [showAssistant, setShowAssistant] = useState<boolean>(false);
     const [pauseEffect, setPauseEffect] = useState<boolean>(false);
+    const [showVerifySignOut, setShowVerifySignOut] = useState<boolean>(false);
 
     // STRINGS
     const [subPath, setSubPath] = useState<string>("");
@@ -71,6 +72,7 @@ function AppProvider() {
         isDataLoaded, setIsDataLoaded,
         showAssistant, setShowAssistant,
         pauseEffect, setPauseEffect,
+        showVerifySignOut, setShowVerifySignOut,
         // STRINGS
         // NUMBERICAL VALUES
 
@@ -98,7 +100,7 @@ function AppProvider() {
                 const getData = await getDataFromFirestore(user.uid);
                 setUserInfo(getData.user);
                 setChatLists(getData.chatLists);
-                setTaskClass(getData.projectLists);
+                setTaskClass(getData.projectLists.map((project) => ({...project, isOpened: false})));
                 setAuthCredentials(user);
                 localStorage.setItem("user", JSON.stringify(user))
             }
@@ -127,7 +129,6 @@ function AppProvider() {
 
             setChatLists(prev => prev.map(chat => {
                 if(chat.id == selectedTaskClass.id) {
-                    console.log(chat.convoLists)
                     setConvoLists([...chat.convoLists])
                 }
                 return { ...chat, isOpen: chat.id == selectedTaskClass.id }

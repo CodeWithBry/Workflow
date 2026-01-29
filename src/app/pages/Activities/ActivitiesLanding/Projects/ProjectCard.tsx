@@ -6,7 +6,7 @@ import { useContext, useState } from 'react'
 import { context } from '../../../../context/AppContext'
 import { updateProject } from '../../../../../utils/updateProject'
 
-function ProjectCard({ project, setDataToModify, setEditModal }: ProjectCardProps) {
+function ProjectCard({ project, setDataToModify, setEditModal, projectLength, index }: ProjectCardProps) {
     const { darkMode, setTaskClass, userInfo, setChatLists } = useContext(context) as Context;
     const [showActions, setShowActions] = useState<boolean>(false);
     const actionLists: ActionsLists[] = [
@@ -15,7 +15,8 @@ function ProjectCard({ project, setDataToModify, setEditModal }: ProjectCardProp
             functionCall: () => {
                 setDataToModify(project);
                 setEditModal(true)
-            }
+            },
+            icon: "far fa-edit"
         },
         {
             action: "Delete Project",
@@ -29,13 +30,15 @@ function ProjectCard({ project, setDataToModify, setEditModal }: ProjectCardProp
                     action: "delete",
                     project
                 }, userInfo)
-            }
+            },
+            icon: "far fa-trash-alt"
         }
     ]
 
     return (
         <label
-            htmlFor={`#${project.id}`}>
+            htmlFor={`#${project.id}`}
+            style={{zIndex: `${projectLength - index}`}}>
             <Link
                 to={`/activities/${project.id}/tasks`}
                 className={s.projectCard}

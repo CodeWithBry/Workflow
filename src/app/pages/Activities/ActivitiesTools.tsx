@@ -13,14 +13,16 @@ function ActivitiesTools() {
     useEffect(() => {
         if (!id || !userInfo) return;
         if (isDataLoaded && taskClass.length == 0) return; // ⬅️ if the data is already loaded, it skips the whole code in use effect
+        console.log("BYPASSED!")
         const defineTaskClass = taskClass.find(t => t.id.toLowerCase() === id.toLowerCase());
         const isAlreadyOpen = taskClass.find(t => (t.id.toLowerCase() === id.toLowerCase() && t.isOpened))
+        console.log(taskClass)
         if (!defineTaskClass) {
             navigation("/");
             return;
         }
         if (isAlreadyOpen) {
-            setAllowChanges(false)
+            setAllowChanges(false);
             return; // It skips the unnecessary update of task class if the project is already open. 
         }
         setTaskClass(prev => prev.map((taskClass) => {

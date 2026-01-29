@@ -25,6 +25,7 @@ export function DropDown({ darkMode, showTools, setShowTools, actionLists }: Dro
             ref={dropdownRef}>
             {actionLists.map(action => {
                 return <Button
+                    iconElement={action.icon ? <i className={`${action.icon}`}></i> : null}
                     className={s.actionButton}
                     content={action.action}
                     clickListener={() => {

@@ -1,32 +1,40 @@
 .dropDown {
     display: flex;
     flex-direction: column;
-    width: 130px;
     height: fit-content;
     position: absolute;
+    background-color: white;
+    border-radius: .5rem;
+    overflow: hidden;
     right: 0;
     top: 100%;
-    padding: var(--pad-y-s) var(--pad-y-s);
-    background-color: white;
     box-shadow: 0 2px 10px -2.5px rgba(0, 0, 0, 0.244);
     border-radius: .5rem;
 }
 
 .dropDown .actionButton {
-    padding: var(--pad-y-s) var(--pad-x-s);
-    border-radius: .5rem;
-    background-color: transparent;
+    padding: var(--pad-y-m) var(--pad-x-m);
+    font-size: var(--p-small);
+    font-family: var(--font-title);
+    font-weight: bold;
+    background-color: white;
     position: relative;
     z-index: 0;
     text-wrap: nowrap;
 }
 
+.dropDown .actionButton > i {
+    margin-right: .5rem;
+}
+
 .dropDown .actionButton:hover {
-    background-color: white;
+    background-color: var(--l-very-light);
+    scale: 1;
 }
 
 .dropDown .actionButton:active {
     background-color: var(--l-light);
+    scale: 1;
 }
 
 .hideDropDown {

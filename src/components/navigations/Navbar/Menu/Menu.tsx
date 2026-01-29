@@ -3,10 +3,9 @@ import s from './styles.module.css';
 import { context } from '../../../../app/context/AppContext';
 import LinkTag from '../../../ui/LinkTag';
 import Button from '../../../ui/Button';
-import { logOut } from '../../../../lib/firebase';
 
 function Menu() {
-    const { authCredentials, userInfo, navigation, setAuthCredentials, setUserInfo } = useContext(context) as Context;
+    const { authCredentials, userInfo, setShowVerifySignOut } = useContext(context) as Context;
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const actionLists: ActionsLists[] = [
         {
@@ -14,19 +13,13 @@ function Menu() {
         },
         {
             action: "Manage Account", functionCall: () => {
-                setShowMenu(false)
+                setShowMenu(false);
             }, icon: "fa fa-gear", type: "account"
         },
         {
-            action: "Log out", functionCall: async () => {
-                const getMessage = await logOut();
-                if (getMessage) {
-                    localStorage.removeItem("user");
-                    navigation("/login");
-                    setAuthCredentials(null);
-                    setUserInfo(null);
-                    setShowMenu(false)
-                }
+            action: "Log out", functionCall: () => {
+                setShowVerifySignOut(true);
+                setShowMenu(false);
             }, icon: "fa fa-sign-out-alt", type: "account"
         }
     ];

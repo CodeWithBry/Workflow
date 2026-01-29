@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import ActivitiesTools from "../pages/Activities/ActivitiesTools";
 import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import Navbar from "../../components/navigations/Navbar/Navbar";
+import SignOutVerification from "../../components/pop-ups/SignOutVerification/SignOutVerification";
 // import Tools from "../pages/Tools/Tools";
 
 
@@ -12,6 +13,7 @@ function MainRoutes() {
     return (
         <div>
             <Navbar />
+            <SignOutVerification />
             <Routes>
                 {pages.map((page) => {
                     return <Route element={(<page.tabElement />)} path={`${page.tabPath}`} />

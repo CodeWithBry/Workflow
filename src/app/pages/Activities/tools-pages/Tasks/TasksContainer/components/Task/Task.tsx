@@ -50,11 +50,13 @@ function Task(props: TaskProps) {
                 } 
                 setCreateAndEditModal(true)
                 setPropsForCEM({...newProps})
-            }
+            },
+            icon: "far fa-edit"
         },
         {
             action: "Delete",
-            functionCall: () => { deleteTask({task, setSelectedTaskClass, isRealTask: true, groupId: group.groupId, userId: userInfo?.userId, setAllowChanges}) }
+            functionCall: () => { deleteTask({task, setSelectedTaskClass, isRealTask: true, groupId: group.groupId, userId: userInfo?.userId, setAllowChanges}) },
+            icon: "far fa-trash-alt"
         }
     ]
 

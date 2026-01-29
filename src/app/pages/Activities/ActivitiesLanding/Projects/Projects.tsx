@@ -8,6 +8,8 @@ function Projects(props: {
   editModal: boolean, setEditModal: Dispatch<SetStateAction<boolean>>,
 }) {
   const { taskClass, darkMode } = useContext(context) as Context;
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchResult, setSearchResult] = useState<ProjectCard>([]);
   const projectCards: TaskClassLists[] | undefined = useMemo(() => {
     if (taskClass.length > 3) {
       const projects: TaskClassLists[] = []
@@ -20,9 +22,7 @@ function Projects(props: {
 
       return projects
     }
-  }, [taskClass])
-  const [searchResult, setSearchResult] = useState<ProjectCard>([]);
-  const [searchInput, setSearchInput] = useState<string>("");
+  }, [taskClass]);
 
 
 
@@ -43,11 +43,11 @@ function Projects(props: {
       </label>
       <div className={s.container}>
         {searchResult.length == 0 && projectCards
-          ? projectCards.map((act) => {
-            return <ProjectCard {...{ project: act, ...props }} />
+          ? projectCards.map((act, i) => {
+            return <ProjectCard {...{ project: act, projectLength: projectCards?.length, index: i, ...props }} />
           })
-          : searchResult.map((act) => {
-            return <ProjectCard {...{ project: act, ...props }} />
+          : projectCards?.length && searchResult.map((act, i) => {
+            return <ProjectCard {...{ project: act, projectLength: projectCards?.length, index: i, ...props }} />
           })}
       </div>
     </div>

@@ -34,6 +34,9 @@
     padding: var(--pad-y-m) var(--pad-x-s);
     background-color: rgba(217, 217, 217, 0.5);
     border-radius: .5rem;
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 .projects .container>label {

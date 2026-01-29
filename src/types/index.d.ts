@@ -43,6 +43,8 @@ declare global {
         project: TaskClassLIsts
         dataToModify: DataToModify, setDataToModify: Dispatch<SetStateAction<DataToModify>>,
         editModal: boolean, setEditModal: Dispatch<SetStateAction<boolean>>,
+        projectLength: number,
+        index: number;
     }
 
     // Create MODAL 
@@ -286,6 +288,7 @@ declare global {
         isDataLoaded: boolean, setIsDataLoaded: Dispatch<SetStateAction<boolean>>,
         showAssistant: boolean, setShowAssistant: Dispatch<SetStateAction<boolean>>,
         pauseEffect: boolean, setPauseEffect: Dispatch<SetStateAction<boolean>>,
+        showVerifySignOut: boolean, setShowVerifySignOut: Dispatch<SetStateAction<boolean>>
         // STRINGS
         subPath: string, setSubPath: Dispatch<SetStateAction<string>>,
         // NUMERICAL VALUES
