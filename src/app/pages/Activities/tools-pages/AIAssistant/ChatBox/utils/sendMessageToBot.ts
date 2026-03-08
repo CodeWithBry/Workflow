@@ -33,15 +33,18 @@ export async function sendMessageToBot(
         if (!response.status) {
             setSelectedConvo(prev => {
                 if (!prev) return undefined;
-
-                return {
+                const updatedConvo: Convo = {
                     ...prev,
                     messagesUi: [
                         ...prev.messagesUi,
                         { role: "model", message: `Error Occured: Quota Limit Reached!` }
                     ]
                 };
+
+                saveConvoData(userId, chatList.id, finalConvo.convoId, updatedConvo);
+                return updatedConvo
             });
+            return
         }
 
         if (!response.body) return console.log("RETURNED!");
