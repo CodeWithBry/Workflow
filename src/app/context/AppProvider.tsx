@@ -17,6 +17,7 @@ import { auth, getDataFromFirestore, saveProjectFromFirestore } from "../../lib/
 import Account from "../pages/Account/Account";
 import ForgotPassword from "../pages/auth/ForgotPassword/ForgotPassword";
 import ProjectOverview from "../pages/Activities/tools-pages/ProjectOverview/ProjectOverview";
+import LandingPage from "../pages/LandingPage/LandingPage";
 
 function AppProvider() {
     // NAVIGATION
@@ -40,7 +41,8 @@ function AppProvider() {
     const [authCredentials, setAuthCredentials] = useState<User | null>(null);
 
     const [pages, setPages] = useState<Pages[]>([
-        { tabName: "Activities", tabPath: "/", tabElement: ActivitiesLanding, tabFocused: false },
+        { tabName: "Landing Page", tabPath: "/", tabElement: LandingPage, tabFocused: false },
+        { tabName: "Activities", tabPath: "/activities", tabElement: ActivitiesLanding, tabFocused: false },
         { tabName: "Account", tabPath: "/account", tabElement: Account, tabFocused: false },
         { tabName: "Login", tabPath: "/login", tabElement: Login, tabFocused: false },
         { tabName: "Signup", tabPath: "/signup", tabElement: Signup, tabFocused: false },

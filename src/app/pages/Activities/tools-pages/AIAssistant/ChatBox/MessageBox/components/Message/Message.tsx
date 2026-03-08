@@ -111,7 +111,7 @@ export const Message = memo(function Message({ res, setShowSaveProject, setSaveC
             )}
 
             {/* ── Message row ── */}
-            <li className={`${s.row} ${isUser ? s.rowUser : s.rowModel} ${darkMode && s.dark} ${message.includes("Error Occured:") && s.error}`}>
+            <li className={`${s.row} ${isUser ? s.rowUser : s.rowModel} ${darkMode && s.dark} ${message.includes("Error") && s.error}`}>
 
                 {/* AI avatar — left side */}
 
@@ -141,7 +141,7 @@ export const Message = memo(function Message({ res, setShowSaveProject, setSaveC
                                 },
                                 a({ href, children }) {
                                     return (
-                                        <a href={href} target="_blank" rel="noopener noreferrer" className={s.link}>
+                                        <a href={href} rel="noopener noreferrer" className={s.link}>
                                             {children}
                                         </a>
                                     );

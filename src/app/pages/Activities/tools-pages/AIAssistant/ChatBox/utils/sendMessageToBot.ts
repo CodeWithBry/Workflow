@@ -29,22 +29,25 @@ export async function sendMessageToBot(
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ messagesAi, modifyData }),
         })
+        const text = await response.text();
 
-        if (!response.status) {
+        if (text.includes("AI quota limit reached")) {
             setSelectedConvo(prev => {
                 if (!prev) return undefined;
+
                 const updatedConvo: Convo = {
                     ...prev,
                     messagesUi: [
                         ...prev.messagesUi,
-                        { role: "model", message: `Error Occured: Quota Limit Reached!` }
+                        { role: "model", message: "Error Occurred: Quota Limit Reached!" }
                     ]
                 };
 
-                saveConvoData(userId, chatList.id, finalConvo.convoId, updatedConvo);
-                return updatedConvo
+                saveConvoData(userId, chatList.id, prev.convoId, updatedConvo);
+                return updatedConvo;
             });
-            return
+
+            return;
         }
 
         if (!response.body) return console.log("RETURNED!");
@@ -132,17 +135,18 @@ export async function sendMessageToBot(
     } catch (error) {
         const message =
             error instanceof Error ? error.message : "Unknown error occurred";
-
         setSelectedConvo(prev => {
             if (!prev) return undefined;
 
-            return {
+            const updatedConvo: Convo = {
                 ...prev,
                 messagesUi: [
                     ...prev.messagesUi,
                     { role: "model", message: `Error Occured: Server error, ${message}` }
                 ]
             };
+
+            return updatedConvo;
         });
 
     } finally {

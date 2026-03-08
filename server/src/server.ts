@@ -43,7 +43,7 @@ const promptForTask = `
             - Keep the explanation concise but helpful
         `;
 const promptForProject = `
-            IMPORTANT!
+            IMPORTANT WHEN THE USER ONLY TELL A SPECIFIC TASK(NOT BROAD TASK)!
             Be very specific (narrow topic only)
             Limit output length (e.g., “max 3 bullets”)
             Use constraints (word/character limit)
@@ -63,6 +63,8 @@ const promptForProject = `
             be done.
             - If the project has taskGroups and tasks inside the object. Give help 
             the user on how to do the tasks step by step.
+            - If the user wanted you to create him/her a prompt that tells a detailed project prompts including
+            its requirements, the UI/UX of the project, the function of the project and what users want you to.
 
             Guidelines:
             - Break the solution into simple steps

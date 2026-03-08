@@ -177,6 +177,7 @@
 
 .error .bubbleModel {
     color: red;
+    background-color: rgba(255, 0, 0, 0.083);
     box-shadow: 0 1px 4px rgba(255, 0, 0, 0.483), 0 0 0 1px rgba(255, 0, 0, 0.483);
 }
 
@@ -188,6 +189,7 @@
 
 .dark.error .bubbleModel {
     color: red;
+    background-color: rgba(255, 0, 0, 0.083);
     box-shadow: 0 1px 4px rgba(255, 0, 0, 0.483), 0 0 0 1px rgba(255, 0, 0, 0.483);
 }
 
