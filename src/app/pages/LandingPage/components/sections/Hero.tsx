@@ -1,8 +1,6 @@
 import LinkTag from "../ui/LinkTag";
 import styles from "./styles.module.css";
 
-const APP_URL = "https://tinyurl.com/Codewithbry-Workflow";
-
 function Hero() {
   return (
     <section id="hero" className={styles.hero}>
@@ -31,8 +29,8 @@ function Hero() {
             </p>
 
             <div className={styles.heroCtas}>
-              <LinkTag to={APP_URL} variant="primary" content="Get Started Free →"/>
-              <LinkTag to={APP_URL} variant="outline" content="▶ View Demo"        />
+              <LinkTag to={"/activities"} variant="primary" content="Get Started Free →" />
+              <LinkTag to={"/activities"} variant="outline" content="▶ View Demo" />
             </div>
 
             <div className={styles.heroStats}>
@@ -69,8 +67,8 @@ function Hero() {
                     <div className={styles.taskList}>
                       {[
                         { label: "Design hero section", done: true },
-                        { label: "Set up routing",      done: true },
-                        { label: "Build contact form",  done: false },
+                        { label: "Set up routing", done: true },
+                        { label: "Build contact form", done: false },
                       ].map((t) => (
                         <div key={t.label} className={styles.taskRow}>
                           <div className={`${styles.tChk}${t.done ? ` ${styles.tChkDone}` : ""}`}>{t.done ? "✓" : ""}</div>

@@ -96,3 +96,8 @@
     pointer-events: none;
     position: absolute;
 }
+
+.editor:empty:before,
+.editor:not(:focus):empty:before {
+    content: attr(data-placeholder);
+}

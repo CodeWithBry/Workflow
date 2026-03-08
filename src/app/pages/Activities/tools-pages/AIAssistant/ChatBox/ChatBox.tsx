@@ -84,8 +84,6 @@ function ChatBox() {
     });
   }, [showSaveProject])
 
-  useEffect(() => { console.log(isConvoLoading) }, [isConvoLoading])
-
   return (
     <div className={chatBoxClassName}>
       {showSaveProject && <SaveChangesBox {...saveChangesProps} />}

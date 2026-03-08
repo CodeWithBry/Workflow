@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Navbar from "./components/sections/Navbar";
 import Hero from "./components/sections/Hero";
-import Logos from "./components/sections/Logos";
 import Problem from "./components/sections/Problem";
 import Solution from "./components/sections/Solution";
 import AiHighlight from "./components/sections/AiHighlight";
@@ -43,7 +42,6 @@ function LandingPage() {
     <main>
       <Navbar />
       <Hero />
-      <Logos />
       <Problem />
       <Solution />
       <AiHighlight />

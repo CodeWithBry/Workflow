@@ -124,18 +124,6 @@ function AppProvider() {
         })
     }
 
-    useEffect(() => {
-        setToolsPages(prev => prev.map(page => ({ ...page, tabFocused: page.tabPath == getUrl[3] })));
-        setShowAssistant(false);
-
-        if (getUrl[3] == null) {
-            setHistoryChanges(prev => ({
-                ...prev,
-                currentStateNumber: -1,
-                changesInProject: []
-            }))
-        }
-    }, [getUrl[3]])
 
     useEffect(() => {
         if (selectedTaskClass) {

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { context } from "../../../app/context/AppContext";
 import s from "./styles.module.css";
 import Button from "../../ui/Button";
@@ -9,12 +9,26 @@ function ToolsSidebar() {
     const { darkMode, setDarkMode,
         showToolBar, setShowToolBar,
         toolsPages, selectedTaskClass,
-        taskClass, userInfo, setHistoryChanges, 
-        authCredentials, navigation, 
-        setSelectedTaskClass, setPauseEffect } = useContext(context) as Context;
+        taskClass, userInfo, setHistoryChanges,
+        authCredentials, navigation,
+        setSelectedTaskClass, setPauseEffect,
+        setToolsPages, getUrl, setShowAssistant } = useContext(context) as Context;
     const sideBarStyles = !darkMode
         ? `${s.sideBar} ${!showToolBar && s.collapseSideBar}`
         : `${s.sideBar} ${s.darkSideBar} ${!showToolBar && s.collapseSideBar}`;
+
+    useEffect(() => {
+        setToolsPages(prev => prev.map(page => ({ ...page, tabFocused: page.tabPath == getUrl[3] })));
+        setShowAssistant(false);
+
+        if (getUrl[3] == null) {
+            setHistoryChanges(prev => ({
+                ...prev,
+                currentStateNumber: -1,
+                changesInProject: []
+            }))
+        }
+    }, [getUrl[3]])
 
     return (
         <div className={sideBarStyles}>
@@ -24,7 +38,7 @@ function ToolsSidebar() {
                     <h2>
                         <LinkTag
                             className={s.backToHome}
-                            to="/"
+                            to="/activities"
                             content={"Workflow"}
                             clickListener={async () => setHistoryChanges(prev => ({
                                 currentStateNumber: prev.currentStateNumber == -1 ? -1 : -1,
@@ -49,8 +63,8 @@ function ToolsSidebar() {
                             return <LinkTag
                                 className={!tab.tabFocused ? s.tab : `${s.tab} ${s.focused}`}
                                 iconElement={(<i className={tab.tabIcon}></i>)}
-                                to={`/activities/${selectedTaskClass?.id}/${tab.tabPath} `}
-                                clickListener={() => {setPauseEffect(false)}}
+                                to={`/activities/${selectedTaskClass?.id}/${tab.tabPath}`}
+                                clickListener={() => { setPauseEffect(false) }}
                                 key={tab.tabName}
                                 titleContent={tab.tabName}
                                 content={(<span>{tab.tabName}</span>)} />
@@ -69,7 +83,7 @@ function ToolsSidebar() {
                             return <LinkTag
                                 className={!t.isOpened ? s.tab : `${s.tab} ${s.focused}`}
                                 iconElement={(<i className={t.icon}></i>)}
-                                clickListener={() => {setSelectedTaskClass(null)}}
+                                clickListener={() => { setSelectedTaskClass(null) }}
                                 to={`/activities/${t.id}/tasks`}
                                 titleContent={t.name}
                                 content={(<span>{t.name}</span>)} />

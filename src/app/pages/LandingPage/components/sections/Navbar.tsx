@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import LinkTag from "../ui/LinkTag";
 import styles from "./styles.module.css";
 
-const APP_URL = "https://tinyurl.com/Codewithbry-Workflow";
-
 const navLinks = [
   { label: "Why Workflow", href: "#problem" },
   { label: "Features",     href: "#solution" },
@@ -61,8 +59,8 @@ function Navbar() {
 
         {/* Desktop CTAs */}
         <div className={styles.navActions}>
-          <LinkTag to={APP_URL} variant="ghost" content="Sign In" />
-          <LinkTag to={APP_URL} variant="primary" content="Get Started →" />
+          <LinkTag to={"/activities"} variant="ghost" content="Sign In" />
+          <LinkTag to={"/activities"} variant="primary" content="Get Started →" />
         </div>
 
         {/* Hamburger */}
@@ -94,8 +92,8 @@ function Navbar() {
         ))}
         <div className={styles.mobileDivider} />
         <div className={styles.mobileCtas}>
-          <LinkTag to={APP_URL} variant="outline" content="Sign In" clickListener={close} />
-          <LinkTag to={APP_URL} variant="primary" content="Get Started →" clickListener={close} />
+          <LinkTag to={"/login"} variant="outline" content="Sign In" clickListener={close} />
+          <LinkTag to={"/activities"} variant="primary" content="Get Started →" clickListener={close} />
         </div>
       </div>
     </>

@@ -1,8 +1,6 @@
 import LinkTag from "../ui/LinkTag";
 import styles from "./styles.module.css";
 
-const APP_URL = "https://tinyurl.com/Codewithbry-Workflow";
-
 function CallToAction() {
   return (
     <section id="cta" className={styles.cta}>
@@ -18,7 +16,7 @@ function CallToAction() {
           </p>
           <div className={styles.ctaBtns}>
             <LinkTag
-              to={APP_URL}
+              to={"/activities"}
               variant="primary"
               content="Get Started Free — No credit card required →"
               className={styles.ctaLinkLg}

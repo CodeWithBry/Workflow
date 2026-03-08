@@ -2,6 +2,7 @@ import { useContext, useRef, useState } from "react"
 import s from "./styles.module.css"
 import { context } from "../../../../context/AppContext"
 import Button from "../../../../../components/ui/Button";
+import { saveProjectFromFirestore } from "../../../../../lib/firebase";
 
 function ProjectOverview() {
     const { darkMode, userInfo, setSelectedConvo, setSelectedTaskClass, selectedTaskClass } = useContext(context) as Context;
@@ -24,9 +25,11 @@ function ProjectOverview() {
                                 <Button
                                     content={"Save"}
                                     className={`${s.actionBtn} ${s.editBtn}`}
-                                    clickListener={() => {
-                                        console.log(inputRef.current && inputRef.current.innerHTML)
-                                        setSelectedTaskClass(prev => prev && inputRef.current ? ({ ...prev, description: inputRef.current.innerHTML }) : prev);
+                                    clickListener={async () => {
+                                        if(!selectedTaskClass || !inputRef.current) return;
+                                        const updatedProject: TaskClass = {...selectedTaskClass, description: inputRef.current.innerText};
+                                        if (userInfo && selectedTaskClass) await saveProjectFromFirestore(userInfo.userId, updatedProject, undefined, 'update');
+                                        setSelectedTaskClass({...updatedProject});
                                         setIsEditing(false);
                                     }} />
                             </>
@@ -48,10 +51,9 @@ function ProjectOverview() {
                     role="textbox"
                     aria-label="Message input"
                     aria-multiline="true"
-                    data-placeholder="Write your project description..."
+                    data-placeholder={selectedTaskClass?.description?.trim() != "" ? "" : "Write your project description..."}
                     onInput={() => {
                         const text = inputRef.current?.innerText ?? "";
-                        console.log(!text.trim());
                         setIsEmpty(!text.trim());
                         if (!text.trim() || !userInfo) return;
                         setSelectedConvo(prev => prev ? ({ ...prev, description: text }) : prev)
@@ -70,7 +72,7 @@ function ProjectOverview() {
                             e.preventDefault();
                         }
                     }} >
-                    {selectedTaskClass?.description?.trim() ? !selectedTaskClass?.description.trim() : !"\n".trim()}
+                    {selectedTaskClass?.description}
                 </div>
             </div>
         </div>

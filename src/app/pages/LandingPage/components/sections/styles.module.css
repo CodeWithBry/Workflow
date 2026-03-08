@@ -95,7 +95,7 @@
 .navAnchor {
   text-decoration: none;
   color: var(--text-muted);
-  font-size: var(--p-medium);
+  font-size: var(--p-small);
   font-weight: 400;
   transition: color 0.2s;
 }
@@ -1240,7 +1240,6 @@
 
   .heroInner { grid-template-columns: 1fr; gap: 48px; }
   .heroSub { max-width: 100%; }
-  .mockupWrap { order: -1; }
   .winSb { display: none; }
   .winBody { grid-template-columns: 1fr; }
   .floatBadge { right: 8px; bottom: -12px; }
