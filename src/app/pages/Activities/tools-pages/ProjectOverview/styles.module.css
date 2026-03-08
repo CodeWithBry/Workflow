@@ -1,0 +1,98 @@
+.projectOverview {
+    width: calc(100% - (var(--pad-x-s) * 2));
+    height: calc(100% - (var(--pad-x-s) * 2 + 1rem));
+    background-color: white;
+    padding: var(--pad-x-s);
+    margin-top: .5rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: .5rem;
+}
+
+.projectOverview .title {
+    display: flex;
+    width: calc(100% - (1rem * 4));
+    margin: 1rem auto;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-title);
+    border-bottom: 2px solid var(--l-light);
+    gap: .25rem;
+}
+
+.projectOverview .title>h3 {
+    margin-right: auto;
+}
+
+.projectOverview .title .actionBtn {
+    font-family: var(--font-title);
+    color: white;
+    background-color: var(--secondary-color);
+    padding: calc(var(--pad-x-s)/ (1.2)) calc(var(--pad-x-m)/ (1.2));
+    border-radius: .75rem;
+    font-weight: 600;
+    margin-bottom: .25rem;
+}
+
+.projectOverview .title .actionBtn {
+    font-family: var(--font-title);
+    color: white;
+    background-color: var(--secondary-color);
+    padding: calc(var(--pad-x-s)/ (1.2)) calc(var(--pad-x-m)/ (1.2));
+    border-radius: .75rem;
+    font-weight: 600;
+    margin-bottom: .25rem;
+}
+
+.projectOverview .title .actionBtn.cancelBtn {
+    background-color: red;
+}
+
+.projectOverview .wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: calc(100% - (1rem * 4));
+    flex: 1;
+    margin-bottom: .5rem;
+    overflow: auto;
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--l-light);
+    }
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+}
+
+.projectOverview .wrapper .editor {
+    flex: 1;
+    min-height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    outline: none;
+    border: none;
+    background: transparent;
+    color: var(--input-text);
+    font-size: 14.5px;
+    font-family: var(--font-title);
+    line-height: 1.65;
+    word-break: break-word;
+    cursor: text;
+    padding: 0 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--input-border) transparent;
+}
+
+
+/* Placeholder via pseudo-element — handles empty contentEditable */
+
+.projectOverview .wrapper .editor.empty::before {
+    content: attr(data-placeholder);
+    color: var(--input-placeholder);
+    pointer-events: none;
+    position: absolute;
+}

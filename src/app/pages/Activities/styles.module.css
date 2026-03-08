@@ -1,0 +1,24 @@
+.activitiesContainer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    width: 100vw;
+    height: 100vh;
+    max-width: 1500px;
+    margin: auto;
+    background-color: var(--l-bg-color);
+    gap: .5rem;
+}
+
+.activitiesContainer.dark {
+    background-color: var(--d-bg);
+}
+
+@media (max-width: 500px) {
+    .activitiesContainer {
+        display: flex;
+    }
+
+    .activitiesContainer>div:nth-of-type(2) {
+        width: 100%;
+    }
+}

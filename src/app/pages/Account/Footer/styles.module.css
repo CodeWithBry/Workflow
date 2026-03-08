@@ -1,0 +1,27 @@
+/* BOTTOM */
+
+.footer {
+    width: 100%;
+    height: fit-content;
+    border-top: 2px solid var(--l-light);
+    display: flex;
+    justify-content: end;
+    padding: 1rem 0;
+}
+
+.footer .actionButton {
+    font-family: var(--font-title);
+    font-size: var(--p-small);
+    font-weight: 700;
+    background-color: transparent;
+    color: black;
+    padding: var(--pad-y-m) var(--pad-x-l);
+    border-radius: .5rem;
+}
+
+.footer .actionButton:nth-child(2) {
+    opacity: 1;
+    background-color: var(--secondary-color);
+    color: white;
+    margin-right: 1rem;
+}

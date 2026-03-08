@@ -1,0 +1,467 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Message.module.css  —  GemChat AI · Light & Dark Mode
+───────────────────────────────────────────────────────────────────────────── */
+
+
+/* ── Light mode tokens (default) ─────────────────────────────────────── */
+
+:root {
+    --gem: #6152e0;
+    --gem-bright: #5041cc;
+    --gem-glow: rgba(97, 82, 224, 0.18);
+    --user-bubble: #ede9ff;
+    --user-border: rgba(97, 82, 224, 0.22);
+    --model-bubble: #ffffff;
+    --model-border: rgba(0, 0, 0, 0.08);
+    --bg-hover: #f4f3ff;
+    --bg-card: #fafafa;
+    --text: #111118;
+    --text-muted: #6e6e85;
+    --text-dim: #b0afc0;
+    --green: #059669;
+    --amber: #d97706;
+    --border: rgba(0, 0, 0, 0.08);
+    --radius: 18px;
+    --radius-sm: 10px;
+    --mono: 'DM Mono', 'Fira Mono', monospace;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --code-bg: #1e1a2e;
+    --code-text: #c4b5fd;
+    --table-head-bg: #f0effe;
+}
+
+
+/* ── Dark mode tokens — applied via .dark class (darkMode === true) ───── */
+
+.dark {
+    --gem: #7c6ef5;
+    --gem-bright: #9d8fff;
+    --gem-glow: rgba(124, 110, 245, 0.22);
+    --user-bubble: #1e1b3a;
+    --user-border: rgba(124, 110, 245, 0.28);
+    --model-bubble: #17171a;
+    --model-border: rgba(255, 255, 255, 0.07);
+    --bg-hover: #1e1e22;
+    --bg-card: #17171a;
+    --text: #e8e8ed;
+    --text-muted: #6b6b7a;
+    --text-dim: #3e3e4a;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --border: rgba(255, 255, 255, 0.07);
+    --code-bg: #0d0d10;
+    --code-text: #c4b5fd;
+    --table-head-bg: #1e1e22;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   COMPONENT STYLES  (tokens do all the theming — rules stay identical)
+══════════════════════════════════════════════════════════════════════════════ */
+
+
+/* ── Row layout ────────────────────────────────────────────────────────── */
+
+.row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    animation: fadeUp 0.28s var(--ease) both;
+    list-style: none;
+    padding: var(--pad-x-s) var(--pad-x-m);
+    margin: .5rem;
+    border-radius: .5rem;
+    max-width: calc(100% - ((var(--pad-x-m) + .5rem) * 2));
+}
+
+.rowUser {
+    justify-content: flex-end;
+}
+
+.rowModel {
+    justify-content: flex-start;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ── Avatar ────────────────────────────────────────────────────────────── */
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+}
+
+.avatarModel {
+    background: linear-gradient(135deg, var(--gem) 0%, #a78bfa 100%);
+    color: #fff;
+    box-shadow: 0 2px 10px var(--gem-glow);
+}
+
+.avatarUser {
+    background: linear-gradient(135deg, #c4bdff 0%, #a79af5 100%);
+    border: 1px solid var(--user-border);
+    color: #fff;
+}
+
+/* Dark: restore original dark avatar style */
+.dark .avatarUser {
+    background: linear-gradient(135deg, var(--user-bubble) 0%, #2d2060 100%);
+    color: var(--gem-bright);
+}
+
+
+/* ── Bubble column ─────────────────────────────────────────────────────── */
+
+.bubbleCol {
+    display: flex;
+    flex-direction: column;
+    max-width: min(78%, 640px);
+}
+
+.bubbleColUser {
+    align-items: flex-end;
+}
+
+.bubbleColModel {
+    align-items: flex-start;
+}
+
+
+/* ── Bubble ────────────────────────────────────────────────────────────── */
+
+.bubble {
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    font-size: 14.5px;
+    line-height: 1.72;
+    word-break: break-word;
+    transition: box-shadow 0.2s var(--ease);
+}
+
+.bubbleUser {
+    background: var(--user-bubble);
+    border: 1px solid var(--user-border);
+    border-bottom-right-radius: 4px;
+    color: var(--text);
+}
+
+/* Light: soft shadow on model bubble */
+.bubbleModel {
+    background: var(--model-bubble);
+    border: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), 0 0 0 1px var(--model-border);
+    border-bottom-left-radius: 4px;
+    color: var(--text);
+    max-width: 120%;
+}
+
+.error .bubbleModel {
+    color: red;
+    box-shadow: 0 1px 4px rgba(255, 0, 0, 0.483), 0 0 0 1px rgba(255, 0, 0, 0.483);
+}
+
+/* Dark: restore border, remove shadow */
+.dark .bubbleModel {
+    border: 1px solid var(--model-border);
+    box-shadow: none;
+}
+
+.dark.error .bubbleModel {
+    color: red;
+    box-shadow: 0 1px 4px rgba(255, 0, 0, 0.483), 0 0 0 1px rgba(255, 0, 0, 0.483);
+}
+
+
+/* ── Markdown typography ───────────────────────────────────────────────── */
+
+.paragraph {
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.error .bubbleModel .paragraph {
+    color: red;
+}
+
+.paragraph:last-child {
+    margin-bottom: 0;
+}
+
+.bubble h1,
+.bubble h2,
+.bubble h3,
+.bubble h4,
+.bubble h5,
+.bubble h6 {
+    font-weight: 600;
+    margin: 16px 0 6px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+}
+
+.bubble h1 { font-size: 18px; }
+.bubble h2 { font-size: 16px; }
+.bubble h3 { font-size: 15px; }
+
+.bubble ul,
+.bubble ol {
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.bubble li {
+    margin-bottom: 4px;
+}
+
+.inlineCode {
+    background: rgba(97, 82, 224, 0.09);
+    border: 1px solid rgba(97, 82, 224, 0.2);
+    border-radius: 5px;
+    padding: 1px 7px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gem-bright);
+}
+
+.dark .inlineCode {
+    background: rgba(124, 110, 245, 0.12);
+    border: 1px solid rgba(124, 110, 245, 0.2);
+}
+
+.bubble pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 12px 0;
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.bubble pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--code-text);
+    font-family: var(--mono);
+    font-size: 13px;
+}
+
+.bubble blockquote {
+    border-left: 3px solid var(--gem);
+    padding-left: 14px;
+    color: var(--text-muted);
+    margin: 10px 0;
+    font-style: italic;
+}
+
+.bubble strong {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.bubble em {
+    color: var(--text-muted);
+}
+
+.link {
+    color: var(--gem-bright);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.link:hover {
+    color: var(--gem);
+}
+
+.bubble table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13.5px;
+}
+
+.bubble th,
+.bubble td {
+    border: 1px solid var(--border);
+    padding: 7px 12px;
+    text-align: left;
+}
+
+.bubble th {
+    background: var(--table-head-bg);
+    font-weight: 600;
+    color: var(--gem-bright);
+}
+
+
+/* ── Action bar ────────────────────────────────────────────────────────── */
+
+.actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+    padding: 2px 0;
+}
+
+.actionBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: color 0.18s var(--ease), background 0.18s var(--ease), border-color 0.18s var(--ease), transform 0.12s var(--ease);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.actionBtn:hover {
+    color: var(--text-muted);
+    background: var(--bg-hover);
+    border-color: var(--border);
+    transform: translateY(-1px);
+}
+
+.actionBtn:active {
+    transform: translateY(0);
+}
+
+.dark .actionBtn {
+    color: rgba(255, 255, 255, 0.496);
+}
+
+/* ── Action button states ──────────────────────────────────────────────── */
+
+/* Copied */
+.actionBtnActive {
+    color: var(--green) !important;
+    border-color: rgba(5, 150, 105, 0.25) !important;
+    background: rgba(5, 150, 105, 0.07) !important;
+}
+
+.dark .actionBtnActive {
+    border-color: rgba(52, 211, 153, 0.25) !important;
+    background: rgba(52, 211, 153, 0.07) !important;
+}
+
+/* Bookmarked */
+.actionBtnBookmarked {
+    color: var(--amber) !important;
+    border-color: rgba(217, 119, 6, 0.25) !important;
+    background: rgba(217, 119, 6, 0.07) !important;
+}
+
+.dark .actionBtnBookmarked {
+    border-color: rgba(251, 191, 36, 0.25) !important;
+    background: rgba(251, 191, 36, 0.07) !important;
+}
+
+/* Speaking */
+.actionBtnSpeaking {
+    color: var(--gem-bright) !important;
+    border-color: rgba(124, 110, 245, 0.3) !important;
+    background: rgba(124, 110, 245, 0.1) !important;
+}
+
+/* Update Project */
+.actionBtnProject {
+    color: var(--gem-bright);
+    border-color: rgba(124, 110, 245, 0.25);
+    background: rgba(124, 110, 245, 0.08);
+}
+
+.actionBtnProject:hover {
+    background: rgba(124, 110, 245, 0.15) !important;
+    border-color: rgba(124, 110, 245, 0.45) !important;
+    color: #b8aeff !important;
+    box-shadow: 0 2px 12px var(--gem-glow);
+}
+
+
+/* ── Task attachment chip ───────────────────────────────────────────────── */
+
+.attachmentChip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    max-width: min(72%, 520px);
+    margin-left: auto;
+    margin-right: 48px;
+    margin-bottom: -6px;
+    padding: 6px 12px;
+    background: rgba(97, 82, 224, 0.06);
+    border: 1px solid rgba(97, 82, 224, 0.16);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    overflow: hidden;
+    animation: fadeUp 0.28s var(--ease) both;
+}
+
+.dark .attachmentChip {
+    background: rgba(124, 110, 245, 0.07);
+    border: 1px solid rgba(124, 110, 245, 0.18);
+    border-bottom: none;
+}
+
+.attachmentIcon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--gem-bright);
+}
+
+.attachmentLabel {
+    font-weight: 600;
+    color: var(--gem-bright);
+    flex-shrink: 0;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.attachmentText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+@media screen and (max-width: 400px) {
+    .bubbleModel {
+        min-width: 110%;
+    }
+}

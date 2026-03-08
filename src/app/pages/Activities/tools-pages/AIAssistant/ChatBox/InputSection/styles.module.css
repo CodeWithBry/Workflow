@@ -1,0 +1,277 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   InputSection.module.css  —  GemChat AI design language
+   Tokens are inherited from the shared :root defined in Message.module.css.
+   This file only defines component-level rules — no token redeclarations.
+───────────────────────────────────────────────────────────────────────────── */
+
+
+/* ── Wrapper ───────────────────────────────────────────────────────────── */
+
+.inputSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    /* chip + bar sit flush together  */
+    padding: 12px 16px 14px;
+    animation: fadeUp 0.4s var(--ease) both;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ── Theme surface variables ───────────────────────────────────────────── */
+
+
+/* Dark (default — inherits from :root) */
+
+.dark {
+    --input-bg: #1a1a1e;
+    --input-border: rgba(255, 255, 255, 0.07);
+    --input-border-focus: rgba(124, 110, 245, 0.5);
+    --input-shadow-focus: rgba(124, 110, 245, 0.15);
+    --input-text: #e8e8ed;
+    --input-placeholder: #3e3e4a;
+    --hint-color: #3e3e4a;
+}
+
+
+/* Light */
+
+.light {
+    --input-bg: #ffffff;
+    --input-border: rgba(0, 0, 0, 0.1);
+    --input-border-focus: rgba(97, 82, 224, 0.45);
+    --input-shadow-focus: rgba(97, 82, 224, 0.12);
+    --input-text: #111118;
+    --input-placeholder: #b0afc0;
+    --hint-color: #b0afc0;
+}
+
+
+/* ── Task attachment chip ──────────────────────────────────────────────── */
+
+
+/*
+   Sits directly above the input bar with no gap.
+   Bottom corners are square so it merges visually with the bar below it.
+*/
+
+.attachmentChip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    width: calc(95% - (var(--pad-x-s, 12px) * 2));
+    padding: 7px 14px;
+    background: rgba(124, 110, 245, 0.07);
+    border: 1px solid rgba(124, 110, 245, 0.2);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    animation: fadeUp 0.22s var(--ease) both;
+}
+
+.light .attachmentChip {
+    background: rgba(97, 82, 224, 0.06);
+    border: 1px solid rgba(97, 82, 224, 0.16);
+    border-bottom: none;
+}
+
+.attachmentIcon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--gem-bright);
+}
+
+.attachmentLabel {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gem-bright);
+    flex-shrink: 0;
+}
+
+.attachmentText {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+
+.attachmentClose {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.16s var(--ease), background 0.16s var(--ease), border-color 0.16s var(--ease);
+}
+
+.attachmentClose:hover {
+    color: var(--text-muted);
+    background: var(--bg-hover);
+    border-color: var(--border);
+}
+
+
+/* ── Input bar ─────────────────────────────────────────────────────────── */
+
+.inputBar {
+    width: calc(100% - (var(--pad-x-s) * 2));
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 10px 10px 10px 16px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius, 18px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+
+/* When attachment chip is present, flatten the top corners to connect them */
+
+.inputBarAttached {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+/* Focus-within ring — matches Message.module.css input pattern */
+
+.inputBar:focus-within {
+    border-color: var(--input-border-focus);
+    box-shadow: 0 0 0 3px var(--input-shadow-focus), 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+
+/* Light: lighter base shadow */
+
+.light .inputBar {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.light .inputBar:focus-within {
+    box-shadow: 0 0 0 3px var(--input-shadow-focus), 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ── Editable text field ───────────────────────────────────────────────── */
+
+.inputField {
+    flex: 1;
+    min-height: 24px;
+    max-height: 140px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    outline: none;
+    border: none;
+    background: transparent;
+    color: var(--input-text);
+    font-size: 14.5px;
+    line-height: 1.65;
+    word-break: break-word;
+    cursor: text;
+    padding: 3px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--input-border) transparent;
+}
+
+
+/* Placeholder via pseudo-element — handles empty contentEditable */
+
+.inputField.empty::before {
+    content: attr(data-placeholder);
+    color: var(--input-placeholder);
+    pointer-events: none;
+    position: absolute;
+}
+
+
+/* Wrapping context needs position:relative for the absolute placeholder */
+
+.inputBar {
+    position: relative;
+}
+
+
+/* ── Send button ───────────────────────────────────────────────────────── */
+
+.sendBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    background: var(--bg-hover);
+    color: var(--text-dim);
+    cursor: not-allowed;
+    transition: background 0.18s var(--ease), color 0.18s var(--ease), transform 0.12s var(--ease), box-shadow 0.18s var(--ease);
+}
+
+
+/* Active / has-text state */
+
+.sendBtnReady {
+    background: var(--gem);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 10px var(--gem-glow);
+}
+
+.sendBtnReady:hover {
+    background: var(--gem-bright);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px var(--gem-glow);
+}
+
+.sendBtnReady:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px var(--gem-glow);
+}
+
+.dark .sendBtn {
+    background-color: var(--hint-color);
+}
+
+.dark .sendBtnReady {
+    background: var(--gem);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 10px var(--gem-glow);
+}
+
+/* ── Hint line ─────────────────────────────────────────────────────────── */
+
+.hint {
+    margin-top: 7px;
+    font-size: 11.5px;
+    color: var(--hint-color);
+    text-align: center;
+    letter-spacing: 0.01em;
+    user-select: none;
+}

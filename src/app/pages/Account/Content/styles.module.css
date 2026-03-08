@@ -1,0 +1,331 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    padding: var(--pad-x-s) calc(var(--pad-x-m) * 2);
+    gap: 2rem;
+}
+
+.content .expandImgWrapper {
+    position: absolute;
+    width: 100vw;
+    z-index: 9999;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.content .expandImgWrapper>img {
+    width: auto;
+    height: 100vh;
+}
+
+.profile {
+    display: flex;
+    padding-top: calc(2rem - 12px);
+    width: calc( 100% - (var(--pad-x-m) * 2));
+}
+
+.profile .wrapper {
+    display: flex;
+    gap: var(--gap-normal);
+}
+
+.profile .wrapper .imgContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 105px;
+    height: 105px;
+    min-width: 75px;
+    min-height: 75px;
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.profile .wrapper .imgContainer:hover .cameraIcon {
+    opacity: .7;
+    transition: opacity .5s ease;
+    scale: .7;
+}
+
+.profile .wrapper .imgContainer:hover .profileImage {
+    border: black 2px solid;
+    transition: .5s ease;
+    opacity: .7;
+}
+
+.profile .wrapper .imgContainer .cameraIcon {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+}
+
+.profile .wrapper .imgContainer .img {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.profile .wrapper .imgContainer>img {
+    width: 100%;
+    height: 100%;
+}
+
+.profile .wrapper .imgContainer .fileInput {
+    display: none;
+}
+
+.profile .wrapper .textContainer {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+}
+
+.profile .wrapper .textContainer .title {
+    font-size: var(--p-medium);
+    font-weight: bold;
+}
+
+.profile .wrapper .textContainer>span {
+    color: var(--l-mid);
+    font-size: var(--p-small);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.profile .wrapper .textContainer .uploadButton {
+    font-family: var(--font-title);
+    font-size: var(--p-small);
+    font-weight: 700;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: var(--pad-y-m) var(--pad-x-l);
+    border-radius: .5rem;
+    width: fit-content;
+    margin-top: auto;
+    cursor: pointer;
+    text-wrap: nowrap;
+    transition: .3s ease;
+}
+
+
+/* Personal Information */
+
+.personalInfo .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--gap-small);
+    margin-top: 1rem;
+}
+
+.personalInfo .form .fullName {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 1rem 0;
+    gap: var(--gap-small);
+}
+
+.personalInfo .form .fullName>span {
+    font-size: var(--p-small);
+    font-weight: bolder;
+}
+
+.personalInfo .form .fullName .inputWrapper {
+    display: flex;
+    align-items: center;
+    width: calc(100% - ((var(--pad-x-s) * 2) + (2px * 2)));
+    border: 2px solid var(--l-light);
+    border-radius: .5rem;
+    font-size: var(--p-small);
+    padding: calc(var(--pad-y-s) + .5rem) var(--pad-x-s);
+    gap: var(--gap-small);
+    position: relative;
+    z-index: 1;
+}
+
+.personalInfo .form .fullName .inputWrapper.focused::after {
+    content: "";
+    border-radius: .5rem;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    border: 3px solid var(--l-mid);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    cursor: text;
+    z-index: 0;
+}
+
+.personalInfo .form .fullName .inputWrapper>input {
+    width: 100%;
+    border: none;
+    outline: none;
+    z-index: 1;
+}
+
+.personalInfo .form .emailAndUsername {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.personalInfo .form .emailAndUsername div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    gap: var(--gap-small);
+}
+
+.personalInfo .form .emailAndUsername div>span {
+    font-size: var(--p-small);
+    font-weight: bolder;
+}
+
+.personalInfo .form .emailAndUsername div .inputWrapper {
+    display: flex;
+    align-items: center;
+    width: calc(100% - ((var(--pad-x-s) * 2) + (2px * 2)));
+    border: 2px solid var(--l-light);
+    border-radius: .5rem;
+    font-size: var(--p-small);
+    padding: calc(var(--pad-y-s) + .5rem) var(--pad-x-s);
+    gap: var(--gap-small);
+    position: relative;
+    z-index: 1;
+}
+
+.personalInfo .form .emailAndUsername div .inputWrapper.focused::after {
+    content: "";
+    border-radius: .5rem;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    border: 3px solid var(--l-mid);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    cursor: text;
+    z-index: 0;
+}
+
+.personalInfo .form .emailAndUsername div .inputWrapper>input {
+    width: 100%;
+    border: none;
+    outline: none;
+    z-index: 1;
+}
+
+
+/* Security */
+
+.security {
+    display: flex;
+    flex-direction: column;
+}
+
+.security .wrapper {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--pad-x-s) var(--pad-x-m);
+    border: 2px solid var(--l-very-light);
+    border-radius: .5rem;
+}
+
+.security .wrapper>p {
+    font-size: var(--p-medium);
+    font-family: var(--font-title);
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+}
+
+.security .wrapper .changePassword {
+    font-size: var(--p-small);
+    font-family: var(--font-title);
+    padding: var(--pad-x-s) var(--pad-x-s);
+    color: white;
+    background-color: var(--secondary-color);
+    border-radius: .5rem;
+}
+
+.security .wrapper .changePassword:hover,
+.security .wrapper .changePassword:active {
+    scale: 1;
+    opacity: .7;
+}
+
+
+/* Danger Zone */
+
+.dangerZone .title {
+    color: red;
+}
+
+.dangerZone .wrapper {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--pad-x-s) var(--pad-x-m);
+    border: 2px solid var(--l-light);
+    border-radius: .5rem;
+    cursor: pointer;
+    color: var(--l-bold);
+    transition: all .3s ease;
+}
+
+.dangerZone .wrapper:hover {
+    border-color: var(--l-mid);
+    color: var(--l-bold);
+}
+
+.dangerZone .wrapper:nth-child(3) {
+    border-color: rgb(233, 128, 128);
+    color: rgb(233, 128, 128);
+}
+
+.dangerZone .wrapper:nth-child(3):hover {
+    border-color: red;
+    color: red;
+}
+
+.dangerZone .wrapper:hover {
+    background-color: var(--l-very-light);
+}
+
+.dangerZone .wrapper>p {
+    font-size: var(--p-small);
+    font-family: var(--font-title);
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+}
+
+.dangerZone .wrapper>span {
+    font-size: var(--p-small);
+}
+
+@media screen and (max-width: 620px) {
+    .personalInfo .form .fullName {
+        margin-bottom: 0;
+    }
+    .personalInfo .form .emailAndUsername {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+    }
+}

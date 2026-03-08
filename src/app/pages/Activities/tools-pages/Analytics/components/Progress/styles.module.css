@@ -1,0 +1,94 @@
+.container {
+    background: white;
+    padding: var(--pad-x-s) var(--pad-y-l);
+    border-radius: 1rem;
+    box-shadow: 0 0px 5px -2px rgba(0, 0, 0, 0.721);
+    font-family: var(--font-title);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--gap-small);
+}
+
+.title {
+    font-size: var(--p-medium);
+    font-weight: bolder;
+    color: #1a1a1a;
+    margin: 0 0 var(--gap-xs) 0;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin: 0;
+    font-size: var(--p-small);
+}
+
+.percentage {
+    font-size: var(--p-medium);
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.progressBarContainer {
+    width: 100%;
+    height: 12px;
+    background: #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: var(--gap-normal);
+}
+
+.progressBarFill {
+    height: 100%;
+    background: #000000;
+    border-radius: 8px;
+    transition: width 0.3s ease;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--p-small);
+    color: #6b7280;
+    gap: var(--gap-small);
+}
+
+.minLabel {
+    font-weight: 500;
+}
+
+.targetLabel {
+    font-weight: 500;
+}
+
+/* DARK MODE */
+
+.container.dark {
+    background-color: var(--d-bg);
+    box-shadow: 0 0 5px -2px rgba(239, 239, 239, 0.441);
+}
+
+.container.dark .percentage {
+    color: white;
+}
+
+.container.dark .title {
+    color: white;
+}
+
+.container.dark .progressBarFill {
+    background-color: black;
+}
+
+.container.dark .subtitle {
+    color: var(--l-light);
+}
+
+.container.dark .footer {
+    color: var(--l-light);
+}

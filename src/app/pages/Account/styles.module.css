@@ -1,0 +1,26 @@
+.account {
+    font-family: var(--font-title);
+    width: 100%;
+    height: fit-content;
+    background-color: white;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.account .wrapper {
+    width: 600px;
+    max-width: 600px;
+    min-width: 260px;
+    height: fit-content;
+    background-color: white;
+    box-shadow: 0 2px 5px -2px rgba(0, 0, 0, .5);
+    color: black;
+    border-radius: 10px;
+    border: 2px solid var(--l-light);
+    margin: 1rem 1rem;
+}
+
+.account.dark {
+    background-color: var(--d-bg);
+}

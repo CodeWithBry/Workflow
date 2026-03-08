@@ -1,0 +1,324 @@
+.messageBox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.greetings {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0;
+    flex-shrink: 0;
+}
+
+.greetings>span {
+    color: var(--l-mid);
+    font-weight: bold;
+    font-size: var(--p-smaller);
+    text-align: center;
+}
+
+.greetings>h2 {
+    font-size: var(--p-medium);
+    text-align: center;
+}
+
+.suggestionsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--gap-small) * 2);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.suggestionsContainer>img {
+    width: 40px;
+    height: auto;
+    margin: .5rem 0;
+}
+
+.suggestionsContainer .suggestionButton {
+    font-family: var(--font-title);
+    font-weight: bold;
+    color: var(--secondary-color);
+    background-color: transparent;
+    box-shadow: 0 2px 5px .2px rgb(0, 0, 0, .5);
+    padding: calc(var(--pad-y-s) * 2) calc(var(--pad-x-s) * 2);
+    border-radius: .5rem;
+    font-size: var(--p-smaller);
+}
+
+.convo {
+    display: flex;
+    flex-direction: column;
+    flex: auto 1fr;
+    align-items: center;
+    font-family: var(--font-title);
+    width: 100%;
+    height: 100%;
+    animation: fade-in .3s ease-in forwards;
+}
+
+.heading {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: .75rem 0;
+    flex-shrink: 0;
+    flex-shrink: 0;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.351);
+    border-radius: .5rem .5rem 0 0;
+    z-index: 1;
+}
+
+.heading>h2 {
+    font-size: var(--p-medium);
+    width: calc(100% - 2rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.heading>h2 .titleWrapper {
+    width: 90%;
+    text-wrap: nowrap;
+    overflow: hidden;
+    position: relative;
+    color: transparent;
+}
+
+.heading>h2 .titleWrapper>span {
+    color: black;
+    width: 90%;
+    text-wrap: nowrap;
+    z-index: -1;
+}
+
+.convoContainer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-title);
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 0;
+}
+
+.wrapper {
+    width: 100%;
+    border-radius: 1rem;
+    font-size: 1rem;
+    word-break: break-word;
+    white-space: pre-wrap;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+
+/* Code block */
+
+.codeBlockHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e1e1e;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+}
+
+.language {
+    color: #9cdcfe;
+    text-transform: lowercase;
+}
+
+.copyBtn {
+    background: transparent;
+    border: none;
+    color: #d4d4d4;
+    cursor: pointer;
+}
+
+.copyBtn:hover {
+    color: #ffffff;
+}
+
+/* thinking */
+
+.thinking {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: var(--pad-y-m) var(--pad-x-m);
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-md);
+    align-self: flex-start;
+    animation: fadeSlideIn 0.4s ease forwards;
+    width: fit-content;
+    margin-left: var(--pad-x-m);
+    margin-bottom: var(--pad-x-m);
+}
+
+.thinking.hide {
+    opacity: 0;
+    display: none;
+    pointer-events: none;
+}
+
+.tdot {
+    width: 6px;
+    height: 6px;
+    background: #9b97ff;
+    border-radius: 50%;
+    animation: typeBounce 1.4s ease-in-out infinite;
+}
+
+.tdot:nth-child(2) {
+    animation-delay: .2s;
+}
+
+.tdot:nth-child(3) {
+    animation-delay: .4s;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes typeBounce {
+    0%,
+    100% {
+        opacity: .3;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+}
+
+/* loading */
+
+.loadingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1a73e8;
+    animation: fade-in .3s ease-in forwards;
+    /* Blue accent matching your theme */
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #e0e0e0;
+    /* Light gray background */
+    border-top: 3px solid #1a73e8;
+    /* Blue accent */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loadingText {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+/* Dark Mode */
+
+.messageBox.dark {
+    color: white;
+}
+
+.messageBox.dark .heading {
+    background-color: transparent;
+}
+
+.messageBox.dark .heading>h2 .titleWrapper>span {
+    color: white;
+}
+
+.messageBox.dark .heading>h2 .hamburger {
+    color: white;
+    background-color: transparent;
+}
+
+.messageBox.dark .container>li.user {
+    color: black;
+}
+
+.messageBox.dark .attachmentTask {
+    color: white;
+    background-color: var(--d-bg-light);
+}
+
+.messageBox.dark .attachmentTask .contents {
+    width: 100%;
+    overflow: hidden;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 100%;
+        background-color: var(--l-very-light);
+    }
+}
+
+.messageBox.dark .attachmentTask>i {
+    color: white;
+    border: 2px solid white;
+}
+
+.messageBox.dark .attachmentTask>i,
+.messageBox.dark .attachmentTask .close {
+    background-color: transparent;
+}
+
+.messageBox.dark .container>li .actions .actionButton {
+    color: rgb(178, 178, 255);
+}
+
+.messageBox.dark .suggestionsContainer .suggestionButton {
+    color: white;
+    box-shadow: 0 2px 5px 1px rgba(239, 239, 239, 0.41);
+}
