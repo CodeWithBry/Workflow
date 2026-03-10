@@ -86,12 +86,10 @@ export const Message = memo(function Message({ res, setShowSaveProject, setSaveC
                         seen.add(mess.message);
                         return true;
                     }).map((messUi) => ({ ...messUi, chatId: selectedTaskClass?.id, convoId: selectedConvo?.convoId }))
-            ]
-
-            const uniqueMessages = Array.from(
-                    new Map(messages.map(m => [`${m.message}-${m.convoId}`, m])).values()
-                    );
-            )
+            ];
+            const uniqueMessages: MessagesUi[] = Array.from(
+                    new Map(messages.map(m => [m.messId, m])).values()
+            );
 
             if (userInfo && selectedTaskClass) saveBookMarkedMessages(userInfo.userId, selectedTaskClass.id, uniqueMessages);
             return uniqueMessages;
