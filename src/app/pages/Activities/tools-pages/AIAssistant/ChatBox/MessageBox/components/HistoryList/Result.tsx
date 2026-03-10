@@ -3,9 +3,9 @@ import s from "./styles.module.css"
 import Button from "../../../../../../../../../components/ui/Button";
 import { context } from "../../../../../../../../context/AppContext";
 export default function Result({
-  convo, setShowSearchBox, setShowDCB, setSelectedConvoId
+  convo, setShowSearchBox, setShowDCB, setSelectedConvoId, setSelectedBookMarkId
 }: Results) {
-  const { setConvoLists, setChatLists } = useContext(context) as Context;
+  const { setConvoLists, setChatLists, setPauseEffect } = useContext(context) as Context;
   const id = crypto.randomUUID();
 
   if(convo.title?.trim()) return (
@@ -14,6 +14,8 @@ export default function Result({
         id={id+"result"}
         clickListener={() => {
           setShowSearchBox(false);
+          setPauseEffect(false);
+          setSelectedBookMarkId(null);
           setChatLists(prev => prev.map(chatInfo => {
             if (chatInfo.isOpen) {
               const updatedConvoLists = chatInfo.convoLists.map(convoInfo => {

@@ -11,12 +11,14 @@ declare global {
     type Results = {
         convo: ConvoList, setShowSearchBox: Dispatch<SetStateAction<boolean>>,
         setShowDCB: Dispatch<SetStateAction<boolean>>,
-        setSelectedConvoId: Dispatch<SetStateAction<string>>,
+        setSelectedConvoId: Dispatch<SetStateAction<string>>, 
+        setSelectedBookMarkId: Dispatch<SetStateAction<MessagesUi | null>>
     }
     type Message = {
         res: MessagesUi,
         setShowSaveProject: Dispatch<SetStateAction<boolean>>,
         setSaveChangesProps: Dispatch<SetStateAction<SaveChangesProps>>,
+        bookMarkedMess: MessagesUi[],
         setBookMarkedMess: Dispatch<SetStateAction<MessagesUi[]>>
     }
 
@@ -25,6 +27,12 @@ declare global {
         setShowDCB: Dispatch<SetStateAction<boolean>>,
         selectedConvoId: string,
         setSelectedConvoId: Dispatch<SetStateAction<string>>,
+    }
+
+    type PropsForBookMarkList = {
+        showBookMarkLists: boolean,
+        setShowBookMarkLists: Dispatch<SetStateAction<boolean>>,
+        chatBotValues: ChatBotValues
     }
 }
 
@@ -76,7 +84,8 @@ declare global {
         pseudoConvo: Convo, setPseudoConvo: Dispatch<SetStateAction<Convo>>,
         selectedConvo: SelectedConvo
         saveChangesProps: SaveChangesProps, setSaveChangesProps: Dispatch<SetStateAction<SaveChangesProps>>,
-        bookMarkedMess: MessagesUi[], setBookMarkedMess: Dispatch<SetStateAction<MessagesUi[]>>
+        bookMarkedMess: MessagesUi[], setBookMarkedMess: Dispatch<SetStateAction<MessagesUi[]>>,
+        selectedBookMarkId: MessagesUi | null, setSelectedBookMarkId: Dispatch<SetStateAction<MessagesUi | null>>
     }
 
     type MessageBoxValues = {

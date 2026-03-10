@@ -6,7 +6,7 @@ import { context } from '../../../../../../../../context/AppContext';
 import Button from '../../../../../../../../../components/ui/Button';
 import { searchMess } from '../../../utils/searchMess';
 
-function BookMarkList({ showBookMarkLists, setShowBookMarkLists, chatBotValues }: {showBookMarkLists: boolean, setShowBookMarkLists: Dispatch<SetStateAction<boolean>>, chatBotValues: ChatBotValues}) {
+function BookMarkList({ showBookMarkLists, setShowBookMarkLists, chatBotValues }: PropsForBookMarkList) {
     const { darkMode } = useContext(context) as Context;
     const [searchInput, setSearchInput] = useState<string>("");
     const [results, setResults] = useState<MessagesUi[]>([]);
@@ -51,7 +51,8 @@ function BookMarkList({ showBookMarkLists, setShowBookMarkLists, chatBotValues }
                         results.length != 0
                             ? results.map(mess =>
                                 <Result mess={mess}
-                                    setShowSearchBox={setShowBookMarkLists} />
+                                    setShowSearchBox={setShowBookMarkLists}
+                                    setSelectedBookMarkId={chatBotValues.setSelectedBookMarkId} />
                             )
                             : <div className={s.noResults}>
                                 <h3>No Results Founded!</h3>

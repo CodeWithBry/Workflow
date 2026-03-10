@@ -29,7 +29,9 @@ export async function sendMessageToBot(
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ messagesAi, modifyData }),
         })
-        const text = await response.text();
+        // Clone the response so we can safely read text
+        const text = await response.clone().text();
+
 
         if (text.includes("AI quota limit reached")) {
             setSelectedConvo(prev => {

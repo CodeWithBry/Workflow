@@ -31,6 +31,7 @@ function ChatBox() {
     projectObject: null
   });
   const [bookMarkedMess, setBookMarkedMess] = useState<MessagesUi[]>([]);
+  const [selectedBookMarkId, setSelectedBookMarkId] = useState<MessagesUi | null>(null);
 
   const values = {
     // BOOLEANS
@@ -44,7 +45,8 @@ function ChatBox() {
     pseudoConvo, setPseudoConvo,
     selectedConvo,
     saveChangesProps, setSaveChangesProps,
-    bookMarkedMess, setBookMarkedMess
+    bookMarkedMess, setBookMarkedMess,
+    selectedBookMarkId, setSelectedBookMarkId
   }
 
   useEffect(() => {

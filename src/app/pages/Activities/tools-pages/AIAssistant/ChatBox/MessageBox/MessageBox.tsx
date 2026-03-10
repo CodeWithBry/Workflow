@@ -20,7 +20,7 @@ function MessageBox(props: ChatBotValues) {
         selectedConvo,
         isNewChat,
         setIsNewChat,
-        isConvoLoading,
+        isConvoLoading
     } = props as ChatBotValues;
 
     const { darkMode, selectedTaskClass, setSelectedConvo, setConvoLists } = useContext(context) as Context;
@@ -40,21 +40,21 @@ function MessageBox(props: ChatBotValues) {
             functionCall() {
                 setIsNewChat(false);
                 setSelectedConvo(undefined);
-                setConvoLists(prev => prev.map((convo) => ({...convo, isOpen: false})))
+                setConvoLists(prev => prev.map((convo) => ({ ...convo, isOpen: false })))
             },
         },
         {
             icon: "fas fa-history",
             action: "History",
-            functionCall() {setShowConvoLists(true)},
+            functionCall() { setShowConvoLists(true) },
         },
         {
             icon: "fa-solid fa-bookmark",
             action: "Bookmark",
-            functionCall() {setShowBookMarkLists(true)},
+            functionCall() { setShowBookMarkLists(true) },
         },
     ];
-    
+
     const values = {
         actionLists,
         showActionLists,
@@ -71,11 +71,13 @@ function MessageBox(props: ChatBotValues) {
 
     }, [isConvoLoading, selectedConvo, isNewChat, isPending]);
 
+    
+
     return (
         <div className={messageBoxStyles}>
             {/* HEADER */}
-            <ConvoList showConvoLists={showConvoLists} setShowConvoLists={setShowConvoLists} />
-            <BookMarkList showBookMarkLists={showBookMarkLists} setShowBookMarkLists={setShowBookMarkLists} chatBotValues={props}/>
+            <ConvoList showConvoLists={showConvoLists} setShowConvoLists={setShowConvoLists} chatBotValues={props} />
+            <BookMarkList showBookMarkLists={showBookMarkLists} setShowBookMarkLists={setShowBookMarkLists} chatBotValues={props} />
             <div className={s.heading}>
                 <h2>
                     <span className={s.titleWrapper}>
@@ -104,7 +106,7 @@ function MessageBox(props: ChatBotValues) {
             {isConvoLoading ? (
                 <LoadingPage />
             ) : selectedConvo == null || isNewChat ? (
-                <Suggestion {...props}/>
+                <Suggestion {...props} />
             ) : showConvo ? (
                 <Convo {...{ ...values, ...props }} />
             ) : (

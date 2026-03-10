@@ -10,8 +10,8 @@ import { context } from "../../../../../../../../context/AppContext";
 import { CodeBlock } from "../CodeBlock";
 import { saveBookMarkedMessages, saveConvoData } from "../../../../../../../../../lib/firebase";
 
-export const Message = memo(function Message({ res, setShowSaveProject, setSaveChangesProps, setBookMarkedMess }: Message) {
-    const { darkMode, userInfo, setSelectedConvo, chatLists } = useContext(context) as Context;
+export const Message = memo(function Message({ res, setShowSaveProject, setSaveChangesProps, bookMarkedMess, setBookMarkedMess }: Message) {
+    const { darkMode, userInfo, setSelectedConvo, chatLists, selectedTaskClass, selectedConvo } = useContext(context) as Context;
     const [speak, setSpeak] = useState<boolean>(false);
     const [copied, setCopied] = useState<boolean>(false);
 
@@ -55,19 +55,47 @@ export const Message = memo(function Message({ res, setShowSaveProject, setSaveC
 
         setBookMarkedMess(() => {
             const seen = new Set<string>();
-            return updatedMessagesUi
-                .filter(mess => mess.bookMarked)
-                .filter(mess => {
-                    if (seen.has(mess.message)) return false;
-                    seen.add(mess.message);
-                    return true;
-                });
+            // const mergeMessages = [...bookMarkedMess, ...updatedMessagesUi.filter(mess => mess.bookMarked)
+            //     .filter(mess => {
+            //         if (seen.has(mess.message)) return false;
+            //         seen.add(mess.message);
+            //         return true;
+            //     }).map((messUi) => ({ ...messUi, chatId: selectedTaskClass?.id, convoId: selectedConvo?.convoId }))]
+            // const updatedBookMarkedMess: MessagesUi[] = mergeMessages
+            //     .filter((mes) => mes.messId == res.messId && res.bookMarked)
+            //     ;
+
+            // console.log(seen.values(),
+            //     ...updatedMessagesUi.filter(mess => mess.bookMarked)
+            //         .filter(mess => {
+            //             if (seen.has(mess.message)) return false;
+            //             seen.add(mess.message);
+            //             return true;
+            //         }).map((messUi) => ({ ...messUi, chatId: selectedTaskClass?.id, convoId: selectedConvo?.convoId }))
+            // )
+            const messages = [
+                ...bookMarkedMess.map((mes) => {
+                    if (mes.messId == res.messId) {
+                        return res.bookMarked ? ({ ...mes, bookMarked: false }) : ({ ...mes, bookMarked: true })
+                    }
+                    return mes
+                }).filter(mes => mes.bookMarked),
+                ...updatedMessagesUi.filter(mess => mess.bookMarked)
+                    .filter(mess => {
+                        if (seen.has(mess.message)) return false;
+                        seen.add(mess.message);
+                        return true;
+                    }).map((messUi) => ({ ...messUi, chatId: selectedTaskClass?.id, convoId: selectedConvo?.convoId }))
+            ]
+
+            console.log(messages)
+
+            if (userInfo && selectedTaskClass) saveBookMarkedMessages(userInfo.userId, selectedTaskClass.id, messages);
+            return messages;
         });
 
         const findInChatList = chatLists.find(chat => chat.isOpen);
         if (userInfo && findInChatList && convo) {
-            const filterBookMarkedMess = updatedMessagesUi.filter(mess => mess.bookMarked);
-            saveBookMarkedMessages(userInfo.userId, findInChatList.id, filterBookMarkedMess);
             saveConvoData(userInfo.userId, findInChatList.id, convoId, convo);
         }
     };
@@ -90,36 +118,35 @@ export const Message = memo(function Message({ res, setShowSaveProject, setSaveC
     const isUser = res.role === "user";
     const isModel = res.role === "model";
 
-    if(message.length != 0) return (
+    if (message.length != 0) return (
         <>
             {/* ── Task attachment chip (shown above user bubble) ── */}
-            {res.attachments && res.attachments?.length > 0 && (
-                <div className={`${s.attachmentChip} ${darkMode && s.dark}`}>
-                    <span className={s.attachmentIcon}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-                            <polyline points="14 2 14 8 20 8" />
-                        </svg>
-                    </span>
-                    <span className={s.attachmentLabel}>Task:</span>
-                    <span className={s.attachmentText}>
-                        {res.attachments && res.attachments[0].kind === "task"
-                            ? res.attachments[0].description
-                            : res.attachments ? res.attachments[0].kind : "Attachment"}
-                    </span>
-                </div>
-            )}
 
             {/* ── Message row ── */}
-            <li className={`${s.row} ${isUser ? s.rowUser : s.rowModel} ${darkMode && s.dark} ${message.includes("Error") && s.error}`}>
+            <li className={`${s.row} ${isUser ? s.rowUser : s.rowModel} ${darkMode && s.dark} ${message.includes("Error") && s.error}`} id={res.messId}>
 
                 {/* AI avatar — left side */}
 
                 {/* Bubble column */}
                 <div className={`${s.bubbleCol} ${isUser ? s.bubbleColUser : s.bubbleColModel}`}>
-
+                    {res.attachments && res.attachments?.length > 0 && (
+                        <div className={`${s.attachmentChip} ${darkMode && s.dark}`}>
+                            <span className={s.attachmentIcon}>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>
+                            </span>
+                            <span className={s.attachmentLabel}>Task:</span>
+                            <span className={s.attachmentText}>
+                                {res.attachments && res.attachments[0].kind === "task"
+                                    ? res.attachments[0].description
+                                    : res.attachments ? res.attachments[0].kind : "Attachment"}
+                            </span>
+                        </div>
+                    )}
                     {/* Bubble */}
-                    <div className={`${s.bubble} ${isUser ? s.bubbleUser : s.bubbleModel}`}>
+                    <div className={`${s.bubble} ${isUser ? s.bubbleUser : s.bubbleModel}`} id={"model" + res.messId}>
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{

@@ -260,6 +260,7 @@ declare global {
         bookMarked?: boolean;
         chatId?: string;
         convoId?: string; 
+        messId?: string;
     };
 
     // ATTACHMENTS

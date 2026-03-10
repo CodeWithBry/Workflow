@@ -6,7 +6,11 @@ export async function getConvo(
     chatId: string,
     convoId: string,
     setSelectedConvo: Dispatch<SetStateAction<SelectedConvo>>
-) { 
+) {
     const getData = (await getConvoData(userId, chatId, convoId)) as Convo;
-    setSelectedConvo(getData);  
+    console.log("sa")
+    const updateMessagesUi = getData.messagesUi.map((mess) => {
+        return mess.messId ? mess : { ...mess, messId: "c" + crypto.randomUUID() }
+    })
+    setSelectedConvo({ ...getData, messagesUi: updateMessagesUi });
 }

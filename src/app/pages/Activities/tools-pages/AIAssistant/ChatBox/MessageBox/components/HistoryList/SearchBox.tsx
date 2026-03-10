@@ -7,7 +7,7 @@ import { context } from '../../../../../../../../context/AppContext';
 import Button from '../../../../../../../../../components/ui/Button';
 import DeleteConvoBox from './DeleteConvoBox/DeleteConvoBox';
 
-function ConvoList({ showConvoLists, setShowConvoLists }: { showConvoLists: boolean, setShowConvoLists: Dispatch<SetStateAction<boolean>> }) {
+function ConvoList({ showConvoLists, setShowConvoLists, chatBotValues }: { showConvoLists: boolean, setShowConvoLists: Dispatch<SetStateAction<boolean>>, chatBotValues: ChatBotValues }) {
     const { darkMode, convoLists } = useContext(context) as Context;
     const [showDCB, setShowDCB] = useState<boolean>(false);
     const [searchInput, setSearchInput] = useState<string>("");
@@ -62,7 +62,8 @@ function ConvoList({ showConvoLists, setShowConvoLists }: { showConvoLists: bool
                                     convo={convo}
                                     setShowSearchBox={setShowConvoLists}
                                     setSelectedConvoId={setSelectedConvoId}
-                                    setShowDCB={setShowDCB} />
+                                    setShowDCB={setShowDCB}
+                                    setSelectedBookMarkId={chatBotValues.setSelectedBookMarkId} />
                             )
                             : <div className={s.noResults}>
                                 <h3>No Results Founded!</h3>
