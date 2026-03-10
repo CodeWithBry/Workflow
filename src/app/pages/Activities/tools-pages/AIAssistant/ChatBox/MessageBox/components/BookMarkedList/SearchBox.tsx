@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, type Dispatch, type SetStateAction } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import s from "./styles.module.css";
 import Result from './Result';
 import useDebounce from '../../../../../../../../../hooks/useDebounce';
