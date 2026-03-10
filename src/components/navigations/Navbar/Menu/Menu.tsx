@@ -81,7 +81,7 @@ function Menu() {
                     className={s.back}
                     clickListener={async () => {
                         if (userInfo) await cancelChanges(userInfo.userId, setUserInfo);
-                        navigation("/")
+                        navigation("/activities")
                     }}
                     content={"Back"} />
             }
