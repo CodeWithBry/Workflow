@@ -32,6 +32,7 @@
     background-color: white;
     border-radius: 1rem;
     z-index: 1;
+    min-width: 200px;
     width: 400px;
     margin: 1rem;
     animation: fade-in .3s ease-in forwards;
