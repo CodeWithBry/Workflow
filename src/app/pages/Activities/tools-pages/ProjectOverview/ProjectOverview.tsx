@@ -26,10 +26,17 @@ function ProjectOverview() {
                                     content={"Save"}
                                     className={`${s.actionBtn} ${s.editBtn}`}
                                     clickListener={async () => {
-                                        if(!selectedTaskClass || !inputRef.current) return;
-                                        const updatedProject: TaskClass = {...selectedTaskClass, description: inputRef.current.innerText};
+                                        if (!selectedTaskClass || !inputRef.current) return;
+                                        const html = inputRef.current.innerHTML;
+                                        const description = html
+                                            .replace(/<br\s*\/?>/gi, "\n")
+                                            .replace(/<div>/gi, "\n")
+                                            .replace(/<\/div>/gi, "")
+                                            .replace(/&nbsp;/gi, " ")
+                                            .replace(/<[^>]+>/g, "");
+                                        const updatedProject: TaskClass = { ...selectedTaskClass, description };
                                         if (userInfo && selectedTaskClass) await saveProjectFromFirestore(userInfo.userId, updatedProject, undefined, 'update');
-                                        setSelectedTaskClass({...updatedProject});
+                                        setSelectedTaskClass({ ...updatedProject });
                                         setIsEditing(false);
                                     }} />
                             </>
@@ -38,13 +45,13 @@ function ProjectOverview() {
                             content={"Edit"}
                             className={`${s.actionBtn} ${s.editBtn}`}
                             clickListener={() => {
-                                // save Edited Content
                                 setIsEditing(true);
                             }} />
                 }
             </div>
             <div className={s.wrapper}>
-                <div className={`${s.editor} ${isEmpty && selectedTaskClass?.description?.trim() ? s.empty : ""}`}
+                <div
+                    className={`${s.editor} ${isEmpty && selectedTaskClass?.description?.trim() ? s.empty : ""}`}
                     contentEditable={isEditing}
                     ref={inputRef}
                     suppressContentEditableWarning
@@ -52,6 +59,9 @@ function ProjectOverview() {
                     aria-label="Message input"
                     aria-multiline="true"
                     data-placeholder={selectedTaskClass?.description?.trim() != "" ? "" : "Write your project description..."}
+                    dangerouslySetInnerHTML={{
+                        __html: (selectedTaskClass?.description ?? "").replace(/\n/g, "<br>")
+                    }}
                     onInput={() => {
                         const text = inputRef.current?.innerText ?? "";
                         setIsEmpty(!text.trim());
@@ -67,13 +77,12 @@ function ProjectOverview() {
                             document.execCommand("insertLineBreak");
                             return;
                         }
-                        // Enter → send
+                        // Enter → prevent default
                         if (e.key === "Enter") {
                             e.preventDefault();
                         }
-                    }} >
-                    {selectedTaskClass?.description}
-                </div>
+                    }}
+                />
             </div>
         </div>
     )
