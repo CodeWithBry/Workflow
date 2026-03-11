@@ -166,7 +166,7 @@ function AppProvider() {
     useEffect(() => {
         const checkUserOnDevice = localStorage.getItem("user");
         if (!checkUserOnDevice) {
-            if (getUrl[1] == "login" || getUrl[1] == "signup" || getUrl[1] == "forgot-password") return;
+            if (getUrl[1] == "login" || getUrl[1] == "signup" || getUrl[1] == "forgot-password" || getUrl[1] == "") return;
             navigation("/login");
         } else if ((getUrl[1] == "login" || getUrl[1] == "signup" || getUrl[1] == "forgot-password") && checkUserOnDevice) navigation("/");
     }, [getUrl[1]])
