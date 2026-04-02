@@ -8,9 +8,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist -f",
+    "deploy": "npm run build && wrangler deploy",
     "server": "cd server && npm run dev",
     "install": "cd server && npm install"
   },
@@ -29,6 +29,7 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.30.3",
     "@eslint/js": "^9.39.1",
     "@types/chart.js": "^2.9.41",
     "@types/node": "^24.10.1",
@@ -44,6 +45,7 @@
     "globals": "^16.5.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "wrangler": "^4.79.0"
   }
 }
