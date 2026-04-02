@@ -1,0 +1,104 @@
+.bgWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.57);
+    top: -3rem;
+    width: 100vw;
+    height: calc(100vh + 4rem);
+    z-index: 3;
+}
+
+.hide {
+    display: none;
+}
+
+.changePassword {
+    width: 400px;
+    min-width: 260px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+    padding: var(--pad-x-m) var(--pad-x-m);
+    background-color: white;
+    box-shadow: 0 2px 5px -2px rgba(0, 0, 0, 0.332);
+    border-radius: .5rem;
+    margin: 0 1rem;
+}
+
+.changePassword .title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: var(--gap-small);
+}
+
+.changePassword .title .close {
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    background-color: var(--l-very-light);
+    display: grid;
+    place-items: center;
+    color: var(--l-bold);
+    border-radius: .5rem;
+}
+
+.changePassword .title .close:hover,
+.changePassword .title .close:after {
+    scale: 1;
+}
+
+.changePassword .newPassword .inputWrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    width: calc(100% - ((var(--pad-x-s) * 2) + (2px * 2)));
+    border: 2px solid var(--l-light);
+    border-radius: .5rem;
+    font-size: var(--p-small);
+    padding: calc(var(--pad-y-s) + .5rem) var(--pad-x-s);
+    gap: var(--gap-small);
+    position: relative;
+    z-index: 1;
+    margin: .5rem 0;
+}
+
+.changePassword .newPassword .inputWrapper.focused::after {
+    content: "";
+    border-radius: .5rem;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    border: 3px solid var(--l-mid);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    cursor: text;
+    z-index: 0;
+}
+
+.changePassword .newPassword .inputWrapper>input {
+    width: 100%;
+    border: none;
+    outline: none;
+    z-index: 1;
+}
+
+.changePassword .newPassword .inputWrapper .showPassword,
+.changePassword .newPassword .inputWrapper .showCurrentPass {
+    background-color: transparent;
+    z-index: 2;
+}
+
+.changePassword .submitButton {
+    color: white;
+    font-family: var(--font-title);
+    background-color: var(--secondary-color);
+    justify-content: center;
+    border-radius: .5rem;
+    width: 100%;
+    padding: var(--pad-x-s) 0;
+}

@@ -1,0 +1,17 @@
+.heroSection {
+    display: grid;
+    place-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.heroSection>img {
+    width: 40vw;
+    height: auto;
+}
+
+@media (max-width: 800px) {
+    .heroSection {
+        display: none;
+    }
+}

@@ -1,0 +1,13 @@
+.header {
+    padding: calc(var(--pad-x-s) * 2) calc(var(--pad-x-m) * 2);
+    border-bottom: 2px solid var(--l-light);
+}
+
+.header > h1 {
+    font-size: var(--h1-normal);
+}
+
+.header > p {
+    font-size: var(--p-small);
+    margin: .5rem 0;
+}

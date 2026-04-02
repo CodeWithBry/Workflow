@@ -1,0 +1,227 @@
+.login {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--font-title);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin: auto 0;
+    padding: 1rem 0;
+    gap: var(--gap-normal);
+    width: 40vw;
+    max-height: 550px;
+}
+
+.form .greetings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.form .greetings>h1 {
+    font-size: var(--h1-smaller);
+    width: 100%;
+    text-align: center;
+}
+
+.form .greetings>span {
+    color: var(--l-light);
+    font-size: var(--p-normal);
+}
+
+.form .inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.form .inputs .inputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+}
+
+.form .inputs .inputWrapper>span {
+    color: var(--l-light);
+    font-size: var(--p-smaller);
+}
+
+.form .inputs .inputWrapper input {
+    width: calc(100% - (var(--pad-x-s) * 2));
+    padding: var(--pad-y-m) var(--pad-x-s);
+    border-radius: .5rem;
+    color: black;
+    border: 2px solid var(--l-light);
+    transition: all .2s ease;
+}
+
+.form .inputs .inputWrapper input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+.form .inputs .inputWrapper.password {
+    margin-top: 1rem;
+}
+
+.form .inputs .inputWrapper.password .wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.form .inputs .inputWrapper.password .wrapper>input {
+    width: calc(100% - (var(--pad-x-s) * 2));
+    padding: var(--pad-y-m) var(--pad-x-s);
+}
+
+.form .inputs .inputWrapper.password .wrapper .showPassBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: .5rem;
+    background-color: transparent;
+}
+
+.form .inputs .bottom {
+    display: flex;
+    align-items: center;
+    color: var(--l-light);
+    font-size: var(--p-smaller);
+    margin-top: .5rem;
+}
+
+.form .inputs .bottom>label {
+    margin-left: .5rem;
+    user-select: none;
+}
+
+.form .inputs .bottom>a {
+    color: var(--l-light);
+    margin-left: auto;
+}
+
+.form .submit {
+    display: flex;
+    justify-content: center;
+    padding: var(--pad-y-m) var(--pad-y-m);
+    background-color: var(--secondary-color);
+    color: white;
+    font-family: var(--font-title);
+    font-weight: bold;
+    border-radius: .5rem;
+    margin-top: 1rem;
+}
+
+.form>.bottom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form>.bottom #instantText {
+    height: 2px;
+    background-color: var(--l-light);
+    color: var(--l-light);
+    text-align: center;
+    position: relative;
+    z-index: 0;
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+}
+
+.form>.bottom #instantText::before {
+    content: "Instant Login";
+    padding: var(--pad-y-s) var(--pad-x-s);
+    position: absolute;
+    width: fit-content;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    z-index: 1;
+    font-size: var(--p-small);
+    background-color: white;
+}
+
+.form>.bottom .options {
+    display: flex;
+    justify-content: center;
+    gap: var(--gap-large);
+    margin-bottom: 1rem;
+}
+
+.form>.bottom .options .signInMethod {
+    padding: var(--pad-y-m) calc(var(--pad-x-s) + 5px);
+    font-size: var(--p-small);
+    background-color: transparent;
+    color: var(--l-mid);
+    border: 2px solid var(--l-mid);
+    border-radius: .5rem;
+    gap: var(--gap-small);
+}
+
+.form>.bottom .options .signInMethod:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+}
+
+.form>.bottom #toRegister {
+    text-align: center;
+    color: var(--l-mid);
+    font-size: var(--p-small);
+    display: flex;
+    margin: auto;
+    gap: var(--gap-small);
+}
+
+.form>.bottom #toRegister .signup {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+
+/* DARKMODE */
+
+.login.dark {
+    background-color: var(--d-bg);
+}
+
+.darkForm .greetings {
+    color: white;
+}
+
+.darkForm .inputs .inputWrapper input {
+    background-color: var(--l-dark);
+    color: white;
+}
+
+.darkForm .inputs .inputWrapper.password .wrapper .showPassBtn {
+    color: white;
+}
+
+.darkForm>.bottom .options .signInMethod:hover {
+    color: white;
+}
+
+.darkForm>.bottom #instantText::before {
+    background-color: var(--d-bg);
+}
+
+.darkForm>.bottom #toRegister .signup {
+    color: rgb(143, 143, 255);
+    text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+    .login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form {
+        width: 90vw;
+    }
+}

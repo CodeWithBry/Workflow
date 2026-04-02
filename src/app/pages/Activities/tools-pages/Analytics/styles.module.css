@@ -1,0 +1,25 @@
+.analytics {
+    width: calc(100% - (var(--pad-x-s) * 4));
+    height: calc(100% - (var(--pad-x-s) * 6));
+    background-color: white;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    flex: auto 1fr;
+    gap: var(--gap-large);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: calc(var(--pad-x-s) * 2 + 5px) calc(var(--pad-x-s) * 2);
+    border-radius: .5rem;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--l-light);
+    }
+}
+
+.analytics.dark {
+    color: white;
+    background-color: var(--d-bg);
+}

@@ -1,0 +1,58 @@
+.forgotPassword {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f6fa;
+}
+
+.card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 350px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: var(--font-title);
+}
+
+.card input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.card button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3b82f6;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card button:disabled {
+    background-color: #9ca3af;
+}
+
+.success {
+    color: green;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}

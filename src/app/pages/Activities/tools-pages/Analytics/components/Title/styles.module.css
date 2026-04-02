@@ -1,0 +1,80 @@
+.title {
+    font-family: var(--font-title);
+}
+
+.title > h2 {
+    font-size: var(--h1-normal);
+    display: flex;
+    justify-content: space-between;
+}
+
+.title > h2 > .weeksWrapper {
+    position: relative;
+    height: fit-content;
+    padding: var(--pad-y-m) 0;
+}
+
+.title > h2 > .weeksWrapper .selectedWeek {
+    background-color: transparent;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: var(--gap-small);
+}
+
+.title > h2 > .weeksWrapper .dropDown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: auto;
+    height: auto;
+    max-height: 150px;
+    border-radius: .5rem;
+    box-shadow: 0 2px 5px -2px rgba(0, 0, 0, 0.517);
+    background-color: var(--l-very-light);
+}
+
+.title > h2 > .weeksWrapper .dropDown.hide {
+    display: none;
+}
+
+.title > h2 > .weeksWrapper .dropDown .actionButton {
+    padding: var(--pad-y-m) var(--pad-x-s);
+    color: var(--l-bold);
+    background-color: transparent;
+    font-size: var(--p-small);
+    text-wrap: nowrap;
+}
+
+.title > h2 > .weeksWrapper .dropDown .actionButton:hover {
+    scale: 1;
+    background-color: var(--l-light);
+}
+
+.title > h2 > .weeksWrapper .dropDown .actionButton:active {
+    scale: 1;
+}
+
+.title > p {
+    font-size: var(--p-small);
+    color: var(--l-mid);
+}
+
+/* dark Mode  */
+
+.title.dark > h2 > .weeksWrapper .selectedWeek {
+    color: white;
+}
+
+.title.dark > h2 > .weeksWrapper .dropDown {
+    background-color: var(--d-bg);
+    box-shadow: 0 0 5px -2px rgba(239, 239, 239, 0.441);
+}
+
+.title.dark > h2 > .weeksWrapper .dropDown .actionButton {
+    color: white;
+    background-color: var(--d-bg);
+}

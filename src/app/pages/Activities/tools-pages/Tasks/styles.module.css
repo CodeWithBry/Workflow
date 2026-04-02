@@ -1,0 +1,17 @@
+.tasks {
+    width: 100%;
+    height: calc(100vh - .5rem);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--l-light);
+    }
+}

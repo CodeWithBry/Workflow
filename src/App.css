@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Kulim+Park:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600;1,700&family=Stack+Sans+Headline:wght@200..700&display=swap');
+:root {
+    --secondary-color: #2821F4;
+    --pending: orange;
+    --finished: green;
+    /* light mode */
+    --l-bg-color: #e9e9e9;
+    --l-very-light: #f1f1f1;
+    --l-light: #dcdcdc;
+    --l-mid: #a3a3a3;
+    --l-bold: #3f3f3f;
+    --l-box-shadow: 0 0 15px -5px black;
+    /* dark mode */
+    --d-bg: #3a3b3e;
+    --d-bg-light: #3e3d43;
+    --d-box-shadow: 0 0 15px -10px rgba(255, 255, 255, 0.473);
+    --font-title: "Kulim Park", sans-serif;
+    /* font sizes */
+    --p-smaller: clamp(.4rem, 2.5vw, .6rem);
+    --p-small: clamp(.65rem, 2.5vw, .8rem);
+    --p-medium: clamp(.8rem, 2.5vw, 1.25rem);
+    --p-large: clamp(1.25rem, 2.5vw, 1.75rem);
+    --h1-smallest: clamp(.8rem, 2.5vw, 1rem);
+    --h1-smaller: clamp(1.25rem, 2.5vw, 1.75rem);
+    --h1-normal: clamp(1.75rem, 2.5vw, 3.75rem);
+    --h1-larger: clamp(2rem, 2.5vw, 4.75rem);
+    /* element styles */
+    --gap-xs: .2rem;
+    --gap-small: .5rem;
+    --gap-normal: .75rem;
+    --gap-large: 1rem;
+    --pad-x-s: clamp(.5rem, 2.5vw, .75rem);
+    --pad-x-m: clamp(.75rem, 2.5vw, 1.25rem);
+    --pad-x-l: clamp(1rem, 2.5vw, 1.5rem);
+    --pad-y-s: clamp(.1rem, 2.5vw, .3rem);
+    --pad-y-m: clamp(.4rem, 2.5vw, .65rem);
+    --pad-y-l: clamp(.6rem, 2.5vw, .85rem);
+    /* ── Extended tokens built on top ── */
+    --secondary-dim: rgba(40, 33, 244, .12);
+    --secondary-glow: rgba(40, 33, 244, .38);
+    --secondary-light: #4f4af6;
+    --accent-cyan: #06c8d8;
+    --text-on-dark: #f1f1f1;
+    --border-dark: rgba(255, 255, 255, .07);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--l-mid);
+    }
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    line-height: 1;
+}
+
+button,
+a {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+button:hover,
+a:hover {
+    opacity: .8;
+    scale: 1.05;
+}
+
+button:active,
+a:active {
+    opacity: .8;
+    scale: .9;
+    transition: .1s ease;
+}
+
+li {
+    list-style: none;
+    transition: all .3s ease;
+}
+
+a {
+    text-decoration: none;
+    color: var(--l-mid);
+}
